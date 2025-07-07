@@ -1,7 +1,26 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+} from 'recharts';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { BarChart3, LineChart as LineChartIcon, PieChart as PieChartIcon } from 'lucide-react';
 
 interface DataChartProps {
@@ -22,12 +41,17 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar' }: DataChartP
       case 'line':
         return (
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey={xAxisKey} />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey={yAxisKey} stroke="#8884d8" strokeWidth={2} />
+            <Line
+              type='monotone'
+              dataKey={yAxisKey}
+              stroke='#8884d8'
+              strokeWidth={2}
+            />
           </LineChart>
         );
       case 'pie':
@@ -35,16 +59,19 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar' }: DataChartP
           <PieChart>
             <Pie
               data={data}
-              cx="50%"
-              cy="50%"
+              cx='50%'
+              cy='50%'
               labelLine={false}
               label={(entry) => `${entry[xAxisKey]}: ${entry[yAxisKey]}`}
               outerRadius={80}
-              fill="#8884d8"
+              fill='#8884d8'
               dataKey={yAxisKey}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
@@ -53,49 +80,58 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar' }: DataChartP
       default:
         return (
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey={xAxisKey} />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey={yAxisKey} fill="#8884d8" />
+            <Bar
+              dataKey={yAxisKey}
+              fill='#8884d8'
+            />
           </BarChart>
         );
     }
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{title}</h3>
+    <div className='space-y-4'>
+      <div className='flex items-center justify-between'>
+        <h3 className='text-lg font-semibold'>{title}</h3>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              {chartType === 'bar' && <BarChart3 className="h-4 w-4 mr-2" />}
-              {chartType === 'line' && <LineChartIcon className="h-4 w-4 mr-2" />}
-              {chartType === 'pie' && <PieChartIcon className="h-4 w-4 mr-2" />}
+            <Button
+              variant='outline'
+              size='sm'
+            >
+              {chartType === 'bar' && <BarChart3 className='mr-2 h-4 w-4' />}
+              {chartType === 'line' && <LineChartIcon className='mr-2 h-4 w-4' />}
+              {chartType === 'pie' && <PieChartIcon className='mr-2 h-4 w-4' />}
               Loại biểu đồ
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem onClick={() => setChartType('bar')}>
-              <BarChart3 className="h-4 w-4 mr-2" />
+              <BarChart3 className='mr-2 h-4 w-4' />
               Biểu đồ cột
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setChartType('line')}>
-              <LineChartIcon className="h-4 w-4 mr-2" />
+              <LineChartIcon className='mr-2 h-4 w-4' />
               Biểu đồ đường
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setChartType('pie')}>
-              <PieChartIcon className="h-4 w-4 mr-2" />
+              <PieChartIcon className='mr-2 h-4 w-4' />
               Biểu đồ tròn
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      
-      <div className="w-full h-80 bg-white rounded-lg p-4">
-        <ResponsiveContainer width="100%" height="100%">
+
+      <div className='h-80 w-full rounded-lg bg-white p-4'>
+        <ResponsiveContainer
+          width='100%'
+          height='100%'
+        >
           {renderChart()}
         </ResponsiveContainer>
       </div>

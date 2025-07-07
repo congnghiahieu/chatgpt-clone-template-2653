@@ -26,17 +26,17 @@ const KnowledgeUpload = () => {
 
     if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
       toast({
-        title: "Lỗi",
-        description: "Chỉ hỗ trợ file Excel (.xlsx, .xls)",
-        variant: "destructive"
+        title: 'Lỗi',
+        description: 'Chỉ hỗ trợ file Excel (.xlsx, .xls)',
+        variant: 'destructive',
       });
       return;
     }
 
     // Simulate file processing
     toast({
-      title: "Thành công",
-      description: `Đã tải lên file ${file.name} thành công. Đang xử lý...`
+      title: 'Thành công',
+      description: `Đã tải lên file ${file.name} thành công. Đang xử lý...`,
     });
 
     // In real implementation, this would parse Excel and extract knowledge rules
@@ -46,13 +46,13 @@ const KnowledgeUpload = () => {
           id: '1',
           concept: 'Dư nợ tín dụng thông thường',
           definition: 'Tổng dư nợ tín dụng không bao gồm thẻ tín dụng',
-          formula: 'dư nợ tín dụng món vay + dư nợ tín dụng thấu chi'
-        }
+          formula: 'dư nợ tín dụng món vay + dư nợ tín dụng thấu chi',
+        },
       ];
-      setRules(prev => [...prev, ...mockRules]);
+      setRules((prev) => [...prev, ...mockRules]);
       toast({
-        title: "Hoàn thành",
-        description: "Đã import thành công các định nghĩa từ file Excel"
+        title: 'Hoàn thành',
+        description: 'Đã import thành công các định nghĩa từ file Excel',
       });
     }, 2000);
   };
@@ -60,9 +60,9 @@ const KnowledgeUpload = () => {
   const addRule = () => {
     if (!newRule.concept || !newRule.definition) {
       toast({
-        title: "Lỗi",
-        description: "Vui lòng nhập đầy đủ thông tin",
-        variant: "destructive"
+        title: 'Lỗi',
+        description: 'Vui lòng nhập đầy đủ thông tin',
+        variant: 'destructive',
       });
       return;
     }
@@ -71,75 +71,78 @@ const KnowledgeUpload = () => {
       id: Date.now().toString(),
       concept: newRule.concept,
       definition: newRule.definition,
-      formula: newRule.formula
+      formula: newRule.formula,
     };
 
-    setRules(prev => [...prev, rule]);
+    setRules((prev) => [...prev, rule]);
     setNewRule({ concept: '', definition: '', formula: '' });
     toast({
-      title: "Thành công",
-      description: "Đã thêm định nghĩa mới"
+      title: 'Thành công',
+      description: 'Đã thêm định nghĩa mới',
     });
   };
 
   const removeRule = (id: string) => {
-    setRules(prev => prev.filter(rule => rule.id !== id));
+    setRules((prev) => prev.filter((rule) => rule.id !== id));
   };
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Upload className="h-5 w-5" />
+          <CardTitle className='flex items-center gap-2'>
+            <Upload className='h-5 w-5' />
             Quản lý Knowledge Base
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className='space-y-4'>
           <div>
             <Label>Upload file Excel định nghĩa</Label>
-            <div className="flex gap-2 mt-2">
+            <div className='mt-2 flex gap-2'>
               <Input
                 ref={fileInputRef}
-                type="file"
-                accept=".xlsx,.xls"
+                type='file'
+                accept='.xlsx,.xls'
                 onChange={handleFileUpload}
-                className="hidden"
+                className='hidden'
               />
-              <Button 
+              <Button
                 onClick={() => fileInputRef.current?.click()}
-                variant="outline"
-                className="flex-1"
+                variant='outline'
+                className='flex-1'
               >
-                <FileSpreadsheet className="h-4 w-4 mr-2" />
+                <FileSpreadsheet className='mr-2 h-4 w-4' />
                 Chọn file Excel
               </Button>
             </div>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className='mt-1 text-sm text-gray-500'>
               File Excel cần có các cột: Khái niệm, Định nghĩa, Công thức
             </p>
           </div>
 
-          <div className="border-t pt-4">
+          <div className='border-t pt-4'>
             <Label>Hoặc thêm định nghĩa thủ công</Label>
-            <div className="grid gap-3 mt-2">
+            <div className='mt-2 grid gap-3'>
               <Input
-                placeholder="Tên khái niệm (VD: Dư nợ tín dụng thông thường)"
+                placeholder='Tên khái niệm (VD: Dư nợ tín dụng thông thường)'
                 value={newRule.concept}
-                onChange={(e) => setNewRule(prev => ({ ...prev, concept: e.target.value }))}
+                onChange={(e) => setNewRule((prev) => ({ ...prev, concept: e.target.value }))}
               />
               <Textarea
-                placeholder="Định nghĩa chi tiết"
+                placeholder='Định nghĩa chi tiết'
                 value={newRule.definition}
-                onChange={(e) => setNewRule(prev => ({ ...prev, definition: e.target.value }))}
+                onChange={(e) => setNewRule((prev) => ({ ...prev, definition: e.target.value }))}
               />
               <Input
-                placeholder="Công thức tính (tuỳ chọn)"
+                placeholder='Công thức tính (tuỳ chọn)'
                 value={newRule.formula}
-                onChange={(e) => setNewRule(prev => ({ ...prev, formula: e.target.value }))}
+                onChange={(e) => setNewRule((prev) => ({ ...prev, formula: e.target.value }))}
               />
-              <Button onClick={addRule} className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
+              <Button
+                onClick={addRule}
+                className='flex items-center gap-2'
+              >
+                <Plus className='h-4 w-4' />
                 Thêm định nghĩa
               </Button>
             </div>
@@ -153,26 +156,29 @@ const KnowledgeUpload = () => {
             <CardTitle>Danh sách định nghĩa đã có ({rules.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className='space-y-3'>
               {rules.map((rule) => (
-                <div key={rule.id} className="border rounded-lg p-3">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-blue-600">{rule.concept}</h4>
-                      <p className="text-sm text-gray-600 mt-1">{rule.definition}</p>
+                <div
+                  key={rule.id}
+                  className='rounded-lg border p-3'
+                >
+                  <div className='flex items-start justify-between'>
+                    <div className='flex-1'>
+                      <h4 className='font-medium text-blue-600'>{rule.concept}</h4>
+                      <p className='mt-1 text-sm text-gray-600'>{rule.definition}</p>
                       {rule.formula && (
-                        <p className="text-sm text-green-600 mt-1">
+                        <p className='mt-1 text-sm text-green-600'>
                           <strong>Công thức:</strong> {rule.formula}
                         </p>
                       )}
                     </div>
                     <Button
-                      variant="ghost"
-                      size="sm"
+                      variant='ghost'
+                      size='sm'
                       onClick={() => removeRule(rule.id)}
-                      className="text-red-500 hover:text-red-700"
+                      className='text-red-500 hover:text-red-700'
                     >
-                      <Minus className="h-4 w-4" />
+                      <Minus className='h-4 w-4' />
                     </Button>
                   </div>
                 </div>

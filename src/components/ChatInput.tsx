@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowUp, Loader2 } from "lucide-react";
+import { useState } from 'react';
+import { ArrowUp, Loader2 } from 'lucide-react';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -7,12 +7,12 @@ interface ChatInputProps {
 }
 
 const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const handleSubmit = () => {
     if (message.trim() && !isLoading) {
       onSend(message);
-      setMessage("");
+      setMessage('');
     }
   };
 
@@ -24,28 +24,26 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
   };
 
   return (
-    <div className="relative flex w-full flex-col items-center">
-      <div className="relative w-full">
+    <div className='relative flex w-full flex-col items-center'>
+      <div className='relative w-full'>
         <textarea
           rows={1}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Message Claude"
-          className="w-full resize-none rounded-full bg-[#2F2F2F] px-4 py-4 pr-12 focus:outline-none"
-          style={{ maxHeight: "200px" }}
+          placeholder='Message Claude'
+          className='w-full resize-none rounded-full bg-[#2F2F2F] px-4 py-4 pr-12 focus:outline-none'
+          style={{ maxHeight: '200px' }}
           disabled={isLoading}
         />
-        <button 
+        <button
           onClick={handleSubmit}
           disabled={isLoading || !message.trim()}
-          className="absolute right-3 top-[50%] -translate-y-[50%] p-1.5 bg-white rounded-full hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className='absolute right-3 top-[50%] -translate-y-[50%] rounded-full bg-white p-1.5 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
         >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 text-black animate-spin" />
-          ) : (
-            <ArrowUp className="h-4 w-4 text-black" />
-          )}
+          {isLoading ?
+            <Loader2 className='h-4 w-4 animate-spin text-black' />
+          : <ArrowUp className='h-4 w-4 text-black' />}
         </button>
       </div>
     </div>

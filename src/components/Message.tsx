@@ -26,26 +26,24 @@ type MessageProps = {
 
 const Message = ({ role, content, data }: MessageProps) => {
   return (
-    <div className="py-6">
+    <div className='py-6'>
       <div className={`flex gap-4 ${role === 'user' ? 'flex-row-reverse' : ''}`}>
         <MessageAvatar isAssistant={role === 'assistant'} />
         <div className={`flex-1 space-y-4 ${role === 'user' ? 'flex justify-end' : ''}`}>
-          <div className={`${role === 'user' ? 'bg-gray-700/50 rounded-[20px] px-4 py-2 inline-block' : ''}`}>
+          <div
+            className={`${role === 'user' ? 'inline-block rounded-[20px] bg-gray-700/50 px-4 py-2' : ''}`}
+          >
             {content}
           </div>
-          
+
           {/* Render data visualizations for assistant messages */}
           {role === 'assistant' && data && (
-            <div className="mt-4">
-              {data.type === 'table' && data.tableData && (
-                <DataTable {...data.tableData} />
-              )}
-              {data.type === 'chart' && data.chartData && (
-                <DataChart {...data.chartData} />
-              )}
+            <div className='mt-4'>
+              {data.type === 'table' && data.tableData && <DataTable {...data.tableData} />}
+              {data.type === 'chart' && data.chartData && <DataChart {...data.chartData} />}
             </div>
           )}
-          
+
           {role === 'assistant' && <MessageActions />}
         </div>
       </div>
