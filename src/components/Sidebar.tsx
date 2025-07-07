@@ -1,35 +1,40 @@
-import { Menu, Globe, LogOut } from "lucide-react";
+import { Menu, Globe, LogOut, Settings, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import UserPermissions from "./UserPermissions";
 
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
+  onKnowledgeClick?: () => void;
 }
 
-const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
+const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
   const navigate = useNavigate();
   const timeframes = [
-    { title: "Yesterday", items: ["Using Tailwind CSS Guide"] },
     { 
-      title: "Previous 7 Days", 
+      title: "Hôm qua", 
+      items: ["Top 10 khách hàng có số dư cao nhất", "Báo cáo tăng trưởng CASA"] 
+    },
+    { 
+      title: "7 ngày qua", 
       items: [
-        "Likeable and Inception Levels",
-        "Viral Figma Board Ideas",
-        "RAG Status in Software Dev",
-        "Image Input ChatGPT API"
+        "Phân tích dư nợ tín dụng theo chi nhánh",
+        "Thống kê khách hàng mới",
+        "So sánh hiệu suất kinh doanh",
+        "Báo cáo rủi ro tín dụng"
       ] 
     },
     {
-      title: "Previous 30 Days",
+      title: "30 ngày qua",
       items: [
-        "Focus on Lovable Viral",
-        "Create Twitter Clone",
-        "Reddit Posting Guidelines",
-        "Revamping Social Features",
-        "US AI Voting Logo"
+        "Dashboard tổng quan ngân hàng",
+        "Phân tích xu hướng tiền gửi",
+        "Báo cáo chất lượng tài sản",
+        "Thống kê sản phẩm dịch vụ",
+        "Phân tích khách hàng VIP"
       ]
     }
   ];
@@ -60,45 +65,49 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
 
         <div className="flex-col flex-1 transition-opacity duration-500 relative -mr-2 pr-2 overflow-y-auto">
           {isOpen && (
-            <div className="p-2 mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm font-medium">Xin chào, {user.username || 'User'}!</span>
+            <>
+              <UserPermissions username={user.username || 'user'} />
+              <div className="p-2 mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium">VPBank Text2SQL</span>
+                </div>
+                <div className="text-xs text-gray-400">
+                  Chatbot hỏi đáp dữ liệu thông minh
+                </div>
               </div>
-              <div className="text-xs text-gray-400">
-                VPBank Text2SQL Chatbot
-              </div>
-            </div>
+            </>
           )}
 
-          <div className="bg-token-sidebar-surface-primary pt-0">
-            <div className="flex flex-col gap-2 px-2 py-2">
-              <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
-                <div className="h-6 w-6 flex items-center justify-center">
+            <div className="bg-token-sidebar-surface-primary pt-0">
+              <div className="flex flex-col gap-2 px-2 py-2">
+                <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
                   <Globe className="h-4 w-4" />
+                  <span className="text-sm">Truy vấn dữ liệu</span>
                 </div>
-                <span className="text-sm">ChatGPT</span>
+                {onKnowledgeClick && (
+                  <div 
+                    onClick={onKnowledgeClick}
+                    className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer"
+                  >
+                    <Database className="h-4 w-4" />
+                    <span className="text-sm">Quản lý Knowledge Base</span>
+                  </div>
+                )}
               </div>
-              <div className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
-                <div className="h-6 w-6 flex items-center justify-center">
-                  <Globe className="h-4 w-4" />
-                </div>
-                <span className="text-sm">Explore GPTs</span>
-              </div>
-            </div>
 
-            <div className="mt-4 flex flex-col gap-4">
-              {timeframes.map((timeframe) => (
-                <div key={timeframe.title}>
-                  <div className="px-3 py-2 text-xs text-gray-500">{timeframe.title}</div>
-                  {timeframe.items.map((item) => (
-                    <div key={item} className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
-                      <span className="text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              ))}
+              <div className="mt-4 flex flex-col gap-4">
+                {timeframes.map((timeframe) => (
+                  <div key={timeframe.title}>
+                    <div className="px-3 py-2 text-xs text-gray-500">{timeframe.title}</div>
+                    {timeframe.items.map((item) => (
+                      <div key={item} className="group flex h-10 items-center gap-2.5 rounded-lg px-2 hover:bg-token-sidebar-surface-secondary cursor-pointer">
+                        <span className="text-sm">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
         </div>
 
         {isOpen && (
