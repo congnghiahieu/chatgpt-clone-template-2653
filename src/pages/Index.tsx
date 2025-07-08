@@ -39,20 +39,52 @@ const Index = () => {
       { role: 'user', content: 'Cho tôi xem top 10 khách hàng có số dư cao nhất' },
       {
         role: 'assistant',
-        content: 'Tôi sẽ truy vấn dữ liệu để tìm 10 khách hàng có số dư tiền gửi VND cao nhất trong hệ thống.',
+        content:
+          'Tôi sẽ truy vấn dữ liệu để tìm 10 khách hàng có số dư tiền gửi VND cao nhất trong hệ thống.',
         data: {
           type: 'table',
           tableData: {
             data: [
-              { STT: 1, CIF: 'KH001', 'Tên khách hàng': 'Nguyễn Văn A', 'Số dư (VND)': '15,500,000,000', 'Chi nhánh': 'Hà Nội' },
-              { STT: 2, CIF: 'KH002', 'Tên khách hàng': 'Trần Thị B', 'Số dư (VND)': '12,800,000,000', 'Chi nhánh': 'TP.HCM' },
-              { STT: 3, CIF: 'KH003', 'Tên khách hàng': 'Lê Văn C', 'Số dư (VND)': '11,200,000,000', 'Chi nhánh': 'Đà Nẵng' },
-              { STT: 4, CIF: 'KH004', 'Tên khách hàng': 'Phạm Thị D', 'Số dư (VND)': '9,750,000,000', 'Chi nhánh': 'Hà Nội' },
-              { STT: 5, CIF: 'KH005', 'Tên khách hàng': 'Hoàng Văn E', 'Số dư (VND)': '8,900,000,000', 'Chi nhánh': 'Cần Thơ' },
+              {
+                STT: 1,
+                CIF: 'KH001',
+                'Tên khách hàng': 'Nguyễn Văn A',
+                'Số dư (VND)': '15,500,000,000',
+                'Chi nhánh': 'Hà Nội',
+              },
+              {
+                STT: 2,
+                CIF: 'KH002',
+                'Tên khách hàng': 'Trần Thị B',
+                'Số dư (VND)': '12,800,000,000',
+                'Chi nhánh': 'TP.HCM',
+              },
+              {
+                STT: 3,
+                CIF: 'KH003',
+                'Tên khách hàng': 'Lê Văn C',
+                'Số dư (VND)': '11,200,000,000',
+                'Chi nhánh': 'Đà Nẵng',
+              },
+              {
+                STT: 4,
+                CIF: 'KH004',
+                'Tên khách hàng': 'Phạm Thị D',
+                'Số dư (VND)': '9,750,000,000',
+                'Chi nhánh': 'Hà Nội',
+              },
+              {
+                STT: 5,
+                CIF: 'KH005',
+                'Tên khách hàng': 'Hoàng Văn E',
+                'Số dư (VND)': '8,900,000,000',
+                'Chi nhánh': 'Cần Thơ',
+              },
             ],
             columns: ['STT', 'CIF', 'Tên khách hàng', 'Số dư (VND)', 'Chi nhánh'],
             title: 'Top 10 khách hàng có số dư cao nhất',
-            sqlQuery: 'SELECT TOP 10 cif, customer_name, balance_vnd, branch FROM customer_deposits ORDER BY balance_vnd DESC',
+            sqlQuery:
+              'SELECT TOP 10 cif, customer_name, balance_vnd, branch FROM customer_deposits ORDER BY balance_vnd DESC',
           },
         },
       },
@@ -81,7 +113,8 @@ const Index = () => {
       { role: 'user', content: 'Báo cáo tăng trưởng CASA' },
       {
         role: 'assistant',
-        content: 'Dưới đây là báo cáo tăng trưởng CASA (Current Account Saving Account) trong 6 tháng qua:',
+        content:
+          'Dưới đây là báo cáo tăng trưởng CASA (Current Account Saving Account) trong 6 tháng qua:',
         data: {
           type: 'chart',
           chartData: {
@@ -103,7 +136,8 @@ const Index = () => {
       { role: 'user', content: 'Phân tích chi tiết hơn về xu hướng này' },
       {
         role: 'assistant',
-        content: '**Phân tích xu hướng tăng trưởng CASA:**\n\n• **Tăng trưởng ổn định**: Tỷ lệ tăng trưởng duy trì ở mức 12-22% qua các tháng\n• **Đỉnh cao tháng 12**: Đạt 22.1% do chiến dịch khuyến mãi cuối năm\n• **Dự báo**: Xu hướng tích cực sẽ tiếp tục trong Q1/2025\n• **Khuyến nghị**: Tập trung vào khách hàng SME để đẩy mạnh tăng trưởng',
+        content:
+          '**Phân tích xu hướng tăng trưởng CASA:**\n\n• **Tăng trưởng ổn định**: Tỷ lệ tăng trưởng duy trì ở mức 12-22% qua các tháng\n• **Đỉnh cao tháng 12**: Đạt 22.1% do chiến dịch khuyến mãi cuối năm\n• **Dự báo**: Xu hướng tích cực sẽ tiếp tục trong Q1/2025\n• **Khuyến nghị**: Tập trung vào khách hàng SME để đẩy mạnh tăng trưởng',
       },
     ],
     chat3: [
@@ -120,14 +154,35 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { 'Chi nhánh': 'Hà Nội', 'Dư nợ (tỷ VND)': '850.5', 'Số KH': '1,250', 'Tỷ lệ nợ xấu (%)': '1.2' },
-              { 'Chi nhánh': 'TP.HCM', 'Dư nợ (tỷ VND)': '1,120.8', 'Số KH': '1,680', 'Tỷ lệ nợ xấu (%)': '0.8' },
-              { 'Chi nhánh': 'Đà Nẵng', 'Dư nợ (tỷ VND)': '420.3', 'Số KH': '580', 'Tỷ lệ nợ xấu (%)': '1.5' },
-              { 'Chi nhánh': 'Cần Thơ', 'Dư nợ (tỷ VND)': '380.2', 'Số KH': '520', 'Tỷ lệ nợ xấu (%)': '2.1' },
+              {
+                'Chi nhánh': 'Hà Nội',
+                'Dư nợ (tỷ VND)': '850.5',
+                'Số KH': '1,250',
+                'Tỷ lệ nợ xấu (%)': '1.2',
+              },
+              {
+                'Chi nhánh': 'TP.HCM',
+                'Dư nợ (tỷ VND)': '1,120.8',
+                'Số KH': '1,680',
+                'Tỷ lệ nợ xấu (%)': '0.8',
+              },
+              {
+                'Chi nhánh': 'Đà Nẵng',
+                'Dư nợ (tỷ VND)': '420.3',
+                'Số KH': '580',
+                'Tỷ lệ nợ xấu (%)': '1.5',
+              },
+              {
+                'Chi nhánh': 'Cần Thơ',
+                'Dư nợ (tỷ VND)': '380.2',
+                'Số KH': '520',
+                'Tỷ lệ nợ xấu (%)': '2.1',
+              },
             ],
             columns: ['Chi nhánh', 'Dư nợ (tỷ VND)', 'Số KH', 'Tỷ lệ nợ xấu (%)'],
             title: 'Báo cáo dư nợ tín dụng theo chi nhánh',
-            sqlQuery: 'SELECT branch, SUM(credit_balance) as total_credit, COUNT(customer_id) as customer_count, AVG(npl_ratio) as avg_npl FROM credit_portfolio GROUP BY branch ORDER BY total_credit DESC',
+            sqlQuery:
+              'SELECT branch, SUM(credit_balance) as total_credit, COUNT(customer_id) as customer_count, AVG(npl_ratio) as avg_npl FROM credit_portfolio GROUP BY branch ORDER BY total_credit DESC',
           },
         },
       },
@@ -154,7 +209,8 @@ const Index = () => {
       { role: 'user', content: 'Chi nhánh nào có hiệu quả tốt nhất?' },
       {
         role: 'assistant',
-        content: 'Dựa trên phân tích dữ liệu:\n\n**Chi nhánh TP.HCM** có hiệu quả tốt nhất với:\n• Dư nợ cao nhất: 1,120.8 tỷ VND\n• Tỷ lệ nợ xấu thấp: chỉ 0.8%\n• Số lượng khách hàng đông: 1,680 KH\n\n**Chi nhánh Hà Nội** đứng thứ 2 với dư nợ 850.5 tỷ VND và tỷ lệ nợ xấu 1.2%.\n\n**Khuyến nghị**: Cần tăng cường hỗ trợ cho chi nhánh Cần Thơ do tỷ lệ nợ xấu cao (2.1%).',
+        content:
+          'Dựa trên phân tích dữ liệu:\n\n**Chi nhánh TP.HCM** có hiệu quả tốt nhất với:\n• Dư nợ cao nhất: 1,120.8 tỷ VND\n• Tỷ lệ nợ xấu thấp: chỉ 0.8%\n• Số lượng khách hàng đông: 1,680 KH\n\n**Chi nhánh Hà Nội** đứng thứ 2 với dư nợ 850.5 tỷ VND và tỷ lệ nợ xấu 1.2%.\n\n**Khuyến nghị**: Cần tăng cường hỗ trợ cho chi nhánh Cần Thơ do tỷ lệ nợ xấu cao (2.1%).',
       },
     ],
     chat4: [
@@ -166,16 +222,53 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { 'Tháng': 'Tháng 7', 'Khách hàng mới': '1,240', 'Cá nhân': '980', 'Doanh nghiệp': '260', 'Tỷ lệ tăng trưởng': '8.5%' },
-              { 'Tháng': 'Tháng 8', 'Khách hàng mới': '1,356', 'Cá nhân': '1,100', 'Doanh nghiệp': '256', 'Tỷ lệ tăng trưởng': '9.3%' },
-              { 'Tháng': 'Tháng 9', 'Khách hàng mới': '1,489', 'Cá nhân': '1,205', 'Doanh nghiệp': '284', 'Tỷ lệ tăng trưởng': '9.8%' },
-              { 'Tháng': 'Tháng 10', 'Khách hàng mới': '1,567', 'Cá nhân': '1,278', 'Doanh nghiệp': '289', 'Tỷ lệ tăng trưởng': '5.2%' },
-              { 'Tháng': 'Tháng 11', 'Khách hàng mới': '1,723', 'Cá nhân': '1,389', 'Doanh nghiệp': '334', 'Tỷ lệ tăng trưởng': '10.0%' },
-              { 'Tháng': 'Tháng 12', 'Khách hàng mới': '1,892', 'Cá nhân': '1,501', 'Doanh nghiệp': '391', 'Tỷ lệ tăng trưởng': '9.8%' },
+              {
+                Tháng: 'Tháng 7',
+                'Khách hàng mới': '1,240',
+                'Cá nhân': '980',
+                'Doanh nghiệp': '260',
+                'Tỷ lệ tăng trưởng': '8.5%',
+              },
+              {
+                Tháng: 'Tháng 8',
+                'Khách hàng mới': '1,356',
+                'Cá nhân': '1,100',
+                'Doanh nghiệp': '256',
+                'Tỷ lệ tăng trưởng': '9.3%',
+              },
+              {
+                Tháng: 'Tháng 9',
+                'Khách hàng mới': '1,489',
+                'Cá nhân': '1,205',
+                'Doanh nghiệp': '284',
+                'Tỷ lệ tăng trưởng': '9.8%',
+              },
+              {
+                Tháng: 'Tháng 10',
+                'Khách hàng mới': '1,567',
+                'Cá nhân': '1,278',
+                'Doanh nghiệp': '289',
+                'Tỷ lệ tăng trưởng': '5.2%',
+              },
+              {
+                Tháng: 'Tháng 11',
+                'Khách hàng mới': '1,723',
+                'Cá nhân': '1,389',
+                'Doanh nghiệp': '334',
+                'Tỷ lệ tăng trưởng': '10.0%',
+              },
+              {
+                Tháng: 'Tháng 12',
+                'Khách hàng mới': '1,892',
+                'Cá nhân': '1,501',
+                'Doanh nghiệp': '391',
+                'Tỷ lệ tăng trưởng': '9.8%',
+              },
             ],
             columns: ['Tháng', 'Khách hàng mới', 'Cá nhân', 'Doanh nghiệp', 'Tỷ lệ tăng trưởng'],
             title: 'Thống kê khách hàng mới theo tháng',
-            sqlQuery: 'SELECT MONTH(created_date) as month, COUNT(*) as new_customers, SUM(CASE WHEN customer_type = "Individual" THEN 1 ELSE 0 END) as individual, SUM(CASE WHEN customer_type = "Corporate" THEN 1 ELSE 0 END) as corporate FROM customers WHERE created_date >= DATEADD(month, -6, GETDATE()) GROUP BY MONTH(created_date)',
+            sqlQuery:
+              'SELECT MONTH(created_date) as month, COUNT(*) as new_customers, SUM(CASE WHEN customer_type = "Individual" THEN 1 ELSE 0 END) as individual, SUM(CASE WHEN customer_type = "Corporate" THEN 1 ELSE 0 END) as corporate FROM customers WHERE created_date >= DATEADD(month, -6, GETDATE()) GROUP BY MONTH(created_date)',
           },
         },
       },
@@ -227,7 +320,8 @@ const Index = () => {
       { role: 'user', content: 'Phân tích chi tiết về ROI' },
       {
         role: 'assistant',
-        content: '**Phân tích ROI (Return on Investment):**\n\n• **TP.HCM**: 28.3% - Dẫn đầu về hiệu quả đầu tư\n• **Hà Nội**: 27.1% - Ổn định, tiềm năng tăng trưởng\n• **Đà Nẵng**: 26.8% - Tốt cho quy mô chi nhánh\n• **Cần Thơ**: 25.3% - Cần cải thiện chiến lược\n• **Hải Phòng**: 24.4% - Yêu cầu xem xét lại hoạt động\n\n**Khuyến nghị**: Áp dụng mô hình thành công từ TP.HCM cho các chi nhánh khác.',
+        content:
+          '**Phân tích ROI (Return on Investment):**\n\n• **TP.HCM**: 28.3% - Dẫn đầu về hiệu quả đầu tư\n• **Hà Nội**: 27.1% - Ổn định, tiềm năng tăng trưởng\n• **Đà Nẵng**: 26.8% - Tốt cho quy mô chi nhánh\n• **Cần Thơ**: 25.3% - Cần cải thiện chiến lược\n• **Hải Phòng**: 24.4% - Yêu cầu xem xét lại hoạt động\n\n**Khuyến nghị**: Áp dụng mô hình thành công từ TP.HCM cho các chi nhánh khác.',
       },
     ],
     chat6: [
@@ -239,14 +333,45 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { 'Loại hình': 'Tín dụng cá nhân', 'Tổng dư nợ (tỷ)': '2,450.5', 'Nợ xấu (tỷ)': '29.4', 'Tỷ lệ nợ xấu': '1.2%', 'Mức độ rủi ro': 'Thấp' },
-              { 'Loại hình': 'SME', 'Tổng dư nợ (tỷ)': '1,890.3', 'Nợ xấu (tỷ)': '37.8', 'Tỷ lệ nợ xấu': '2.0%', 'Mức độ rủi ro': 'Trung bình' },
-              { 'Loại hình': 'Corporate', 'Tổng dư nợ (tỷ)': '3,200.7', 'Nợ xấu (tỷ)': '32.0', 'Tỷ lệ nợ xấu': '1.0%', 'Mức độ rủi ro': 'Thấp' },
-              { 'Loại hình': 'Thẻ tín dụng', 'Tổng dư nợ (tỷ)': '856.2', 'Nợ xấu (tỷ)': '25.7', 'Tỷ lệ nợ xấu': '3.0%', 'Mức độ rủi ro': 'Cao' },
+              {
+                'Loại hình': 'Tín dụng cá nhân',
+                'Tổng dư nợ (tỷ)': '2,450.5',
+                'Nợ xấu (tỷ)': '29.4',
+                'Tỷ lệ nợ xấu': '1.2%',
+                'Mức độ rủi ro': 'Thấp',
+              },
+              {
+                'Loại hình': 'SME',
+                'Tổng dư nợ (tỷ)': '1,890.3',
+                'Nợ xấu (tỷ)': '37.8',
+                'Tỷ lệ nợ xấu': '2.0%',
+                'Mức độ rủi ro': 'Trung bình',
+              },
+              {
+                'Loại hình': 'Corporate',
+                'Tổng dư nợ (tỷ)': '3,200.7',
+                'Nợ xấu (tỷ)': '32.0',
+                'Tỷ lệ nợ xấu': '1.0%',
+                'Mức độ rủi ro': 'Thấp',
+              },
+              {
+                'Loại hình': 'Thẻ tín dụng',
+                'Tổng dư nợ (tỷ)': '856.2',
+                'Nợ xấu (tỷ)': '25.7',
+                'Tỷ lệ nợ xấu': '3.0%',
+                'Mức độ rủi ro': 'Cao',
+              },
             ],
-            columns: ['Loại hình', 'Tổng dư nợ (tỷ)', 'Nợ xấu (tỷ)', 'Tỷ lệ nợ xấu', 'Mức độ rủi ro'],
+            columns: [
+              'Loại hình',
+              'Tổng dư nợ (tỷ)',
+              'Nợ xấu (tỷ)',
+              'Tỷ lệ nợ xấu',
+              'Mức độ rủi ro',
+            ],
             title: 'Phân tích rủi ro tín dụng theo sản phẩm',
-            sqlQuery: 'SELECT product_type, SUM(outstanding_balance) as total_balance, SUM(npl_balance) as npl_balance, AVG(npl_ratio) as avg_npl_ratio FROM credit_risk_report GROUP BY product_type ORDER BY total_balance DESC',
+            sqlQuery:
+              'SELECT product_type, SUM(outstanding_balance) as total_balance, SUM(npl_balance) as npl_balance, AVG(npl_ratio) as avg_npl_ratio FROM credit_risk_report GROUP BY product_type ORDER BY total_balance DESC',
           },
         },
       },
@@ -275,7 +400,8 @@ const Index = () => {
       { role: 'user', content: 'Dashboard tổng quan ngân hàng' },
       {
         role: 'assistant',
-        content: '**DASHBOARD TỔNG QUAN VPBank - Tháng 12/2024**\n\n🏦 **Tổng tài sản**: 582.4 tỷ VND (+5.2% so với tháng trước)\n💰 **Tổng dư nợ tín dụng**: 456.8 tỷ VND (+3.8%)\n📊 **Tỷ lệ nợ xấu**: 1.45% (trong giới hạn cho phép)\n🎯 **ROA**: 1.8% | **ROE**: 15.2%\n👥 **Tổng khách hàng**: 8.2 triệu (+2.1%)',
+        content:
+          '**DASHBOARD TỔNG QUAN VPBank - Tháng 12/2024**\n\n🏦 **Tổng tài sản**: 582.4 tỷ VND (+5.2% so với tháng trước)\n💰 **Tổng dư nợ tín dụng**: 456.8 tỷ VND (+3.8%)\n📊 **Tỷ lệ nợ xấu**: 1.45% (trong giới hạn cho phép)\n🎯 **ROA**: 1.8% | **ROE**: 15.2%\n👥 **Tổng khách hàng**: 8.2 triệu (+2.1%)',
       },
       { role: 'user', content: 'Cho tôi xem biểu đồ tổng quan' },
       {
@@ -330,7 +456,8 @@ const Index = () => {
       { role: 'user', content: 'Phân tích chi tiết CASA vs Term Deposit' },
       {
         role: 'assistant',
-        content: '**Phân tích so sánh CASA vs Term Deposit:**\n\n📈 **CASA (Không kỳ hạn)**:\n• Tăng trưởng: 49.6% (từ 120.5 → 180.1 tỷ)\n• Tỷ trọng: 42.4% tổng tiền gửi\n• Xu hướng: Tăng đều đặn, phản ánh tính thanh khoản cao\n\n📊 **Term Deposit (Có kỳ hạn)**:\n• Tăng trưởng: 36.1% (từ 180.2 → 245.2 tỷ)\n• Tỷ trọng: 57.6% tổng tiền gửi\n• Xu hướng: Tăng ổn định, cho thấy niềm tin của khách hàng\n\n💡 **Kết luận**: Cơ cấu tiền gửi cân bằng, CASA tăng nhanh hơn giúp giảm chi phí vốn.',
+        content:
+          '**Phân tích so sánh CASA vs Term Deposit:**\n\n📈 **CASA (Không kỳ hạn)**:\n• Tăng trưởng: 49.6% (từ 120.5 → 180.1 tỷ)\n• Tỷ trọng: 42.4% tổng tiền gửi\n• Xu hướng: Tăng đều đặn, phản ánh tính thanh khoản cao\n\n📊 **Term Deposit (Có kỳ hạn)**:\n• Tăng trưởng: 36.1% (từ 180.2 → 245.2 tỷ)\n• Tỷ trọng: 57.6% tổng tiền gửi\n• Xu hướng: Tăng ổn định, cho thấy niềm tin của khách hàng\n\n💡 **Kết luận**: Cơ cấu tiền gửi cân bằng, CASA tăng nhanh hơn giúp giảm chi phí vốn.',
       },
     ],
     chat9: [
@@ -342,15 +469,46 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { 'Nhóm nợ': 'Nhóm 1 (Chuẩn)', 'Dư nợ (tỷ)': '7,234.5', 'Tỷ trọng': '89.2%', 'Tỷ lệ trích lập': '0.5%', 'Dự phòng (tỷ)': '36.2' },
-              { 'Nhóm nợ': 'Nhóm 2 (Cần chú ý)', 'Dư nợ (tỷ)': '543.2', 'Tỷ trọng': '6.7%', 'Tỷ lệ trích lập': '5.0%', 'Dự phòng (tỷ)': '27.2' },
-              { 'Nhóm nợ': 'Nhóm 3 (Dưới chuẩn)', 'Dư nợ (tỷ)': '198.7', 'Tỷ trọng': '2.4%', 'Tỷ lệ trích lập': '20.0%', 'Dự phòng (tỷ)': '39.7' },
-              { 'Nhóm nợ': 'Nhóm 4 (Nghi ngờ)', 'Dư nợ (tỷ)': '89.3', 'Tỷ trọng': '1.1%', 'Tỷ lệ trích lập': '50.0%', 'Dự phòng (tỷ)': '44.7' },
-              { 'Nhóm nợ': 'Nhóm 5 (Có khả năng mất vốn)', 'Dư nợ (tỷ)': '45.8', 'Tỷ trọng': '0.6%', 'Tỷ lệ trích lập': '100.0%', 'Dự phòng (tỷ)': '45.8' },
+              {
+                'Nhóm nợ': 'Nhóm 1 (Chuẩn)',
+                'Dư nợ (tỷ)': '7,234.5',
+                'Tỷ trọng': '89.2%',
+                'Tỷ lệ trích lập': '0.5%',
+                'Dự phòng (tỷ)': '36.2',
+              },
+              {
+                'Nhóm nợ': 'Nhóm 2 (Cần chú ý)',
+                'Dư nợ (tỷ)': '543.2',
+                'Tỷ trọng': '6.7%',
+                'Tỷ lệ trích lập': '5.0%',
+                'Dự phòng (tỷ)': '27.2',
+              },
+              {
+                'Nhóm nợ': 'Nhóm 3 (Dưới chuẩn)',
+                'Dư nợ (tỷ)': '198.7',
+                'Tỷ trọng': '2.4%',
+                'Tỷ lệ trích lập': '20.0%',
+                'Dự phòng (tỷ)': '39.7',
+              },
+              {
+                'Nhóm nợ': 'Nhóm 4 (Nghi ngờ)',
+                'Dư nợ (tỷ)': '89.3',
+                'Tỷ trọng': '1.1%',
+                'Tỷ lệ trích lập': '50.0%',
+                'Dự phòng (tỷ)': '44.7',
+              },
+              {
+                'Nhóm nợ': 'Nhóm 5 (Có khả năng mất vốn)',
+                'Dư nợ (tỷ)': '45.8',
+                'Tỷ trọng': '0.6%',
+                'Tỷ lệ trích lập': '100.0%',
+                'Dự phòng (tỷ)': '45.8',
+              },
             ],
             columns: ['Nhóm nợ', 'Dư nợ (tỷ)', 'Tỷ trọng', 'Tỷ lệ trích lập', 'Dự phòng (tỷ)'],
             title: 'Phân loại chất lượng tài sản',
-            sqlQuery: 'SELECT debt_group, SUM(outstanding_balance) as balance, SUM(outstanding_balance) * 100.0 / (SELECT SUM(outstanding_balance) FROM loan_classification) as percentage, AVG(provision_rate) as avg_provision_rate, SUM(provision_amount) as total_provision FROM loan_classification GROUP BY debt_group ORDER BY debt_group',
+            sqlQuery:
+              'SELECT debt_group, SUM(outstanding_balance) as balance, SUM(outstanding_balance) * 100.0 / (SELECT SUM(outstanding_balance) FROM loan_classification) as percentage, AVG(provision_rate) as avg_provision_rate, SUM(provision_amount) as total_provision FROM loan_classification GROUP BY debt_group ORDER BY debt_group',
           },
         },
       },
@@ -385,22 +543,54 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { 'Sản phẩm': 'Tín dụng cá nhân', 'Doanh thu (tỷ)': '45.2', 'Khách hàng': '125,000', 'Tăng trưởng': '12.5%', 'Xếp hạng': '1' },
-              { 'Sản phẩm': 'Thẻ tín dụng', 'Doanh thu (tỷ)': '23.8', 'Khách hàng': '89,000', 'Tăng trưởng': '18.3%', 'Xếp hạng': '2' },
-              { 'Sản phẩm': 'Bảo hiểm', 'Doanh thu (tỷ)': '18.5', 'Khách hàng': '67,000', 'Tăng trưởng': '25.7%', 'Xếp hạng': '3' },
-              { 'Sản phẩm': 'Forex & Đầu tư', 'Doanh thu (tỷ)': '15.2', 'Khách hàng': '23,000', 'Tăng trưởng': '8.9%', 'Xếp hạng': '4' },
-              { 'Sản phẩm': 'Dịch vụ thanh toán', 'Doanh thu (tỷ)': '12.1', 'Khách hàng': '156,000', 'Tăng trưởng': '15.2%', 'Xếp hạng': '5' },
+              {
+                'Sản phẩm': 'Tín dụng cá nhân',
+                'Doanh thu (tỷ)': '45.2',
+                'Khách hàng': '125,000',
+                'Tăng trưởng': '12.5%',
+                'Xếp hạng': '1',
+              },
+              {
+                'Sản phẩm': 'Thẻ tín dụng',
+                'Doanh thu (tỷ)': '23.8',
+                'Khách hàng': '89,000',
+                'Tăng trưởng': '18.3%',
+                'Xếp hạng': '2',
+              },
+              {
+                'Sản phẩm': 'Bảo hiểm',
+                'Doanh thu (tỷ)': '18.5',
+                'Khách hàng': '67,000',
+                'Tăng trưởng': '25.7%',
+                'Xếp hạng': '3',
+              },
+              {
+                'Sản phẩm': 'Forex & Đầu tư',
+                'Doanh thu (tỷ)': '15.2',
+                'Khách hàng': '23,000',
+                'Tăng trưởng': '8.9%',
+                'Xếp hạng': '4',
+              },
+              {
+                'Sản phẩm': 'Dịch vụ thanh toán',
+                'Doanh thu (tỷ)': '12.1',
+                'Khách hàng': '156,000',
+                'Tăng trưởng': '15.2%',
+                'Xếp hạng': '5',
+              },
             ],
             columns: ['Sản phẩm', 'Doanh thu (tỷ)', 'Khách hàng', 'Tăng trưởng', 'Xếp hạng'],
             title: 'Thống kê hiệu quả sản phẩm dịch vụ',
-            sqlQuery: 'SELECT product_name, SUM(revenue) as total_revenue, COUNT(DISTINCT customer_id) as customer_count, ((SUM(revenue) - LAG(SUM(revenue), 4) OVER (PARTITION BY product_name ORDER BY quarter)) / LAG(SUM(revenue), 4) OVER (PARTITION BY product_name ORDER BY quarter)) * 100 as growth_rate FROM product_performance WHERE quarter = "Q4_2024" GROUP BY product_name ORDER BY total_revenue DESC',
+            sqlQuery:
+              'SELECT product_name, SUM(revenue) as total_revenue, COUNT(DISTINCT customer_id) as customer_count, ((SUM(revenue) - LAG(SUM(revenue), 4) OVER (PARTITION BY product_name ORDER BY quarter)) / LAG(SUM(revenue), 4) OVER (PARTITION BY product_name ORDER BY quarter)) * 100 as growth_rate FROM product_performance WHERE quarter = "Q4_2024" GROUP BY product_name ORDER BY total_revenue DESC',
           },
         },
       },
       { role: 'user', content: 'Sản phẩm nào có tiềm năng nhất?' },
       {
         role: 'assistant',
-        content: '**Phân tích tiềm năng sản phẩm:**\n\n🏆 **Bảo hiểm** - Tiềm năng cao nhất:\n• Tăng trưởng mạnh: 25.7%\n• Thị trường chưa bão hòa\n• Margin cao, chi phí vận hành thấp\n\n🎯 **Thẻ tín dụng** - Tiềm năng tốt:\n• Tăng trưởng 18.3%, xu hướng thanh toán không tiền mặt\n• Doanh thu ổn định từ phí và lãi suất\n\n💡 **Khuyến nghị**:\n1. Đẩy mạnh sản phẩm bảo hiểm\n2. Tăng đầu tư vào thẻ tín dụng\n3. Cải thiện dịch vụ thanh toán số',
+        content:
+          '**Phân tích tiềm năng sản phẩm:**\n\n🏆 **Bảo hiểm** - Tiềm năng cao nhất:\n• Tăng trưởng mạnh: 25.7%\n• Thị trường chưa bão hòa\n• Margin cao, chi phí vận hành thấp\n\n🎯 **Thẻ tín dụng** - Tiềm năng tốt:\n• Tăng trưởng 18.3%, xu hướng thanh toán không tiền mặt\n• Doanh thu ổn định từ phí và lãi suất\n\n💡 **Khuyến nghị**:\n1. Đẩy mạnh sản phẩm bảo hiểm\n2. Tăng đầu tư vào thẻ tín dụng\n3. Cải thiện dịch vụ thanh toán số',
       },
     ],
     chat11: [
@@ -447,7 +637,8 @@ const Index = () => {
       { role: 'user', content: 'Chiến lược phát triển khách hàng VIP' },
       {
         role: 'assistant',
-        content: '**CHIẾN LƯỢC PHÁT TRIỂN KHÁCH HÀNG VIP**\n\n🎯 **Mục tiêu 2025**:\n• Tăng 20% khách hàng Diamond (từ 1,250 → 1,500)\n• Nâng cao giá trị giao dịch trung bình 15%\n\n💎 **Chiến lược Diamond**:\n• Dịch vụ Private Banking cao cấp\n• Tư vấn đầu tư cá nhân hóa\n• Ưu đãi độc quyền về lãi suất và phí\n\n🔄 **Conversion Strategy**:\n• Platinum → Diamond: Focus wealth management\n• Gold → Platinum: Đa dạng hóa sản phẩm\n• Silver → Gold: Tăng cường cross-selling\n\n📊 **KPI theo dõi**:\n• Customer Lifetime Value (CLV)\n• Net Promoter Score (NPS)\n• Revenue per VIP customer',
+        content:
+          '**CHIẾN LƯỢC PHÁT TRIỂN KHÁCH HÀNG VIP**\n\n🎯 **Mục tiêu 2025**:\n• Tăng 20% khách hàng Diamond (từ 1,250 → 1,500)\n• Nâng cao giá trị giao dịch trung bình 15%\n\n💎 **Chiến lược Diamond**:\n• Dịch vụ Private Banking cao cấp\n• Tư vấn đầu tư cá nhân hóa\n• Ưu đãi độc quyền về lãi suất và phí\n\n🔄 **Conversion Strategy**:\n• Platinum → Diamond: Focus wealth management\n• Gold → Platinum: Đa dạng hóa sản phẩm\n• Silver → Gold: Tăng cường cross-selling\n\n📊 **KPI theo dõi**:\n• Customer Lifetime Value (CLV)\n• Net Promoter Score (NPS)\n• Revenue per VIP customer',
       },
     ],
   };
@@ -467,7 +658,8 @@ const Index = () => {
 
       let assistantMessage: Message = {
         role: 'assistant',
-        content: 'Xin chào! Tôi là VPBank Text2SQL Assistant - hệ thống trợ lý thông minh được phát triển riêng cho VPBank.\n\n🏦 **Về hệ thống của chúng tôi:**\n• Kết nối trực tiếp với Data Lake và Data Warehouse của VPBank\n• Hỗ trợ phân quyền dữ liệu theo vai trò và chi nhánh\n• Tích hợp AI để hiểu ngôn ngữ tự nhiên và chuyển đổi thành SQL\n\n💡 **Tôi có thể giúp bạn:**\n• Truy vấn dữ liệu khách hàng, giao dịch, sản phẩm theo phân quyền\n• Tạo báo cáo dạng bảng, biểu đồ trực quan\n• Xuất dữ liệu định dạng Excel, PDF, CSV\n• Phân tích chỉ tiêu kỹ thuật và nghiệp vụ\n• Trả lời câu hỏi về quy định, định nghĩa ngành ngân hàng\n\n🔐 **Bảo mật & Phân quyền:**\nMỗi truy vấn được kiểm soát nghiêm ngặt theo quyền hạn của bạn. Bạn chỉ có thể truy cập dữ liệu thuộc phạm vi được phép.\n\nHãy đặt câu hỏi cụ thể về dữ liệu bạn muốn xem, ví dụ:\n"Top 10 khách hàng VIP của chi nhánh"\n"Biểu đồ tăng trưởng CASA quý này"\n"Báo cáo nợ xấu theo sản phẩm"',
+        content:
+          'Xin chào! Tôi là VPBank Text2SQL Assistant - hệ thống trợ lý thông minh được phát triển riêng cho VPBank.\n\n🏦 **Về hệ thống của chúng tôi:**\n• Kết nối trực tiếp với Data Lake và Data Warehouse của VPBank\n• Hỗ trợ phân quyền dữ liệu theo vai trò và chi nhánh\n• Tích hợp AI để hiểu ngôn ngữ tự nhiên và chuyển đổi thành SQL\n\n💡 **Tôi có thể giúp bạn:**\n• Truy vấn dữ liệu khách hàng, giao dịch, sản phẩm theo phân quyền\n• Tạo báo cáo dạng bảng, biểu đồ trực quan\n• Xuất dữ liệu định dạng Excel, PDF, CSV\n• Phân tích chỉ tiêu kỹ thuật và nghiệp vụ\n• Trả lời câu hỏi về quy định, định nghĩa ngành ngân hàng\n\n🔐 **Bảo mật & Phân quyền:**\nMỗi truy vấn được kiểm soát nghiêm ngặt theo quyền hạn của bạn. Bạn chỉ có thể truy cập dữ liệu thuộc phạm vi được phép.\n\nHãy đặt câu hỏi cụ thể về dữ liệu bạn muốn xem, ví dụ:\n"Top 10 khách hàng VIP của chi nhánh"\n"Biểu đồ tăng trưởng CASA quý này"\n"Báo cáo nợ xấu theo sản phẩm"',
       };
 
       // Mock different types of responses based on keywords

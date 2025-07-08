@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { Send, Mic, Plus, Settings, Search, Database, Brain, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -51,10 +50,8 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
   };
 
   const toggleOption = (option: string) => {
-    setSelectedOptions(prev => 
-      prev.includes(option) 
-        ? prev.filter(o => o !== option)
-        : [...prev, option]
+    setSelectedOptions((prev) =>
+      prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option],
     );
   };
 
@@ -70,29 +67,32 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
   ];
 
   return (
-    <form onSubmit={handleSubmit} className='w-full'>
+    <form
+      onSubmit={handleSubmit}
+      className='w-full'
+    >
       <div className='relative rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900'>
         {/* Selected options */}
         {selectedOptions.length > 0 && (
-          <div className='flex flex-wrap gap-2 p-3 border-b border-gray-200 dark:border-gray-700'>
-            {selectedOptions.map(optionId => {
-              const option = options.find(o => o.id === optionId);
-              return option ? (
-                <div
-                  key={optionId}
-                  className='flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm dark:bg-blue-900 dark:text-blue-200'
-                >
-                  <option.icon className='h-3 w-3' />
-                  {option.label}
-                  <button
-                    type='button'
-                    onClick={() => toggleOption(optionId)}
-                    className='hover:bg-blue-200 dark:hover:bg-blue-800 rounded-full p-0.5'
+          <div className='flex flex-wrap gap-2 border-b border-gray-200 p-3 dark:border-gray-700'>
+            {selectedOptions.map((optionId) => {
+              const option = options.find((o) => o.id === optionId);
+              return option ?
+                  <div
+                    key={optionId}
+                    className='flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                   >
-                    ×
-                  </button>
-                </div>
-              ) : null;
+                    <option.icon className='h-3 w-3' />
+                    {option.label}
+                    <button
+                      type='button'
+                      onClick={() => toggleOption(optionId)}
+                      className='rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-800'
+                    >
+                      ×
+                    </button>
+                  </div>
+                : null;
             })}
           </div>
         )}
@@ -114,11 +114,15 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align='start'>
-                    {options.map(option => (
+                    {options.map((option) => (
                       <DropdownMenuItem
                         key={option.id}
                         onClick={() => toggleOption(option.id)}
-                        className={selectedOptions.includes(option.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''}
+                        className={
+                          selectedOptions.includes(option.id) ?
+                            'bg-blue-50 dark:bg-blue-900/20'
+                          : ''
+                        }
                       >
                         <option.icon className='mr-2 h-4 w-4' />
                         {option.label}
@@ -144,7 +148,7 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
             onKeyDown={handleKeyDown}
             placeholder='Hỏi VPBank Text2SQL Assistant...'
             disabled={isLoading}
-            className='min-h-[40px] max-h-32 resize-none border-0 bg-transparent p-0 text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400'
+            className='max-h-32 min-h-[40px] resize-none border-0 bg-transparent p-0 text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400'
             rows={1}
           />
 
@@ -172,7 +176,7 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
             type='submit'
             size='sm'
             disabled={!message.trim() || isLoading}
-            className='h-8 w-8 p-0 bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600'
+            className='h-8 w-8 bg-blue-500 p-0 text-white hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600'
           >
             <Send className='h-4 w-4' />
           </Button>

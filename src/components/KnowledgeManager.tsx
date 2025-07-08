@@ -1,10 +1,15 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Upload, Trash2, Plus, Download, Eye } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import KnowledgeUpload from './KnowledgeUpload';
 
@@ -28,8 +33,9 @@ const KnowledgeManager = () => {
       type: 'excel',
       uploadDate: '2024-12-20',
       size: '2.1 MB',
-      insight: 'Tài liệu chứa định nghĩa về 47 chỉ tiêu tín dụng quan trọng, bao gồm dư nợ tín dụng, tỷ lệ nợ xấu, CAR ratio, và các công thức tính toán liên quan. Đặc biệt có phân loại theo Basel III và quy định của NHNN.',
-      downloadUrl: '#'
+      insight:
+        'Tài liệu chứa định nghĩa về 47 chỉ tiêu tín dụng quan trọng, bao gồm dư nợ tín dụng, tỷ lệ nợ xấu, CAR ratio, và các công thức tính toán liên quan. Đặc biệt có phân loại theo Basel III và quy định của NHNN.',
+      downloadUrl: '#',
     },
     {
       id: '2',
@@ -37,8 +43,9 @@ const KnowledgeManager = () => {
       type: 'pdf',
       uploadDate: '2024-12-18',
       size: '1.5 MB',
-      insight: 'Tài liệu quy định chi tiết về sản phẩm CASA (Current Account Saving Account), bao gồm điều kiện mở tài khoản, phí dịch vụ, lãi suất áp dụng, và quy trình xử lý giao dịch. Cập nhật theo Circular 01/2024.',
-      downloadUrl: '#'
+      insight:
+        'Tài liệu quy định chi tiết về sản phẩm CASA (Current Account Saving Account), bao gồm điều kiện mở tài khoản, phí dịch vụ, lãi suất áp dụng, và quy trình xử lý giao dịch. Cập nhật theo Circular 01/2024.',
+      downloadUrl: '#',
     },
     {
       id: '3',
@@ -46,8 +53,9 @@ const KnowledgeManager = () => {
       type: 'csv',
       uploadDate: '2024-12-15',
       size: '0.3 MB',
-      insight: 'Danh sách đầy đủ 127 chi nhánh và phòng giao dịch của VPBank, bao gồm mã chi nhánh, tên chi nhánh, địa chỉ, số điện thoại, và mã vùng miền. Dữ liệu được cập nhật theo cơ cấu tổ chức mới nhất.',
-      downloadUrl: '#'
+      insight:
+        'Danh sách đầy đủ 127 chi nhánh và phòng giao dịch của VPBank, bao gồm mã chi nhánh, tên chi nhánh, địa chỉ, số điện thoại, và mã vùng miền. Dữ liệu được cập nhật theo cơ cấu tổ chức mới nhất.',
+      downloadUrl: '#',
     },
     {
       id: '4',
@@ -55,8 +63,9 @@ const KnowledgeManager = () => {
       type: 'text',
       uploadDate: '2024-12-10',
       size: '1.2 KB',
-      insight: 'Định nghĩa chi tiết về tỷ lệ an toàn vốn (CAR) theo Basel III, bao gồm công thức tính toán, thành phần vốn cấp 1 và cấp 2, và các yêu cầu tối thiểu. Đặc biệt nêu rõ cách xử lý rủi ro tín dụng, rủi ro thị trường và rủi ro hoạt động.',
-      downloadUrl: '#'
+      insight:
+        'Định nghĩa chi tiết về tỷ lệ an toàn vốn (CAR) theo Basel III, bao gồm công thức tính toán, thành phần vốn cấp 1 và cấp 2, và các yêu cầu tối thiểu. Đặc biệt nêu rõ cách xử lý rủi ro tín dụng, rủi ro thị trường và rủi ro hoạt động.',
+      downloadUrl: '#',
     },
   ]);
 
@@ -80,7 +89,7 @@ const KnowledgeManager = () => {
   };
 
   const handleDelete = (id: string) => {
-    setFiles(files.filter(file => file.id !== id));
+    setFiles(files.filter((file) => file.id !== id));
   };
 
   const handleDownload = (file: KnowledgeFile) => {
@@ -93,10 +102,8 @@ const KnowledgeManager = () => {
   };
 
   const toggleInsight = (id: string) => {
-    setExpandedInsights(prev => 
-      prev.includes(id) 
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
+    setExpandedInsights((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -111,8 +118,11 @@ const KnowledgeManager = () => {
             Quản lý các file kiến thức của bạn
           </p>
         </div>
-        
-        <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
+
+        <Dialog
+          open={isUploadOpen}
+          onOpenChange={setIsUploadOpen}
+        >
           <DialogTrigger asChild>
             <Button className='bg-blue-500 text-white hover:bg-blue-600'>
               <Plus className='mr-2 h-4 w-4' />
@@ -132,18 +142,21 @@ const KnowledgeManager = () => {
 
       <div className='grid gap-4'>
         {files.map((file) => (
-          <Card key={file.id} className='border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800'>
+          <Card
+            key={file.id}
+            className='border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800'
+          >
             <CardContent className='p-4'>
               <div className='flex items-start justify-between'>
-                <div className='flex items-start gap-3 flex-1'>
+                <div className='flex flex-1 items-start gap-3'>
                   <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-white dark:bg-gray-700'>
                     {getFileIcon(file.type)}
                   </div>
                   <div className='flex-1'>
-                    <h4 className='font-medium text-gray-900 dark:text-gray-100 mb-2'>
+                    <h4 className='mb-2 font-medium text-gray-900 dark:text-gray-100'>
                       {file.name}
                     </h4>
-                    <div className='flex items-center gap-2 mb-3'>
+                    <div className='mb-3 flex items-center gap-2'>
                       <Badge className={getFileTypeColor(file.type)}>
                         {file.type.toUpperCase()}
                       </Badge>
@@ -151,24 +164,26 @@ const KnowledgeManager = () => {
                         {file.size} • {file.uploadDate}
                       </span>
                     </div>
-                    
+
                     {/* AI Insight */}
-                    <div className='bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 mb-3'>
-                      <div className='flex items-center gap-2 mb-2'>
+                    <div className='mb-3 rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20'>
+                      <div className='mb-2 flex items-center gap-2'>
                         <Eye className='h-4 w-4 text-blue-500' />
                         <span className='text-sm font-medium text-blue-700 dark:text-blue-300'>
                           AI phân tích được:
                         </span>
                       </div>
-                      <p className={`text-sm text-blue-600 dark:text-blue-400 ${
-                        expandedInsights.includes(file.id) ? '' : 'line-clamp-2'
-                      }`}>
+                      <p
+                        className={`text-sm text-blue-600 dark:text-blue-400 ${
+                          expandedInsights.includes(file.id) ? '' : 'line-clamp-2'
+                        }`}
+                      >
                         {file.insight}
                       </p>
                       {file.insight.length > 100 && (
                         <button
                           onClick={() => toggleInsight(file.id)}
-                          className='text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 mt-1'
+                          className='mt-1 text-xs text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300'
                         >
                           {expandedInsights.includes(file.id) ? 'Thu gọn' : 'Xem thêm'}
                         </button>
@@ -176,8 +191,8 @@ const KnowledgeManager = () => {
                     </div>
                   </div>
                 </div>
-                
-                <div className='flex items-center gap-2 ml-4'>
+
+                <div className='ml-4 flex items-center gap-2'>
                   {file.downloadUrl && (
                     <TooltipProvider>
                       <Tooltip>
@@ -197,7 +212,7 @@ const KnowledgeManager = () => {
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                  
+
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -223,7 +238,7 @@ const KnowledgeManager = () => {
       </div>
 
       {files.length === 0 && (
-        <div className='text-center py-12'>
+        <div className='py-12 text-center'>
           <Upload className='mx-auto h-12 w-12 text-gray-400' />
           <h3 className='mt-2 text-sm font-medium text-gray-900 dark:text-gray-100'>
             Chưa có Knowledge Base nào

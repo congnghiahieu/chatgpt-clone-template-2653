@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   Table,
@@ -51,7 +50,9 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   return (
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
-        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>{title || 'Kết quả truy vấn'}</h3>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+          {title || 'Kết quả truy vấn'}
+        </h3>
         <div className='flex gap-2'>
           {sqlQuery && (
             <TooltipProvider>
@@ -72,7 +73,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               </Tooltip>
             </TooltipProvider>
           )}
-          
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -120,14 +121,14 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               onClick={() => copyToClipboard(sqlQuery)}
               className='h-6 w-6 p-0'
             >
-              {copied ? (
+              {copied ?
                 <Check className='h-3 w-3 text-green-500' />
-              ) : (
-                <Copy className='h-3 w-3' />
-              )}
+              : <Copy className='h-3 w-3' />}
             </Button>
           </div>
-          <pre className='whitespace-pre-wrap font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-slate-800 p-3 rounded border'>{sqlQuery}</pre>
+          <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-slate-800 dark:text-gray-200'>
+            {sqlQuery}
+          </pre>
         </div>
       )}
 
@@ -136,7 +137,12 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
-                <TableHead key={column} className='text-gray-900 dark:text-gray-100'>{column}</TableHead>
+                <TableHead
+                  key={column}
+                  className='text-gray-900 dark:text-gray-100'
+                >
+                  {column}
+                </TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -144,12 +150,19 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
             {data.map((row, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
-                  <TableCell key={column} className='text-gray-700 dark:text-gray-300'>{row[column]?.toString() || ''}</TableCell>
+                  <TableCell
+                    key={column}
+                    className='text-gray-700 dark:text-gray-300'
+                  >
+                    {row[column]?.toString() || ''}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}
           </TableBody>
-          <TableCaption className='text-gray-500 dark:text-gray-400'>Tổng cộng {data.length} bản ghi</TableCaption>
+          <TableCaption className='text-gray-500 dark:text-gray-400'>
+            Tổng cộng {data.length} bản ghi
+          </TableCaption>
         </Table>
       </div>
     </div>

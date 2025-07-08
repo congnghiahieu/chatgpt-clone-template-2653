@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Shield, Building, Users, Database, CheckCircle } from 'lucide-react';
@@ -67,7 +66,7 @@ const UserPermissions = ({ username }: UserPermissionsProps) => {
               </div>
               <Badge
                 variant='secondary'
-                className='bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 px-3 py-1'
+                className='bg-blue-100 px-3 py-1 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
               >
                 {permissions.role}
               </Badge>
@@ -80,7 +79,7 @@ const UserPermissions = ({ username }: UserPermissionsProps) => {
               </div>
               <Badge
                 variant='secondary'
-                className='bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 px-3 py-1'
+                className='bg-green-100 px-3 py-1 text-green-700 dark:bg-green-900 dark:text-green-300'
               >
                 {permissions.branch}
               </Badge>
@@ -93,7 +92,7 @@ const UserPermissions = ({ username }: UserPermissionsProps) => {
               </div>
               <Badge
                 variant='secondary'
-                className='bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300 px-3 py-1'
+                className='bg-purple-100 px-3 py-1 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
               >
                 {permissions.level}
               </Badge>
@@ -112,7 +111,7 @@ const UserPermissions = ({ username }: UserPermissionsProps) => {
                 <Badge
                   key={index}
                   variant='outline'
-                  className='border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300 px-3 py-1'
+                  className='border-emerald-200 bg-emerald-50 px-3 py-1 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300'
                 >
                   {access}
                 </Badge>

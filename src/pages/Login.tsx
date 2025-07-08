@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -34,7 +33,7 @@ const Login = () => {
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4 dark:from-slate-900 dark:to-slate-800'>
-      <Card className='w-full max-w-md bg-white/90 shadow-xl backdrop-blur-sm dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'>
+      <Card className='w-full max-w-md border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/90'>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-center text-2xl font-bold text-slate-900 dark:text-slate-100'>
             VPBank Text2SQL
@@ -44,9 +43,15 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className='space-y-4'>
+          <form
+            onSubmit={handleLogin}
+            className='space-y-4'
+          >
             <div className='space-y-2'>
-              <Label htmlFor='username' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='username'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Tên đăng nhập
               </Label>
               <Input
@@ -60,7 +65,10 @@ const Login = () => {
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='password' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='password'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Mật khẩu
               </Label>
               <Input

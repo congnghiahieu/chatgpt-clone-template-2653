@@ -1,4 +1,3 @@
-
 import {
   BarChart,
   Bar,
@@ -16,7 +15,12 @@ import {
 } from 'recharts';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tooltip as TooltipUI, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip as TooltipUI,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,

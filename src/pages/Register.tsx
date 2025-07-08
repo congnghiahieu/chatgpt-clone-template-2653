@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,7 @@ const Register = () => {
     email: '',
     username: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,12 +41,12 @@ const Register = () => {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 px-4 dark:from-slate-900 dark:to-slate-800'>
-      <Card className='w-full max-w-md bg-white/90 shadow-xl backdrop-blur-sm dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'>
+      <Card className='w-full max-w-md border-slate-200 bg-white/90 shadow-xl backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/90'>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-center text-2xl font-bold text-slate-900 dark:text-slate-100'>
             Đăng ký tài khoản
@@ -57,9 +56,15 @@ const Register = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleRegister} className='space-y-4'>
+          <form
+            onSubmit={handleRegister}
+            className='space-y-4'
+          >
             <div className='space-y-2'>
-              <Label htmlFor='fullname' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='fullname'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Họ và tên
               </Label>
               <Input
@@ -73,7 +78,10 @@ const Register = () => {
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='email' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='email'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Email
               </Label>
               <Input
@@ -87,7 +95,10 @@ const Register = () => {
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='username' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='username'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Tên đăng nhập
               </Label>
               <Input
@@ -101,7 +112,10 @@ const Register = () => {
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='password' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='password'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Mật khẩu
               </Label>
               <Input
@@ -115,7 +129,10 @@ const Register = () => {
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='confirmPassword' className='text-slate-700 dark:text-slate-300'>
+              <Label
+                htmlFor='confirmPassword'
+                className='text-slate-700 dark:text-slate-300'
+              >
                 Xác nhận mật khẩu
               </Label>
               <Input

@@ -1,4 +1,3 @@
-
 interface ChatHeaderProps {
   isSidebarOpen?: boolean;
 }

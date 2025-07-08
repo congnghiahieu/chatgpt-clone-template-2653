@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { User, Settings, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -54,7 +53,7 @@ const UserMenu = () => {
                 <p className='text-sm text-gray-500 dark:text-gray-400'>VPBank Text2SQL</p>
               </div>
             </div>
-            
+
             <div className='space-y-2'>
               <button
                 onClick={handlePermissionsClick}
@@ -63,7 +62,7 @@ const UserMenu = () => {
                 <Settings className='h-4 w-4 text-gray-500' />
                 <span className='text-gray-700 dark:text-gray-300'>Quyền truy cập dữ liệu</span>
               </button>
-              
+
               <button
                 onClick={handleKnowledgeClick}
                 className='flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
@@ -76,7 +75,10 @@ const UserMenu = () => {
         </PopoverContent>
       </Popover>
 
-      <Dialog open={isPermissionsOpen} onOpenChange={setIsPermissionsOpen}>
+      <Dialog
+        open={isPermissionsOpen}
+        onOpenChange={setIsPermissionsOpen}
+      >
         <DialogContent className='max-w-md border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
           <DialogHeader>
             <DialogTitle className='text-gray-900 dark:text-gray-100'>
@@ -87,7 +89,10 @@ const UserMenu = () => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isKnowledgeOpen} onOpenChange={setIsKnowledgeOpen}>
+      <Dialog
+        open={isKnowledgeOpen}
+        onOpenChange={setIsKnowledgeOpen}
+      >
         <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
           <DialogHeader>
             <DialogTitle className='text-gray-900 dark:text-gray-100'>

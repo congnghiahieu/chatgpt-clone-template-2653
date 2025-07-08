@@ -89,12 +89,12 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
           >
             <Menu className='h-5 w-5' />
           </button>
-          
-          {isOpen ? (
+
+          {isOpen ?
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button 
+                  <button
                     onClick={handleNewChat}
                     className='flex items-center gap-2 rounded-lg px-3 py-1 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
                   >
@@ -106,11 +106,10 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ) : (
-            <TooltipProvider>
+          : <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button 
+                  <button
                     onClick={handleNewChat}
                     className='h-8 w-8 rounded-lg p-1 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
                   >
@@ -122,7 +121,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          )}
+          }
         </div>
 
         {/* Main content - only show when expanded */}
@@ -163,7 +162,9 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                         onClick={() => handleChatClick(item.id)}
                         className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
                       >
-                        <span className='text-sm text-gray-700 dark:text-gray-300'>{item.title}</span>
+                        <span className='text-sm text-gray-700 dark:text-gray-300'>
+                          {item.title}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -175,9 +176,9 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
 
         {/* Bottom section */}
         <div className='flex flex-col gap-2 border-t border-gray-200 py-2 dark:border-gray-700'>
-          <div className={cn('flex items-center', isOpen ? 'px-2 gap-2' : 'flex-col gap-2')}>
+          <div className={cn('flex items-center', isOpen ? 'gap-2 px-2' : 'flex-col gap-2')}>
             <UserMenu />
-            
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
