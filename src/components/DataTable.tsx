@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileSpreadsheet, FileText, File, Code, Copy } from 'lucide-react';
+import { Download, FileSpreadsheet, FileText, File, Code, Copy, Check } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
@@ -28,6 +28,7 @@ interface DataTableProps {
 
 const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   const [showSql, setShowSql] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const downloadData = (format: 'csv' | 'excel' | 'pdf') => {
     console.log(`Downloading data as ${format}`);
@@ -42,6 +43,8 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
     console.log('SQL đã được sao chép');
   };
 
@@ -108,7 +111,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
       </div>
 
       {showSql && sqlQuery && (
-        <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800'>
+        <div className='relative rounded-lg border border-gray-200 bg-slate-50 p-4 dark:border-gray-700 dark:bg-slate-900'>
           <div className='mb-2 flex items-center justify-between'>
             <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>SQL Query:</span>
             <Button
@@ -117,10 +120,14 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               onClick={() => copyToClipboard(sqlQuery)}
               className='h-6 w-6 p-0'
             >
-              <Copy className='h-3 w-3' />
+              {copied ? (
+                <Check className='h-3 w-3 text-green-500' />
+              ) : (
+                <Copy className='h-3 w-3' />
+              )}
             </Button>
           </div>
-          <pre className='whitespace-pre-wrap font-mono text-sm text-gray-800 dark:text-gray-200'>{sqlQuery}</pre>
+          <pre className='whitespace-pre-wrap font-mono text-sm text-gray-800 dark:text-gray-200 bg-white dark:bg-slate-800 p-3 rounded border'>{sqlQuery}</pre>
         </div>
       )}
 

@@ -138,7 +138,7 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar' }: DataChartP
         </TooltipProvider>
       </div>
 
-      <div className='h-80 w-full rounded-lg bg-white p-4 dark:bg-gray-800'>
+      <div className='h-80 w-full rounded-lg bg-slate-50 p-4 dark:bg-slate-800'>
         <ResponsiveContainer
           width='100%'
           height='100%'

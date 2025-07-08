@@ -1,5 +1,4 @@
-
-import { Menu, LogOut, Database, Plus } from 'lucide-react';
+import { Menu, LogOut, Database, Edit3, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +13,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import KnowledgeUpload from './KnowledgeUpload';
 import ThemeToggle from './ThemeToggle';
+import UserMenu from './UserMenu';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -80,7 +80,8 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
         isOpen ? 'w-64' : 'w-16',
       )}
     >
-      <nav className={cn('flex h-full flex-col px-3', isOpen ? 'w-64' : 'w-16')}>
+      <nav className={cn('flex h-full flex-col', isOpen ? 'px-3' : 'px-2')}>
+        {/* Top section */}
         <div className='flex h-[60px] items-center justify-between'>
           <button
             onClick={onToggle}
@@ -89,7 +90,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
             <Menu className='h-5 w-5' />
           </button>
           
-          {isOpen && (
+          {isOpen ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -97,7 +98,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                     onClick={handleNewChat}
                     className='flex items-center gap-2 rounded-lg px-3 py-1 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
                   >
-                    <Plus className='h-4 w-4 text-gray-600 dark:text-gray-400' />
+                    <Edit3 className='h-4 w-4 text-gray-600 dark:text-gray-400' />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -105,9 +106,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          )}
-          
-          {!isOpen && (
+          ) : (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -115,7 +114,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                     onClick={handleNewChat}
                     className='h-8 w-8 rounded-lg p-1 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
                   >
-                    <Plus className='h-4 w-4' />
+                    <Edit3 className='h-4 w-4' />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -126,53 +125,59 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
           )}
         </div>
 
-        <div className={cn('relative -mr-2 flex-1 flex-col overflow-y-auto pr-2 transition-opacity duration-500', !isOpen && 'hidden')}>
-          <div className='bg-white pt-0 dark:bg-gray-900'>
-            <div className='flex flex-col gap-2 px-2 py-2'>
-              <Dialog
-                open={isKnowledgeOpen}
-                onOpenChange={setIsKnowledgeOpen}
-              >
-                <DialogTrigger asChild>
-                  <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'>
-                    <Database className='h-4 w-4' />
-                    <span className='text-sm'>Cung cấp Knowledge Base</span>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
-                  <DialogHeader>
-                    <DialogTitle className='text-gray-900 dark:text-gray-100'>
-                      Cung cấp Knowledge Base
-                    </DialogTitle>
-                  </DialogHeader>
-                  <KnowledgeUpload />
-                </DialogContent>
-              </Dialog>
-            </div>
-
-            <div className='mt-4 flex flex-col gap-4'>
-              {timeframes.map((timeframe) => (
-                <div key={timeframe.title}>
-                  <div className='px-3 py-2 text-xs text-gray-500 dark:text-gray-400'>
-                    {timeframe.title}
-                  </div>
-                  {timeframe.items.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleChatClick(item.id)}
-                      className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
-                    >
-                      <span className='text-sm text-gray-700 dark:text-gray-300'>{item.title}</span>
+        {/* Main content - only show when expanded */}
+        {isOpen && (
+          <div className='relative -mr-2 flex-1 flex-col overflow-y-auto pr-2 transition-opacity duration-500'>
+            <div className='bg-white pt-0 dark:bg-gray-900'>
+              <div className='flex flex-col gap-2 px-2 py-2'>
+                <Dialog
+                  open={isKnowledgeOpen}
+                  onOpenChange={setIsKnowledgeOpen}
+                >
+                  <DialogTrigger asChild>
+                    <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'>
+                      <FileText className='h-4 w-4' />
+                      <span className='text-sm'>Cung cấp Knowledge Base</span>
                     </div>
-                  ))}
-                </div>
-              ))}
+                  </DialogTrigger>
+                  <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
+                    <DialogHeader>
+                      <DialogTitle className='text-gray-900 dark:text-gray-100'>
+                        Cung cấp Knowledge Base
+                      </DialogTitle>
+                    </DialogHeader>
+                    <KnowledgeUpload />
+                  </DialogContent>
+                </Dialog>
+              </div>
+
+              <div className='mt-4 flex flex-col gap-4'>
+                {timeframes.map((timeframe) => (
+                  <div key={timeframe.title}>
+                    <div className='px-3 py-2 text-xs text-gray-500 dark:text-gray-400'>
+                      {timeframe.title}
+                    </div>
+                    {timeframe.items.map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleChatClick(item.id)}
+                        className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
+                      >
+                        <span className='text-sm text-gray-700 dark:text-gray-300'>{item.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
+        {/* Bottom section */}
         <div className='flex flex-col gap-2 border-t border-gray-200 py-2 dark:border-gray-700'>
-          <div className={cn('flex items-center px-2', isOpen ? 'justify-between' : 'flex-col gap-2')}>
+          <div className={cn('flex items-center', isOpen ? 'px-2 gap-2' : 'flex-col gap-2')}>
+            <UserMenu />
+            
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

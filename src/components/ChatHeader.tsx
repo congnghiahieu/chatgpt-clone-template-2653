@@ -1,6 +1,4 @@
 
-import UserMenu from './UserMenu';
-
 interface ChatHeaderProps {
   isSidebarOpen?: boolean;
 }
@@ -16,7 +14,6 @@ const ChatHeader = ({ isSidebarOpen = true }: ChatHeaderProps) => {
             VPBank Text2SQL
           </span>
         </div>
-        <UserMenu />
       </div>
     </div>
   );
