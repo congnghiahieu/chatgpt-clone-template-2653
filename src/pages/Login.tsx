@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -38,8 +37,8 @@ const Login = () => {
   };
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 px-4'>
-      <Card className='w-full max-w-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg'>
+    <div className='flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-900'>
+      <Card className='w-full max-w-md border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800'>
         <CardHeader className='space-y-1'>
           <CardTitle className='text-center text-2xl font-bold text-gray-900 dark:text-gray-100'>
             VPBank Text2SQL
@@ -49,9 +48,15 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className='space-y-4'>
+          <form
+            onSubmit={handleLogin}
+            className='space-y-4'
+          >
             <div className='space-y-2'>
-              <Label htmlFor='username' className='text-gray-700 dark:text-gray-300'>
+              <Label
+                htmlFor='username'
+                className='text-gray-700 dark:text-gray-300'
+              >
                 Tên đăng nhập
               </Label>
               <Input
@@ -61,11 +66,14 @@ const Login = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 disabled={isLoading}
-                className='bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400'
+                className='border-gray-300 bg-gray-50 text-gray-900 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:border-blue-400'
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='password' className='text-gray-700 dark:text-gray-300'>
+              <Label
+                htmlFor='password'
+                className='text-gray-700 dark:text-gray-300'
+              >
                 Mật khẩu
               </Label>
               <Input
@@ -75,12 +83,12 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                className='bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400'
+                className='border-gray-300 bg-gray-50 text-gray-900 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:border-blue-400'
               />
             </div>
             <Button
               type='submit'
-              className='w-full bg-blue-500 hover:bg-blue-600 text-white font-medium'
+              className='w-full bg-blue-500 font-medium text-white hover:bg-blue-600'
               disabled={isLoading}
             >
               {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}

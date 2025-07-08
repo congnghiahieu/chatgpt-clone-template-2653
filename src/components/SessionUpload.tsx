@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { Paperclip, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,16 +13,17 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    
+
     if (files.length === 0) return;
 
     // Validate file types
-    const validFiles = files.filter(file => 
-      file.name.endsWith('.xlsx') || 
-      file.name.endsWith('.xls') || 
-      file.name.endsWith('.csv') ||
-      file.name.endsWith('.pdf') ||
-      file.type.startsWith('image/')
+    const validFiles = files.filter(
+      (file) =>
+        file.name.endsWith('.xlsx') ||
+        file.name.endsWith('.xls') ||
+        file.name.endsWith('.csv') ||
+        file.name.endsWith('.pdf') ||
+        file.type.startsWith('image/'),
     );
 
     if (validFiles.length !== files.length) {
@@ -33,7 +33,7 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
 
     setSelectedFiles(validFiles);
     onFileUpload(validFiles);
-    
+
     console.log(`Đã tải lên ${validFiles.length} file cho session này`);
 
     // Reset input
@@ -74,15 +74,18 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
             <p>Upload Knowledge Base</p>
           </TooltipContent>
         </Tooltip>
-        
+
         {selectedFiles.length > 0 && (
-          <div className='absolute bottom-full left-0 mb-2 min-w-48 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-2 shadow-md'>
-            <div className='text-xs font-medium text-gray-600 dark:text-gray-300 mb-1'>
+          <div className='absolute bottom-full left-0 mb-2 min-w-48 rounded-lg border border-gray-200 bg-white p-2 shadow-md dark:border-gray-700 dark:bg-gray-800'>
+            <div className='mb-1 text-xs font-medium text-gray-600 dark:text-gray-300'>
               Files trong session:
             </div>
             {selectedFiles.map((file, index) => (
-              <div key={index} className='flex items-center justify-between py-1'>
-                <span className='text-xs truncate max-w-32 text-gray-700 dark:text-gray-300'>
+              <div
+                key={index}
+                className='flex items-center justify-between py-1'
+              >
+                <span className='max-w-32 truncate text-xs text-gray-700 dark:text-gray-300'>
                   {file.name}
                 </span>
                 <Button

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Copy, Download, Code, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,16 +28,16 @@ const MessageActions = () => {
 
   return (
     <TooltipProvider>
-      <div className="flex items-center gap-1 mt-2">
+      <div className='mt-2 flex items-center gap-1'>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="ghost"
-              size="sm"
+              variant='ghost'
+              size='sm'
               onClick={handleCopy}
-              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <Copy className="h-4 w-4" />
+              <Copy className='h-4 w-4' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -49,12 +48,12 @@ const MessageActions = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="ghost"
-              size="sm"
+              variant='ghost'
+              size='sm'
               onClick={handleDownload}
-              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <Download className="h-4 w-4" />
+              <Download className='h-4 w-4' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -65,12 +64,12 @@ const MessageActions = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="ghost"
-              size="sm"
+              variant='ghost'
+              size='sm'
               onClick={handleToggleSQL}
-              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <Code className="h-4 w-4" />
+              <Code className='h-4 w-4' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -81,12 +80,12 @@ const MessageActions = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="ghost"
-              size="sm"
+              variant='ghost'
+              size='sm'
               onClick={handleChangeChartType}
-              className="h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <BarChart3 className="h-4 w-4" />
+              <BarChart3 className='h-4 w-4' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

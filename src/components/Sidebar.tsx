@@ -1,10 +1,15 @@
-
 import { Menu, LogOut, Database } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import KnowledgeUpload from './KnowledgeUpload';
 import ThemeToggle from './ThemeToggle';
@@ -18,13 +23,13 @@ interface SidebarProps {
 const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
   const navigate = useNavigate();
   const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
-  
+
   const timeframes = [
     {
       title: 'Hôm qua',
       items: [
         { id: 'chat1', title: 'Top 10 khách hàng có số dư cao nhất' },
-        { id: 'chat2', title: 'Báo cáo tăng trưởng CASA' }
+        { id: 'chat2', title: 'Báo cáo tăng trưởng CASA' },
       ],
     },
     {
@@ -63,7 +68,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
   return (
     <div
       className={cn(
-        'fixed left-0 top-0 z-40 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out',
+        'fixed left-0 top-0 z-40 h-screen border-r border-gray-200 bg-white transition-all duration-300 ease-in-out dark:border-gray-700 dark:bg-gray-900',
         isOpen ? 'w-64' : 'w-0 overflow-hidden',
       )}
     >
@@ -71,11 +76,11 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
         <div className='flex h-[60px] items-center justify-between'>
           <button
             onClick={onToggle}
-            className='text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 h-10 rounded-lg px-2 transition-colors'
+            className='h-10 rounded-lg px-2 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
           >
             <Menu className='h-5 w-5' />
           </button>
-          <button className='hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2 rounded-lg px-3 py-1 text-sm transition-colors'>
+          <button className='flex items-center gap-2 rounded-lg px-3 py-1 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'>
             <svg
               width='24'
               height='24'
@@ -93,16 +98,19 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
         </div>
 
         <div className='relative -mr-2 flex-1 flex-col overflow-y-auto pr-2 transition-opacity duration-500'>
-          <div className='bg-white dark:bg-gray-900 pt-0'>
+          <div className='bg-white pt-0 dark:bg-gray-900'>
             <div className='flex flex-col gap-2 px-2 py-2'>
-              <Dialog open={isKnowledgeOpen} onOpenChange={setIsKnowledgeOpen}>
+              <Dialog
+                open={isKnowledgeOpen}
+                onOpenChange={setIsKnowledgeOpen}
+              >
                 <DialogTrigger asChild>
-                  <div className='hover:bg-gray-100 dark:hover:bg-gray-800 group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors text-gray-700 dark:text-gray-300'>
+                  <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'>
                     <Database className='h-4 w-4' />
                     <span className='text-sm'>Quản lý Knowledge Base</span>
                   </div>
                 </DialogTrigger>
-                <DialogContent className='max-w-4xl max-h-[80vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'>
+                <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
                   <DialogHeader>
                     <DialogTitle className='text-gray-900 dark:text-gray-100'>
                       Quản lý Knowledge Base
@@ -123,11 +131,9 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
                     <div
                       key={item.id}
                       onClick={() => handleChatClick(item.id)}
-                      className='hover:bg-gray-100 dark:hover:bg-gray-800 group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors'
+                      className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
                     >
-                      <span className='text-sm text-gray-700 dark:text-gray-300'>
-                        {item.title}
-                      </span>
+                      <span className='text-sm text-gray-700 dark:text-gray-300'>{item.title}</span>
                     </div>
                   ))}
                 </div>
@@ -136,7 +142,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
           </div>
         </div>
 
-        <div className='flex flex-col border-t border-gray-200 dark:border-gray-700 py-2 gap-2'>
+        <div className='flex flex-col gap-2 border-t border-gray-200 py-2 dark:border-gray-700'>
           <div className='flex items-center justify-between px-2'>
             <TooltipProvider>
               <Tooltip>
@@ -145,7 +151,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
                     variant='ghost'
                     size='sm'
                     onClick={handleLogout}
-                    className='h-8 w-8 p-0 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
+                    className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
                   >
                     <LogOut className='h-4 w-4' />
                   </Button>
@@ -155,7 +161,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            
+
             <ThemeToggle />
           </div>
         </div>

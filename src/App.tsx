@@ -1,4 +1,3 @@
-
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -23,7 +22,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="dark" storageKey="vp-ui-theme">
+    <ThemeProvider
+      defaultTheme='dark'
+      storageKey='vp-ui-theme'
+    >
       <TooltipProvider>
         <Toaster />
         <Sonner />

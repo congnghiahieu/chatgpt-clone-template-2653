@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
@@ -27,7 +26,7 @@ type Message = {
 };
 
 const Index = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
@@ -43,13 +42,32 @@ const Index = () => {
           type: 'table',
           tableData: {
             data: [
-              { STT: 1, CIF: 'KH001', 'Tên khách hàng': 'Nguyễn Văn A', 'Số dư (VND)': '15,500,000,000', 'Chi nhánh': 'Hà Nội' },
-              { STT: 2, CIF: 'KH002', 'Tên khách hàng': 'Trần Thị B', 'Số dư (VND)': '12,800,000,000', 'Chi nhánh': 'TP.HCM' },
-              { STT: 3, CIF: 'KH003', 'Tên khách hàng': 'Lê Văn C', 'Số dư (VND)': '11,200,000,000', 'Chi nhánh': 'Đà Nẵng' },
+              {
+                STT: 1,
+                CIF: 'KH001',
+                'Tên khách hàng': 'Nguyễn Văn A',
+                'Số dư (VND)': '15,500,000,000',
+                'Chi nhánh': 'Hà Nội',
+              },
+              {
+                STT: 2,
+                CIF: 'KH002',
+                'Tên khách hàng': 'Trần Thị B',
+                'Số dư (VND)': '12,800,000,000',
+                'Chi nhánh': 'TP.HCM',
+              },
+              {
+                STT: 3,
+                CIF: 'KH003',
+                'Tên khách hàng': 'Lê Văn C',
+                'Số dư (VND)': '11,200,000,000',
+                'Chi nhánh': 'Đà Nẵng',
+              },
             ],
             columns: ['STT', 'CIF', 'Tên khách hàng', 'Số dư (VND)', 'Chi nhánh'],
             title: 'Top 10 khách hàng có số dư cao nhất',
-            sqlQuery: 'SELECT TOP 10 cif, customer_name, balance_vnd, branch FROM customer_deposits ORDER BY balance_vnd DESC',
+            sqlQuery:
+              'SELECT TOP 10 cif, customer_name, balance_vnd, branch FROM customer_deposits ORDER BY balance_vnd DESC',
           },
         },
       },
@@ -93,7 +111,8 @@ const Index = () => {
 
       let assistantMessage: Message = {
         role: 'assistant',
-        content: 'Tôi là VPBank Text2SQL Assistant. Tôi có thể giúp bạn truy vấn dữ liệu theo phân quyền của bạn.',
+        content:
+          'Tôi là VPBank Text2SQL Assistant. Tôi có thể giúp bạn truy vấn dữ liệu theo phân quyền của bạn.',
       };
 
       // Mock different types of responses based on keywords
@@ -204,7 +223,9 @@ ORDER BY balance_vnd DESC`,
         onChatSelect={handleChatSelect}
       />
 
-      <main className={`flex-1 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
+      <main
+        className={`flex-1 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}
+      >
         <ChatHeader isSidebarOpen={isSidebarOpen} />
 
         <div
