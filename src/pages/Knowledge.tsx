@@ -19,7 +19,7 @@ const Knowledge = ({ onBack }: KnowledgeProps) => {
           <ArrowLeft className='mr-2 h-4 w-4' />
           Quay lại chat
         </Button>
-        <h1 className='text-xl font-semibold'>Quản lý Knowledge Base</h1>
+        <h1 className='text-xl font-semibold'>Quản lý kiến thức</h1>
       </div>
 
       <div className='flex-1 overflow-y-auto p-6'>

@@ -71,7 +71,7 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Upload Knowledge Base</p>
+            <p>Tải lên kiến thức</p>
           </TooltipContent>
         </Tooltip>
 

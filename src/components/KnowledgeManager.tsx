@@ -112,7 +112,7 @@ const KnowledgeManager = () => {
       <div className='flex items-center justify-between'>
         <div>
           <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
-            Knowledge Base đã tải lên
+            Kiến thức đã tải lên
           </h3>
           <p className='text-sm text-gray-500 dark:text-gray-400'>
             Quản lý các file kiến thức của bạn
@@ -126,13 +126,13 @@ const KnowledgeManager = () => {
           <DialogTrigger asChild>
             <Button className='bg-blue-500 text-white hover:bg-blue-600'>
               <Plus className='mr-2 h-4 w-4' />
-              Tải lên Knowledge mới
+              Tải lên kiến thức mới
             </Button>
           </DialogTrigger>
           <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
             <DialogHeader>
               <DialogTitle className='text-gray-900 dark:text-gray-100'>
-                Tải lên Knowledge Base mới
+                Tải lên kiến thức mới
               </DialogTitle>
             </DialogHeader>
             <KnowledgeUpload />
@@ -241,10 +241,10 @@ const KnowledgeManager = () => {
         <div className='py-12 text-center'>
           <Upload className='mx-auto h-12 w-12 text-gray-400' />
           <h3 className='mt-2 text-sm font-medium text-gray-900 dark:text-gray-100'>
-            Chưa có Knowledge Base nào
+            Chưa có kiến thức nào
           </h3>
           <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
-            Tải lên file đầu tiên để bắt đầu xây dựng Knowledge Base
+            Tải lên file đầu tiên để bắt đầu xây dựng kiến thức
           </p>
         </div>
       )}

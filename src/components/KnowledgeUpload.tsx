@@ -78,12 +78,12 @@ const KnowledgeUpload = () => {
         <CardHeader>
           <CardTitle className='flex items-center gap-2 text-gray-900 dark:text-gray-100'>
             <Upload className='h-5 w-5' />
-            Quản lý Knowledge Base
+            Thêm kiến thức
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
           <div>
-            <Label className='text-gray-700 dark:text-gray-300'>Upload file định nghĩa</Label>
+            <Label className='text-gray-700 dark:text-gray-300'>Đăng tải file định nghĩa</Label>
             <div className='mt-2 flex gap-2'>
               <Input
                 ref={fileInputRef}

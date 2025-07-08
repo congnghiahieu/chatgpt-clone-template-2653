@@ -1,4 +1,4 @@
-import { Menu, LogOut, Database, Edit3, FileText } from 'lucide-react';
+import { Menu, LogOut, Database, SquarePen, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -98,7 +98,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                     onClick={handleNewChat}
                     className='flex items-center gap-2 rounded-lg px-3 py-1 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
                   >
-                    <Edit3 className='h-4 w-4 text-gray-600 dark:text-gray-400' />
+                    <SquarePen className='h-4 w-4 text-gray-600 dark:text-gray-400' />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                     onClick={handleNewChat}
                     className='h-8 w-8 rounded-lg p-1 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
                   >
-                    <Edit3 className='h-4 w-4' />
+                    <SquarePen className='h-4 w-4' />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -136,13 +136,13 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                   <DialogTrigger asChild>
                     <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'>
                       <FileText className='h-4 w-4' />
-                      <span className='text-sm'>Cung cấp Knowledge Base</span>
+                      <span className='text-sm'>Cung cấp kiến thức</span>
                     </div>
                   </DialogTrigger>
                   <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
                     <DialogHeader>
                       <DialogTitle className='text-gray-900 dark:text-gray-100'>
-                        Cung cấp Knowledge Base
+                        Cung cấp kiến thức
                       </DialogTitle>
                     </DialogHeader>
                     <KnowledgeUpload />
@@ -178,7 +178,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
         <div className='flex flex-col gap-2 border-t border-gray-200 py-2 dark:border-gray-700'>
           <div className={cn('flex items-center', isOpen ? 'gap-2 px-2' : 'flex-col gap-2')}>
             <UserMenu />
-
+            <ThemeToggle />
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -196,8 +196,6 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-
-            <ThemeToggle />
           </div>
         </div>
       </nav>
