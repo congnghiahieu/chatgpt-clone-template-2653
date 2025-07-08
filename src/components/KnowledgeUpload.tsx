@@ -1,3 +1,4 @@
+
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Upload, FileSpreadsheet, Plus, Minus } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 
 interface KnowledgeRule {
   id: string;
@@ -18,28 +18,20 @@ const KnowledgeUpload = () => {
   const [rules, setRules] = useState<KnowledgeRule[]>([]);
   const [newRule, setNewRule] = useState({ concept: '', definition: '', formula: '' });
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
-      toast({
-        title: 'Lỗi',
-        description: 'Chỉ hỗ trợ file Excel (.xlsx, .xls)',
-        variant: 'destructive',
-      });
+    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls') && !file.name.endsWith('.csv') && !file.name.endsWith('.pdf')) {
+      console.log('Chỉ hỗ trợ file Excel (.xlsx, .xls), CSV và PDF');
       return;
     }
 
     // Simulate file processing
-    toast({
-      title: 'Thành công',
-      description: `Đã tải lên file ${file.name} thành công. Đang xử lý...`,
-    });
+    console.log(`Đã tải lên file ${file.name} thành công. Đang xử lý...`);
 
-    // In real implementation, this would parse Excel and extract knowledge rules
+    // In real implementation, this would parse files and extract knowledge rules
     setTimeout(() => {
       const mockRules: KnowledgeRule[] = [
         {
@@ -50,20 +42,13 @@ const KnowledgeUpload = () => {
         },
       ];
       setRules((prev) => [...prev, ...mockRules]);
-      toast({
-        title: 'Hoàn thành',
-        description: 'Đã import thành công các định nghĩa từ file Excel',
-      });
+      console.log('Đã import thành công các định nghĩa từ file');
     }, 2000);
   };
 
   const addRule = () => {
     if (!newRule.concept || !newRule.definition) {
-      toast({
-        title: 'Lỗi',
-        description: 'Vui lòng nhập đầy đủ thông tin',
-        variant: 'destructive',
-      });
+      console.log('Vui lòng nhập đầy đủ thông tin');
       return;
     }
 
@@ -76,10 +61,7 @@ const KnowledgeUpload = () => {
 
     setRules((prev) => [...prev, rule]);
     setNewRule({ concept: '', definition: '', formula: '' });
-    toast({
-      title: 'Thành công',
-      description: 'Đã thêm định nghĩa mới',
-    });
+    console.log('Đã thêm định nghĩa mới');
   };
 
   const removeRule = (id: string) => {
@@ -88,59 +70,66 @@ const KnowledgeUpload = () => {
 
   return (
     <div className='space-y-6'>
-      <Card>
+      <Card className='bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'>
         <CardHeader>
-          <CardTitle className='flex items-center gap-2'>
+          <CardTitle className='flex items-center gap-2 text-gray-900 dark:text-gray-100'>
             <Upload className='h-5 w-5' />
             Quản lý Knowledge Base
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
           <div>
-            <Label>Upload file Excel định nghĩa</Label>
+            <Label className='text-gray-700 dark:text-gray-300'>
+              Upload file định nghĩa
+            </Label>
             <div className='mt-2 flex gap-2'>
               <Input
                 ref={fileInputRef}
                 type='file'
-                accept='.xlsx,.xls'
+                accept='.xlsx,.xls,.csv,.pdf'
                 onChange={handleFileUpload}
                 className='hidden'
               />
               <Button
                 onClick={() => fileInputRef.current?.click()}
                 variant='outline'
-                className='flex-1'
+                className='flex-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600'
               >
                 <FileSpreadsheet className='mr-2 h-4 w-4' />
-                Chọn file Excel
+                Chọn file (Excel, CSV, PDF)
               </Button>
             </div>
-            <p className='mt-1 text-sm text-gray-500'>
-              File Excel cần có các cột: Khái niệm, Định nghĩa, Công thức
+            <p className='mt-1 text-sm text-gray-500 dark:text-gray-400'>
+              File cần có các cột: Khái niệm, Định nghĩa, Công thức
             </p>
           </div>
 
-          <div className='border-t pt-4'>
-            <Label>Hoặc thêm định nghĩa thủ công</Label>
+          <div className='border-t border-gray-200 dark:border-gray-600 pt-4'>
+            <Label className='text-gray-700 dark:text-gray-300'>
+              Hoặc thêm định nghĩa thủ công
+            </Label>
             <div className='mt-2 grid gap-3'>
               <Input
                 placeholder='Tên khái niệm (VD: Dư nợ tín dụng thông thường)'
                 value={newRule.concept}
                 onChange={(e) => setNewRule((prev) => ({ ...prev, concept: e.target.value }))}
+                className='bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100'
               />
               <Textarea
                 placeholder='Định nghĩa chi tiết'
                 value={newRule.definition}
                 onChange={(e) => setNewRule((prev) => ({ ...prev, definition: e.target.value }))}
+                className='bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100'
               />
               <Input
                 placeholder='Công thức tính (tuỳ chọn)'
                 value={newRule.formula}
                 onChange={(e) => setNewRule((prev) => ({ ...prev, formula: e.target.value }))}
+                className='bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100'
               />
               <Button
                 onClick={addRule}
-                className='flex items-center gap-2'
+                className='flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white'
               >
                 <Plus className='h-4 w-4' />
                 Thêm định nghĩa
@@ -151,23 +140,25 @@ const KnowledgeUpload = () => {
       </Card>
 
       {rules.length > 0 && (
-        <Card>
+        <Card className='bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'>
           <CardHeader>
-            <CardTitle>Danh sách định nghĩa đã có ({rules.length})</CardTitle>
+            <CardTitle className='text-gray-900 dark:text-gray-100'>
+              Danh sách định nghĩa đã có ({rules.length})
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='space-y-3'>
               {rules.map((rule) => (
                 <div
                   key={rule.id}
-                  className='rounded-lg border p-3'
+                  className='rounded-lg border border-gray-200 dark:border-gray-600 p-3 bg-white dark:bg-gray-700'
                 >
                   <div className='flex items-start justify-between'>
                     <div className='flex-1'>
-                      <h4 className='font-medium text-blue-600'>{rule.concept}</h4>
-                      <p className='mt-1 text-sm text-gray-600'>{rule.definition}</p>
+                      <h4 className='font-medium text-blue-600 dark:text-blue-400'>{rule.concept}</h4>
+                      <p className='mt-1 text-sm text-gray-600 dark:text-gray-300'>{rule.definition}</p>
                       {rule.formula && (
-                        <p className='mt-1 text-sm text-green-600'>
+                        <p className='mt-1 text-sm text-green-600 dark:text-green-400'>
                           <strong>Công thức:</strong> {rule.formula}
                         </p>
                       )}
@@ -176,7 +167,7 @@ const KnowledgeUpload = () => {
                       variant='ghost'
                       size='sm'
                       onClick={() => removeRule(rule.id)}
-                      className='text-red-500 hover:text-red-700'
+                      className='text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20'
                     >
                       <Minus className='h-4 w-4' />
                     </Button>

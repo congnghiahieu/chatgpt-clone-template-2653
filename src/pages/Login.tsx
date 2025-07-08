@@ -1,27 +1,22 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!username || !password) {
-      toast({
-        title: 'Lỗi',
-        description: 'Vui lòng nhập đầy đủ thông tin đăng nhập',
-        variant: 'destructive',
-      });
+      console.log('Vui lòng nhập đầy đủ thông tin đăng nhập');
       return;
     }
 
@@ -34,39 +29,31 @@ const Login = () => {
       // Store user info (in real app, this would be JWT token)
       localStorage.setItem('user', JSON.stringify({ username }));
 
-      toast({
-        title: 'Đăng nhập thành công',
-        description: `Chào mừng ${username}!`,
-      });
-
       navigate('/');
     } catch (error) {
-      toast({
-        title: 'Lỗi đăng nhập',
-        description: 'Tên đăng nhập hoặc mật khẩu không đúng',
-        variant: 'destructive',
-      });
+      console.log('Tên đăng nhập hoặc mật khẩu không đúng');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-background px-4'>
-      <Card className='w-full max-w-md'>
+    <div className='flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 px-4'>
+      <Card className='w-full max-w-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg'>
         <CardHeader className='space-y-1'>
-          <CardTitle className='text-center text-2xl font-bold'>VPBank Text2SQL</CardTitle>
-          <CardDescription className='text-center'>
+          <CardTitle className='text-center text-2xl font-bold text-gray-900 dark:text-gray-100'>
+            VPBank Text2SQL
+          </CardTitle>
+          <CardDescription className='text-center text-gray-600 dark:text-gray-400'>
             Đăng nhập để sử dụng hệ thống chatbot hỏi đáp dữ liệu
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleLogin}
-            className='space-y-4'
-          >
+          <form onSubmit={handleLogin} className='space-y-4'>
             <div className='space-y-2'>
-              <Label htmlFor='username'>Tên đăng nhập</Label>
+              <Label htmlFor='username' className='text-gray-700 dark:text-gray-300'>
+                Tên đăng nhập
+              </Label>
               <Input
                 id='username'
                 type='text'
@@ -74,10 +61,13 @@ const Login = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 disabled={isLoading}
+                className='bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400'
               />
             </div>
             <div className='space-y-2'>
-              <Label htmlFor='password'>Mật khẩu</Label>
+              <Label htmlFor='password' className='text-gray-700 dark:text-gray-300'>
+                Mật khẩu
+              </Label>
               <Input
                 id='password'
                 type='password'
@@ -85,18 +75,19 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
+                className='bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400'
               />
             </div>
             <Button
               type='submit'
-              className='w-full'
+              className='w-full bg-blue-500 hover:bg-blue-600 text-white font-medium'
               disabled={isLoading}
             >
               {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
           </form>
 
-          <div className='mt-6 text-center text-sm text-muted-foreground'>
+          <div className='mt-6 text-center text-sm text-gray-500 dark:text-gray-400'>
             <p>Hệ thống chatbot Text2SQL cho VPBank</p>
             <p className='mt-1'>Hỗ trợ truy vấn dữ liệu thông minh với phân quyền</p>
           </div>

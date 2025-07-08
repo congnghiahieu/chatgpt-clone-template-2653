@@ -2,7 +2,7 @@
 import { useState, useRef } from 'react';
 import { Paperclip, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface SessionUploadProps {
   onFileUpload: (files: File[]) => void;
@@ -11,7 +11,6 @@ interface SessionUploadProps {
 const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
@@ -23,25 +22,19 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
       file.name.endsWith('.xlsx') || 
       file.name.endsWith('.xls') || 
       file.name.endsWith('.csv') ||
-      file.name.endsWith('.txt')
+      file.name.endsWith('.pdf') ||
+      file.type.startsWith('image/')
     );
 
     if (validFiles.length !== files.length) {
-      toast({
-        title: 'Lỗi',
-        description: 'Chỉ hỗ trợ file Excel, CSV, TXT',
-        variant: 'destructive',
-      });
+      console.log('Chỉ hỗ trợ file Excel, CSV, PDF và ảnh');
       return;
     }
 
     setSelectedFiles(validFiles);
     onFileUpload(validFiles);
     
-    toast({
-      title: 'Thành công',
-      description: `Đã tải lên ${validFiles.length} file cho session này`,
-    });
+    console.log(`Đã tải lên ${validFiles.length} file cho session này`);
 
     // Reset input
     if (fileInputRef.current) {
@@ -56,46 +49,56 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
   };
 
   return (
-    <div className='relative'>
-      <input
-        ref={fileInputRef}
-        type='file'
-        multiple
-        accept='.xlsx,.xls,.csv,.txt'
-        onChange={handleFileSelect}
-        className='hidden'
-      />
-      <Button
-        variant='ghost'
-        size='sm'
-        onClick={() => fileInputRef.current?.click()}
-        className='h-8 w-8 p-0'
-        title='Upload file cho session này'
-      >
-        <Paperclip className='h-4 w-4' />
-      </Button>
-      
-      {selectedFiles.length > 0 && (
-        <div className='absolute bottom-full left-0 mb-2 min-w-48 rounded-lg border bg-background p-2 shadow-md'>
-          <div className='text-xs font-medium text-muted-foreground mb-1'>
-            Files trong session:
-          </div>
-          {selectedFiles.map((file, index) => (
-            <div key={index} className='flex items-center justify-between py-1'>
-              <span className='text-xs truncate max-w-32'>{file.name}</span>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={() => removeFile(index)}
-                className='h-4 w-4 p-0'
-              >
-                <X className='h-3 w-3' />
-              </Button>
+    <TooltipProvider>
+      <div className='relative'>
+        <input
+          ref={fileInputRef}
+          type='file'
+          multiple
+          accept='.xlsx,.xls,.csv,.pdf,image/*'
+          onChange={handleFileSelect}
+          className='hidden'
+        />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={() => fileInputRef.current?.click()}
+              className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+            >
+              <Paperclip className='h-4 w-4' />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Upload Knowledge Base</p>
+          </TooltipContent>
+        </Tooltip>
+        
+        {selectedFiles.length > 0 && (
+          <div className='absolute bottom-full left-0 mb-2 min-w-48 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-2 shadow-md'>
+            <div className='text-xs font-medium text-gray-600 dark:text-gray-300 mb-1'>
+              Files trong session:
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+            {selectedFiles.map((file, index) => (
+              <div key={index} className='flex items-center justify-between py-1'>
+                <span className='text-xs truncate max-w-32 text-gray-700 dark:text-gray-300'>
+                  {file.name}
+                </span>
+                <Button
+                  variant='ghost'
+                  size='sm'
+                  onClick={() => removeFile(index)}
+                  className='h-4 w-4 p-0 text-gray-500 hover:text-red-500'
+                >
+                  <X className='h-3 w-3' />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </TooltipProvider>
   );
 };
 
