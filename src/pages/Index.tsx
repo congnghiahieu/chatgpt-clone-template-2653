@@ -3,9 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
 import ChatInput from '@/components/ChatInput';
-import ActionButtons from '@/components/ActionButtons';
 import MessageList from '@/components/MessageList';
-import Knowledge from './Knowledge';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -32,8 +30,53 @@ const Index = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [showKnowledge, setShowKnowledge] = useState(false);
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const { toast } = useToast();
+
+  // Mock chat sessions
+  const mockChatSessions: Record<string, Message[]> = {
+    chat1: [
+      { role: 'user', content: 'Cho tôi xem top 10 khách hàng có số dư cao nhất' },
+      {
+        role: 'assistant',
+        content: 'Đây là danh sách 10 khách hàng có số dư tiền gửi VND cao nhất:',
+        data: {
+          type: 'table',
+          tableData: {
+            data: [
+              { STT: 1, CIF: 'KH001', 'Tên khách hàng': 'Nguyễn Văn A', 'Số dư (VND)': '15,500,000,000', 'Chi nhánh': 'Hà Nội' },
+              { STT: 2, CIF: 'KH002', 'Tên khách hàng': 'Trần Thị B', 'Số dư (VND)': '12,800,000,000', 'Chi nhánh': 'TP.HCM' },
+              { STT: 3, CIF: 'KH003', 'Tên khách hàng': 'Lê Văn C', 'Số dư (VND)': '11,200,000,000', 'Chi nhánh': 'Đà Nẵng' },
+            ],
+            columns: ['STT', 'CIF', 'Tên khách hàng', 'Số dư (VND)', 'Chi nhánh'],
+            title: 'Top 10 khách hàng có số dư cao nhất',
+            sqlQuery: 'SELECT TOP 10 cif, customer_name, balance_vnd, branch FROM customer_deposits ORDER BY balance_vnd DESC',
+          },
+        },
+      },
+    ],
+    chat2: [
+      { role: 'user', content: 'Báo cáo tăng trưởng CASA' },
+      {
+        role: 'assistant',
+        content: 'Dưới đây là biểu đồ tăng trưởng CASA:',
+        data: {
+          type: 'chart',
+          chartData: {
+            data: [
+              { month: 'T1', growth: 12.5 },
+              { month: 'T2', growth: 15.2 },
+              { month: 'T3', growth: 18.7 },
+            ],
+            title: 'Tăng trưởng CASA theo tháng',
+            xAxisKey: 'month',
+            yAxisKey: 'growth',
+            type: 'bar' as const,
+          },
+        },
+      },
+    ],
+  };
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) {
@@ -49,13 +92,15 @@ const Index = () => {
 
     try {
       const newMessages = [...messages, { role: 'user', content } as const];
-
       setMessages(newMessages);
 
-      // Mock response with sample data visualization
+      // Mock response
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      let assistantMessage: Message;
+      let assistantMessage: Message = {
+        role: 'assistant',
+        content: 'Tôi là VPBank Text2SQL Bot. Tôi có thể giúp bạn truy vấn dữ liệu theo phân quyền của bạn.',
+      };
 
       // Mock different types of responses based on keywords
       if (content.toLowerCase().includes('biểu đồ') || content.toLowerCase().includes('chart')) {
@@ -154,16 +199,22 @@ ORDER BY balance_vnd DESC`,
     }
   };
 
-  if (showKnowledge) {
-    return <Knowledge onBack={() => setShowKnowledge(false)} />;
-  }
+  const handleChatSelect = (chatId: string) => {
+    setCurrentChatId(chatId);
+    const chatMessages = mockChatSessions[chatId] || [];
+    setMessages(chatMessages);
+    toast({
+      title: 'Đã chuyển đổi',
+      description: `Đã tải session chat: ${chatId}`,
+    });
+  };
 
   return (
     <div className='flex h-screen'>
       <Sidebar
         isOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-        onKnowledgeClick={() => setShowKnowledge(true)}
+        onChatSelect={handleChatSelect}
       />
 
       <main className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
@@ -186,7 +237,6 @@ ORDER BY balance_vnd DESC`,
                   isLoading={isLoading}
                 />
               </div>
-              <ActionButtons />
             </div>
           : <>
               <MessageList messages={messages} />

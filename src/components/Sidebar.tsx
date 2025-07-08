@@ -1,40 +1,50 @@
-import { Menu, Globe, LogOut, Settings, Database } from 'lucide-react';
+
+import { Menu, Globe, LogOut, Database } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import UserPermissions from './UserPermissions';
+import KnowledgeUpload from './KnowledgeUpload';
+import ThemeToggle from './ThemeToggle';
 
 interface SidebarProps {
   isOpen: boolean;
   onToggle: () => void;
-  onKnowledgeClick?: () => void;
+  onChatSelect?: (chatId: string) => void;
 }
 
-const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
+const Sidebar = ({ isOpen, onToggle, onChatSelect }: SidebarProps) => {
   const navigate = useNavigate();
+  const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
+  
   const timeframes = [
     {
       title: 'Hôm qua',
-      items: ['Top 10 khách hàng có số dư cao nhất', 'Báo cáo tăng trưởng CASA'],
+      items: [
+        { id: 'chat1', title: 'Top 10 khách hàng có số dư cao nhất' },
+        { id: 'chat2', title: 'Báo cáo tăng trưởng CASA' }
+      ],
     },
     {
       title: '7 ngày qua',
       items: [
-        'Phân tích dư nợ tín dụng theo chi nhánh',
-        'Thống kê khách hàng mới',
-        'So sánh hiệu suất kinh doanh',
-        'Báo cáo rủi ro tín dụng',
+        { id: 'chat3', title: 'Phân tích dư nợ tín dụng theo chi nhánh' },
+        { id: 'chat4', title: 'Thống kê khách hàng mới' },
+        { id: 'chat5', title: 'So sánh hiệu suất kinh doanh' },
+        { id: 'chat6', title: 'Báo cáo rủi ro tín dụng' },
       ],
     },
     {
       title: '30 ngày qua',
       items: [
-        'Dashboard tổng quan ngân hàng',
-        'Phân tích xu hướng tiền gửi',
-        'Báo cáo chất lượng tài sản',
-        'Thống kê sản phẩm dịch vụ',
-        'Phân tích khách hàng VIP',
+        { id: 'chat7', title: 'Dashboard tổng quan ngân hàng' },
+        { id: 'chat8', title: 'Phân tích xu hướng tiền gửi' },
+        { id: 'chat9', title: 'Báo cáo chất lượng tài sản' },
+        { id: 'chat10', title: 'Thống kê sản phẩm dịch vụ' },
+        { id: 'chat11', title: 'Phân tích khách hàng VIP' },
       ],
     },
   ];
@@ -42,6 +52,13 @@ const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
   const handleLogout = () => {
     localStorage.removeItem('user');
     navigate('/login');
+  };
+
+  const handleChatClick = (chatId: string) => {
+    console.log('Selected chat:', chatId);
+    if (onChatSelect) {
+      onChatSelect(chatId);
+    }
   };
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -85,12 +102,6 @@ const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
           {isOpen && (
             <>
               <UserPermissions username={user.username || 'user'} />
-              <div className='mb-4 p-2'>
-                <div className='mb-2 flex items-center gap-2'>
-                  <span className='text-sm font-medium'>VPBank Text2SQL</span>
-                </div>
-                <div className='text-xs text-gray-400'>Chatbot hỏi đáp dữ liệu thông minh</div>
-              </div>
             </>
           )}
 
@@ -100,15 +111,21 @@ const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
                 <Globe className='h-4 w-4' />
                 <span className='text-sm'>Truy vấn dữ liệu</span>
               </div>
-              {onKnowledgeClick && (
-                <div
-                  onClick={onKnowledgeClick}
-                  className='hover:bg-token-sidebar-surface-secondary group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2'
-                >
-                  <Database className='h-4 w-4' />
-                  <span className='text-sm'>Quản lý Knowledge Base</span>
-                </div>
-              )}
+              
+              <Dialog open={isKnowledgeOpen} onOpenChange={setIsKnowledgeOpen}>
+                <DialogTrigger asChild>
+                  <div className='hover:bg-token-sidebar-surface-secondary group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2'>
+                    <Database className='h-4 w-4' />
+                    <span className='text-sm'>Quản lý Knowledge Base</span>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className='max-w-4xl max-h-[80vh] overflow-y-auto'>
+                  <DialogHeader>
+                    <DialogTitle>Quản lý Knowledge Base</DialogTitle>
+                  </DialogHeader>
+                  <KnowledgeUpload />
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className='mt-4 flex flex-col gap-4'>
@@ -117,10 +134,11 @@ const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
                   <div className='px-3 py-2 text-xs text-gray-500'>{timeframe.title}</div>
                   {timeframe.items.map((item) => (
                     <div
-                      key={item}
+                      key={item.id}
+                      onClick={() => handleChatClick(item.id)}
                       className='hover:bg-token-sidebar-surface-secondary group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2'
                     >
-                      <span className='text-sm'>{item}</span>
+                      <span className='text-sm'>{item.title}</span>
                     </div>
                   ))}
                 </div>
@@ -130,15 +148,28 @@ const Sidebar = ({ isOpen, onToggle, onKnowledgeClick }: SidebarProps) => {
         </div>
 
         {isOpen && (
-          <div className='flex flex-col border-t border-white/20 py-2'>
-            <Button
-              variant='ghost'
-              onClick={handleLogout}
-              className='hover:bg-token-sidebar-surface-secondary group flex w-full min-w-[200px] items-start justify-start gap-2 rounded-lg p-2.5 px-2 text-left text-sm'
-            >
-              <LogOut className='h-4 w-4' />
-              <span>Đăng xuất</span>
-            </Button>
+          <div className='flex flex-col border-t border-white/20 py-2 gap-2'>
+            <div className='flex items-center justify-between px-2'>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      onClick={handleLogout}
+                      className='h-8 w-8 p-0'
+                    >
+                      <LogOut className='h-4 w-4' />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Đăng xuất</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              
+              <ThemeToggle />
+            </div>
           </div>
         )}
       </nav>
