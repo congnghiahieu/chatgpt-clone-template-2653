@@ -1,3 +1,4 @@
+
 import {
   BarChart,
   Bar,
@@ -15,6 +16,7 @@ import {
 } from 'recharts';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tooltip as TooltipUI, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -97,37 +99,46 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar' }: DataChartP
   return (
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
-        <h3 className='text-lg font-semibold'>{title}</h3>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant='outline'
-              size='sm'
-            >
-              {chartType === 'bar' && <BarChart3 className='mr-2 h-4 w-4' />}
-              {chartType === 'line' && <LineChartIcon className='mr-2 h-4 w-4' />}
-              {chartType === 'pie' && <PieChartIcon className='mr-2 h-4 w-4' />}
-              Loại biểu đồ
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => setChartType('bar')}>
-              <BarChart3 className='mr-2 h-4 w-4' />
-              Biểu đồ cột
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setChartType('line')}>
-              <LineChartIcon className='mr-2 h-4 w-4' />
-              Biểu đồ đường
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setChartType('pie')}>
-              <PieChartIcon className='mr-2 h-4 w-4' />
-              Biểu đồ tròn
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>{title}</h3>
+        <TooltipProvider>
+          <TooltipUI>
+            <TooltipTrigger asChild>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    className='h-8 w-8 p-0'
+                  >
+                    {chartType === 'bar' && <BarChart3 className='h-4 w-4' />}
+                    {chartType === 'line' && <LineChartIcon className='h-4 w-4' />}
+                    {chartType === 'pie' && <PieChartIcon className='h-4 w-4' />}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setChartType('bar')}>
+                    <BarChart3 className='mr-2 h-4 w-4' />
+                    Biểu đồ cột
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setChartType('line')}>
+                    <LineChartIcon className='mr-2 h-4 w-4' />
+                    Biểu đồ đường
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setChartType('pie')}>
+                    <PieChartIcon className='mr-2 h-4 w-4' />
+                    Biểu đồ tròn
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Loại biểu đồ</p>
+            </TooltipContent>
+          </TooltipUI>
+        </TooltipProvider>
       </div>
 
-      <div className='h-80 w-full rounded-lg bg-white p-4'>
+      <div className='h-80 w-full rounded-lg bg-white p-4 dark:bg-gray-800'>
         <ResponsiveContainer
           width='100%'
           height='100%'

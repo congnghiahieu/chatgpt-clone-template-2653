@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import {
   Table,
@@ -9,7 +10,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileSpreadsheet, FileText, File } from 'lucide-react';
+import { Download, FileSpreadsheet, FileText, File, Code, Copy } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,9 +30,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   const [showSql, setShowSql] = useState(false);
 
   const downloadData = (format: 'csv' | 'excel' | 'pdf') => {
-    // This would integrate with your backend to generate files
     console.log(`Downloading data as ${format}`);
-    // Simulate download
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -40,61 +40,96 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
     URL.revokeObjectURL(url);
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    console.log('SQL đã được sao chép');
+  };
+
   return (
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
-        <h3 className='text-lg font-semibold'>{title || 'Kết quả truy vấn'}</h3>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>{title || 'Kết quả truy vấn'}</h3>
         <div className='flex gap-2'>
           {sqlQuery && (
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={() => setShowSql(!showSql)}
-            >
-              {showSql ? 'Ẩn SQL' : 'Hiện SQL'}
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={() => setShowSql(!showSql)}
+                    className='h-8 w-8 p-0'
+                  >
+                    <Code className='h-4 w-4' />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{showSql ? 'Ẩn SQL' : 'Hiển thị SQL'}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant='outline'
-                size='sm'
-              >
-                <Download className='mr-2 h-4 w-4' />
-                Tải xuống
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => downloadData('csv')}>
-                <File className='mr-2 h-4 w-4' />
-                CSV
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => downloadData('excel')}>
-                <FileSpreadsheet className='mr-2 h-4 w-4' />
-                Excel
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => downloadData('pdf')}>
-                <FileText className='mr-2 h-4 w-4' />
-                PDF
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      className='h-8 w-8 p-0'
+                    >
+                      <Download className='h-4 w-4' />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => downloadData('csv')}>
+                      <File className='mr-2 h-4 w-4' />
+                      CSV
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadData('excel')}>
+                      <FileSpreadsheet className='mr-2 h-4 w-4' />
+                      Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadData('pdf')}>
+                      <FileText className='mr-2 h-4 w-4' />
+                      PDF
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Tải xuống</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
       {showSql && sqlQuery && (
-        <div className='rounded-lg bg-gray-900 p-4 font-mono text-sm text-green-400'>
-          <div className='mb-2 text-gray-400'>SQL Query:</div>
-          <pre className='whitespace-pre-wrap'>{sqlQuery}</pre>
+        <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800'>
+          <div className='mb-2 flex items-center justify-between'>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>SQL Query:</span>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={() => copyToClipboard(sqlQuery)}
+              className='h-6 w-6 p-0'
+            >
+              <Copy className='h-3 w-3' />
+            </Button>
+          </div>
+          <pre className='whitespace-pre-wrap font-mono text-sm text-gray-800 dark:text-gray-200'>{sqlQuery}</pre>
         </div>
       )}
 
-      <div className='rounded-lg border'>
+      <div className='rounded-lg border border-gray-200 dark:border-gray-700'>
         <Table>
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
-                <TableHead key={column}>{column}</TableHead>
+                <TableHead key={column} className='text-gray-900 dark:text-gray-100'>{column}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -102,12 +137,12 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
             {data.map((row, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
-                  <TableCell key={column}>{row[column]?.toString() || ''}</TableCell>
+                  <TableCell key={column} className='text-gray-700 dark:text-gray-300'>{row[column]?.toString() || ''}</TableCell>
                 ))}
               </TableRow>
             ))}
           </TableBody>
-          <TableCaption>Tổng cộng {data.length} bản ghi</TableCaption>
+          <TableCaption className='text-gray-500 dark:text-gray-400'>Tổng cộng {data.length} bản ghi</TableCaption>
         </Table>
       </div>
     </div>

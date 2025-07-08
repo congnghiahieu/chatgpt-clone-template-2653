@@ -1,3 +1,4 @@
+
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -9,7 +10,6 @@ import Login from './pages/Login';
 
 const queryClient = new QueryClient();
 
-// Simple auth check
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = localStorage.getItem('user');
   return user ? children : (
@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider
-      defaultTheme='dark'
+      defaultTheme='system'
       storageKey='vp-ui-theme'
     >
       <TooltipProvider>

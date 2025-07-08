@@ -1,3 +1,4 @@
+
 import UserMenu from './UserMenu';
 
 interface ChatHeaderProps {
@@ -10,7 +11,7 @@ const ChatHeader = ({ isSidebarOpen = true }: ChatHeaderProps) => {
       <div className='flex h-[60px] items-center justify-between px-4'>
         <div className='flex items-center gap-2'>
           <span
-            className={`font-semibold text-gray-900 dark:text-gray-100 ${!isSidebarOpen ? 'ml-24' : ''}`}
+            className={`font-semibold text-gray-900 dark:text-gray-100 ${!isSidebarOpen ? 'ml-12' : ''}`}
           >
             VPBank Text2SQL
           </span>
