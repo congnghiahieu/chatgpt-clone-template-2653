@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import {
   Table,
@@ -9,7 +10,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileSpreadsheet, FileText, File, Code, Copy, Check } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Download, FileSpreadsheet, FileText, File, Code, Copy, Check, ArrowUpDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
@@ -17,6 +19,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-sql';
+import 'prismjs/themes/prism.css';
 
 interface DataTableProps {
   data: any[];
@@ -28,10 +33,39 @@ interface DataTableProps {
 const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   const [showSql, setShowSql] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [filterText, setFilterText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Sort data
+  let sortedData = [...data];
+  if (sortColumn) {
+    sortedData.sort((a, b) => {
+      const aVal = a[sortColumn];
+      const bVal = b[sortColumn];
+      if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+      if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  // Filter data
+  const filteredData = sortedData.filter(row =>
+    columns.some(column =>
+      String(row[column]).toLowerCase().includes(filterText.toLowerCase())
+    )
+  );
+
+  // Paginate data
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   const downloadData = (format: 'csv' | 'excel' | 'pdf') => {
-    console.log(`Downloading data as ${format}`);
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    console.log(`Đang tải dữ liệu định dạng ${format}`);
+    const blob = new Blob([JSON.stringify(filteredData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -45,6 +79,19 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     console.log('SQL đã được sao chép');
+  };
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
+  const formatSQL = (sql: string) => {
+    return Prism.highlight(sql, Prism.languages.sql, 'sql');
   };
 
   return (
@@ -104,17 +151,36 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
                 </DropdownMenu>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Tải xuống</p>
+                <p>Tải xuống dữ liệu</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
       </div>
 
+      {/* Search and Filter */}
+      <div className='flex items-center gap-4'>
+        <div className='relative flex-1 max-w-sm'>
+          <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500' />
+          <Input
+            placeholder='Tìm kiếm trong bảng...'
+            value={filterText}
+            onChange={(e) => {
+              setFilterText(e.target.value);
+              setCurrentPage(1);
+            }}
+            className='pl-10'
+          />
+        </div>
+        <div className='text-sm text-gray-500'>
+          Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredData.length)} / {filteredData.length} bản ghi
+        </div>
+      </div>
+
       {showSql && sqlQuery && (
-        <div className='relative rounded-lg border border-gray-200 bg-slate-50 p-4 dark:border-gray-700 dark:bg-slate-900'>
+        <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900'>
           <div className='mb-2 flex items-center justify-between'>
-            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>SQL Query:</span>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>Truy vấn SQL:</span>
             <Button
               variant='ghost'
               size='sm'
@@ -126,8 +192,8 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               : <Copy className='h-3 w-3' />}
             </Button>
           </div>
-          <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-slate-800 dark:text-gray-200'>
-            {sqlQuery}
+          <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>
+            <code dangerouslySetInnerHTML={{ __html: formatSQL(sqlQuery) }} />
           </pre>
         </div>
       )}
@@ -139,15 +205,19 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               {columns.map((column) => (
                 <TableHead
                   key={column}
-                  className='text-gray-900 dark:text-gray-100'
+                  className='text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800'
+                  onClick={() => handleSort(column)}
                 >
-                  {column}
+                  <div className='flex items-center gap-2'>
+                    {column}
+                    <ArrowUpDown className='h-3 w-3' />
+                  </div>
                 </TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((row, index) => (
+            {paginatedData.map((row, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
                   <TableCell
@@ -161,10 +231,52 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
             ))}
           </TableBody>
           <TableCaption className='text-gray-500 dark:text-gray-400'>
-            Tổng cộng {data.length} bản ghi
+            Tổng cộng {filteredData.length} bản ghi
           </TableCaption>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className='flex items-center justify-between'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className='h-4 w-4 mr-1' />
+            Trước
+          </Button>
+          
+          <div className='flex items-center gap-2'>
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              const page = i + Math.max(1, currentPage - 2);
+              return (
+                <Button
+                  key={page}
+                  variant={currentPage === page ? 'default' : 'outline'}
+                  size='sm'
+                  onClick={() => setCurrentPage(page)}
+                  className='w-8 h-8 p-0'
+                >
+                  {page}
+                </Button>
+              );
+            })}
+          </div>
+
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Sau
+            <ChevronRight className='h-4 w-4 ml-1' />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

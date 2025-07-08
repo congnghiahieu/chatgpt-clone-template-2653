@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,17 +52,32 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-200;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-200;
   }
-}
+  
+  /* Synchronize theme transitions */
+  html {
+    @apply transition-colors duration-200;
+  }
+  
+  .sidebar-item {
+    @apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-3 text-sm transition-all duration-200 hover:bg-muted;
+  }
 
-.sidebar-item {
-  @apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800;
-}
+  .action-button {
+    @apply flex items-center gap-2 rounded-md border border-transparent px-3 py-2 text-sm transition-all duration-200 hover:border-border hover:bg-muted;
+  }
 
-.action-button {
-  @apply flex items-center gap-2 rounded-md border border-transparent px-3 py-2 text-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 dark:hover:border-gray-600 dark:hover:bg-gray-800;
+  /* Prism.js theme adjustments for dark mode */
+  .dark pre[class*="language-"] {
+    background: hsl(var(--muted)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark code[class*="language-"] {
+    color: hsl(var(--foreground)) !important;
+  }
 }

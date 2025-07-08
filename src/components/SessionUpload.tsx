@@ -1,5 +1,6 @@
+
 import { useState, useRef } from 'react';
-import { Paperclip, X } from 'lucide-react';
+import { FileText, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -27,14 +28,14 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
     );
 
     if (validFiles.length !== files.length) {
-      console.log('Chỉ hỗ trợ file Excel, CSV, PDF và ảnh');
+      console.log('Chỉ hỗ trợ tệp Excel, CSV, PDF và hình ảnh');
       return;
     }
 
     setSelectedFiles(validFiles);
     onFileUpload(validFiles);
 
-    console.log(`Đã tải lên ${validFiles.length} file cho session này`);
+    console.log(`Đã tải lên ${validFiles.length} tệp cho phiên này`);
 
     // Reset input
     if (fileInputRef.current) {
@@ -67,18 +68,18 @@ const SessionUpload = ({ onFileUpload }: SessionUploadProps) => {
               onClick={() => fileInputRef.current?.click()}
               className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <Paperclip className='h-4 w-4' />
+              <FileText className='h-4 w-4' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Tải lên kiến thức</p>
+            <p>Tải lên cơ sở kiến thức</p>
           </TooltipContent>
         </Tooltip>
 
         {selectedFiles.length > 0 && (
           <div className='absolute bottom-full left-0 mb-2 min-w-48 rounded-lg border border-gray-200 bg-white p-2 shadow-md dark:border-gray-700 dark:bg-gray-800'>
             <div className='mb-1 text-xs font-medium text-gray-600 dark:text-gray-300'>
-              Files trong session:
+              Tệp trong phiên:
             </div>
             {selectedFiles.map((file, index) => (
               <div
