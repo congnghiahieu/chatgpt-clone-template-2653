@@ -1,4 +1,3 @@
-
 import { Bot } from 'lucide-react';
 
 const EmptyChatState = () => {

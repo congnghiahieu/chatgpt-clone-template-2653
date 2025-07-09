@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   Table,
@@ -101,7 +100,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -109,12 +108,12 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
     } else {
       const start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
       const end = Math.min(totalPages, start + maxVisiblePages - 1);
-      
+
       for (let i = start; i <= end; i++) {
         pages.push(i);
       }
     }
-    
+
     return pages;
   };
 
@@ -214,11 +213,9 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               onClick={() => copyToClipboard(sqlQuery)}
               className='h-6 w-6 p-0'
             >
-              {copied ? (
+              {copied ?
                 <Check className='h-3 w-3 text-green-500' />
-              ) : (
-                <Copy className='h-3 w-3' />
-              )}
+              : <Copy className='h-3 w-3' />}
             </Button>
           </div>
           <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>

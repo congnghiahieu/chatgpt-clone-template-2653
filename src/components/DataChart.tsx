@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   ResponsiveContainer,
@@ -18,7 +17,12 @@ import {
 import { Download, Code, FileSpreadsheet, FileText, File, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip as UITooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -88,16 +92,16 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               labelStyle={{ color: '#333' }}
               formatter={(value, name) => {
                 const translations: { [key: string]: string } = {
-                  'amount': 'Số tiền',
-                  'count': 'Số lượng',
-                  'total': 'Tổng cộng',
-                  'value': 'Giá trị',
-                  'percentage': 'Phần trăm',
-                  'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận',
-                  'growth': 'Tăng trưởng',
-                  'deposits': 'Tiền gửi',
-                  'casa': 'CASA'
+                  amount: 'Số tiền',
+                  count: 'Số lượng',
+                  total: 'Tổng cộng',
+                  value: 'Giá trị',
+                  percentage: 'Phần trăm',
+                  revenue: 'Doanh thu',
+                  profit: 'Lợi nhuận',
+                  growth: 'Tăng trưởng',
+                  deposits: 'Tiền gửi',
+                  casa: 'CASA',
                 };
                 const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
                 return [value, translatedName];
@@ -105,20 +109,20 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
             />
             <Legend
               wrapperStyle={{
-                paddingTop: '20px'
+                paddingTop: '20px',
               }}
               formatter={(value) => {
                 const translations: { [key: string]: string } = {
-                  'amount': 'Số tiền',
-                  'count': 'Số lượng',
-                  'total': 'Tổng cộng',
-                  'value': 'Giá trị',
-                  'percentage': 'Phần trăm',
-                  'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận',
-                  'growth': 'Tăng trưởng',
-                  'deposits': 'Tiền gửi',
-                  'casa': 'CASA'
+                  amount: 'Số tiền',
+                  count: 'Số lượng',
+                  total: 'Tổng cộng',
+                  value: 'Giá trị',
+                  percentage: 'Phần trăm',
+                  revenue: 'Doanh thu',
+                  profit: 'Lợi nhuận',
+                  growth: 'Tăng trưởng',
+                  deposits: 'Tiền gửi',
+                  casa: 'CASA',
                 };
                 return translations[value.toLowerCase()] || value;
               }}
@@ -160,13 +164,13 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               }}
               formatter={(value, name) => {
                 const translations: { [key: string]: string } = {
-                  'amount': 'Số tiền',
-                  'count': 'Số lượng',
-                  'total': 'Tổng cộng',
-                  'value': 'Giá trị',
-                  'percentage': 'Phần trăm',
-                  'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận'
+                  amount: 'Số tiền',
+                  count: 'Số lượng',
+                  total: 'Tổng cộng',
+                  value: 'Giá trị',
+                  percentage: 'Phần trăm',
+                  revenue: 'Doanh thu',
+                  profit: 'Lợi nhuận',
                 };
                 const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
                 return [value, translatedName];
@@ -197,13 +201,13 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               labelStyle={{ color: '#333' }}
               formatter={(value, name) => {
                 const translations: { [key: string]: string } = {
-                  'amount': 'Số tiền',
-                  'count': 'Số lượng',
-                  'total': 'Tổng cộng',
-                  'value': 'Giá trị',
-                  'percentage': 'Phần trăm',
-                  'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận'
+                  amount: 'Số tiền',
+                  count: 'Số lượng',
+                  total: 'Tổng cộng',
+                  value: 'Giá trị',
+                  percentage: 'Phần trăm',
+                  revenue: 'Doanh thu',
+                  profit: 'Lợi nhuận',
                 };
                 const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
                 return [value, translatedName];
@@ -211,17 +215,17 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
             />
             <Legend
               wrapperStyle={{
-                paddingTop: '20px'
+                paddingTop: '20px',
               }}
               formatter={(value) => {
                 const translations: { [key: string]: string } = {
-                  'amount': 'Số tiền',
-                  'count': 'Số lượng',
-                  'total': 'Tổng cộng',
-                  'value': 'Giá trị',
-                  'percentage': 'Phần trăm',
-                  'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận'
+                  amount: 'Số tiền',
+                  count: 'Số lượng',
+                  total: 'Tổng cộng',
+                  value: 'Giá trị',
+                  percentage: 'Phần trăm',
+                  revenue: 'Doanh thu',
+                  profit: 'Lợi nhuận',
                 };
                 return translations[value.toLowerCase()] || value;
               }}
@@ -309,11 +313,9 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               onClick={() => copyToClipboard(sqlQuery)}
               className='h-6 w-6 p-0'
             >
-              {copied ? (
+              {copied ?
                 <Check className='h-3 w-3 text-green-500' />
-              ) : (
-                <Copy className='h-3 w-3' />
-              )}
+              : <Copy className='h-3 w-3' />}
             </Button>
           </div>
           <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>
@@ -325,7 +327,10 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
       <div className='rounded-lg border border-gray-200 dark:border-gray-700'>
         <Card>
           <CardContent className='p-6'>
-            <ResponsiveContainer width='100%' height={400}>
+            <ResponsiveContainer
+              width='100%'
+              height={400}
+            >
               {renderChart()}
             </ResponsiveContainer>
           </CardContent>

@@ -1,4 +1,3 @@
-
 import { Copy, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -72,9 +71,9 @@ const MessageActions = ({ content, onRegenerate }: MessageActionsProps) => {
               size='sm'
               onClick={handleLike}
               className={`h-7 w-7 p-0 ${
-                liked 
-                  ? 'text-blue-500 hover:text-blue-600' 
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                liked ?
+                  'text-blue-500 hover:text-blue-600'
+                : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
               }`}
             >
               <ThumbsUp className='h-3 w-3' />
@@ -94,9 +93,9 @@ const MessageActions = ({ content, onRegenerate }: MessageActionsProps) => {
               size='sm'
               onClick={handleDislike}
               className={`h-7 w-7 p-0 ${
-                disliked 
-                  ? 'text-red-500 hover:text-red-600' 
-                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                disliked ?
+                  'text-red-500 hover:text-red-600'
+                : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
               }`}
             >
               <ThumbsDown className='h-3 w-3' />

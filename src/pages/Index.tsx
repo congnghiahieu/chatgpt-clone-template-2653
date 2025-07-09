@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
@@ -528,7 +527,10 @@ const Index = () => {
     ],
   };
 
-  const handleSendMessage = async (message: string, options?: { search?: string; data?: string }) => {
+  const handleSendMessage = async (
+    message: string,
+    options?: { search?: string; data?: string },
+  ) => {
     if (!message.trim()) return;
 
     const userMessage: Message = { role: 'user', content: message };
@@ -630,37 +632,38 @@ const Index = () => {
 
         {/* Main chat area */}
         <div className={`flex-1 ${hasMessages ? 'pt-[60px]' : ''}`}>
-          {!hasMessages ? (
-            // Empty state - chat input centered
-            <div className='flex h-full flex-col items-center justify-center px-4'>
-              <EmptyChatState />
-              <div className='w-full max-w-3xl'>
-                <ChatInput
-                  onSend={handleSendMessage}
-                  isLoading={isLoading}
-                />
+          {
+            !hasMessages ?
+              // Empty state - chat input centered
+              <div className='flex h-full flex-col items-center justify-center px-4'>
+                <EmptyChatState />
+                <div className='w-full max-w-3xl'>
+                  <ChatInput
+                    onSend={handleSendMessage}
+                    isLoading={isLoading}
+                  />
+                </div>
               </div>
-            </div>
-          ) : (
-            // Chat with messages - scrollable area with fixed input
-            <>
-              {/* Scrollable messages area */}
-              <div className='h-full overflow-y-auto pb-[120px]'>
-                <MessageList messages={messages} />
-              </div>
+              // Chat with messages - scrollable area with fixed input
+            : <>
+                {/* Scrollable messages area */}
+                <div className='h-full overflow-y-auto pb-[120px]'>
+                  <MessageList messages={messages} />
+                </div>
 
-              {/* Fixed input at bottom */}
-              <div
-                className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 p-4 backdrop-blur transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
-                style={{ left: isSidebarOpen ? '256px' : '64px' }}
-              >
-                <ChatInput
-                  onSend={handleSendMessage}
-                  isLoading={isLoading}
-                />
-              </div>
-            </>
-          )}
+                {/* Fixed input at bottom */}
+                <div
+                  className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 p-4 backdrop-blur transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
+                  style={{ left: isSidebarOpen ? '256px' : '64px' }}
+                >
+                  <ChatInput
+                    onSend={handleSendMessage}
+                    isLoading={isLoading}
+                  />
+                </div>
+              </>
+
+          }
         </div>
       </div>
     </div>
