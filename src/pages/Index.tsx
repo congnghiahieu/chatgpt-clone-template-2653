@@ -1,9 +1,11 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
 import ChatInput from '@/components/ChatInput';
 import MessageList from '@/components/MessageList';
+import EmptyChatState from '@/components/EmptyChatState';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -526,7 +528,7 @@ const Index = () => {
     ],
   };
 
-  const handleSendMessage = async (message: string, options?: string[]) => {
+  const handleSendMessage = async (message: string, options?: { search?: string; data?: string }) => {
     if (!message.trim()) return;
 
     const userMessage: Message = { role: 'user', content: message };
@@ -591,8 +593,13 @@ const Index = () => {
     if (chatId && mockChatSessions[chatId]) {
       setMessages(mockChatSessions[chatId]);
       setCurrentChatId(chatId);
+    } else if (!chatId) {
+      setMessages([]);
+      setCurrentChatId(null);
     }
   }, [chatId]);
+
+  const hasMessages = messages.length > 0;
 
   return (
     <div className='flex h-screen bg-background text-foreground transition-colors duration-300'>
@@ -611,28 +618,49 @@ const Index = () => {
           isSidebarOpen ? 'ml-64' : 'ml-16'
         }`}
       >
-        {/* Fixed header */}
-        <div
-          className='fixed right-0 top-0 z-30 transition-all duration-300'
-          style={{ left: isSidebarOpen ? '256px' : '64px' }}
-        >
-          <ChatHeader isSidebarOpen={isSidebarOpen} />
-        </div>
+        {/* Fixed header - only show when there are messages */}
+        {hasMessages && (
+          <div
+            className='fixed right-0 top-0 z-30 transition-all duration-300'
+            style={{ left: isSidebarOpen ? '256px' : '64px' }}
+          >
+            <ChatHeader isSidebarOpen={isSidebarOpen} />
+          </div>
+        )}
 
-        {/* Messages area - with proper spacing for fixed header and input */}
-        <div className='flex-1 overflow-hidden pb-[80px] pt-[60px]'>
-          <MessageList messages={messages} />
-        </div>
+        {/* Main chat area */}
+        <div className={`flex-1 ${hasMessages ? 'pt-[60px]' : ''}`}>
+          {!hasMessages ? (
+            // Empty state - chat input centered
+            <div className='flex h-full flex-col items-center justify-center px-4'>
+              <EmptyChatState />
+              <div className='w-full max-w-3xl'>
+                <ChatInput
+                  onSend={handleSendMessage}
+                  isLoading={isLoading}
+                />
+              </div>
+            </div>
+          ) : (
+            // Chat with messages - scrollable area with fixed input
+            <>
+              {/* Scrollable messages area */}
+              <div className='h-full overflow-y-auto pb-[120px]'>
+                <MessageList messages={messages} />
+              </div>
 
-        {/* Fixed input at bottom */}
-        <div
-          className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 p-4 backdrop-blur transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
-          style={{ left: isSidebarOpen ? '256px' : '64px' }}
-        >
-          <ChatInput
-            onSend={handleSendMessage}
-            isLoading={isLoading}
-          />
+              {/* Fixed input at bottom */}
+              <div
+                className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 p-4 backdrop-blur transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
+                style={{ left: isSidebarOpen ? '256px' : '64px' }}
+              >
+                <ChatInput
+                  onSend={handleSendMessage}
+                  isLoading={isLoading}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

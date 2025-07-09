@@ -1,29 +1,40 @@
-import { useEffect, useState } from 'react';
+
+import { useState, useEffect, useRef } from 'react';
 
 interface TypewriterTextProps {
   text: string;
-  speed?: number;
   onComplete?: () => void;
+  speed?: number;
 }
 
-const TypewriterText = ({ text, speed = 30, onComplete }: TypewriterTextProps) => {
-  const [displayedText, setDisplayedText] = useState('');
+const TypewriterText = ({ text, onComplete, speed = 20 }: TypewriterTextProps) => {
+  const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(text.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
+      intervalRef.current = setTimeout(() => {
+        setDisplayText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
       }, speed);
-
-      return () => clearTimeout(timeout);
     } else if (onComplete) {
       onComplete();
     }
-  }, [currentIndex, text, speed, onComplete]);
 
-  return <span>{displayedText}</span>;
+    return () => {
+      if (intervalRef.current) {
+        clearTimeout(intervalRef.current);
+      }
+    };
+  }, [currentIndex, text, onComplete, speed]);
+
+  useEffect(() => {
+    setDisplayText('');
+    setCurrentIndex(0);
+  }, [text]);
+
+  return <span>{displayText}</span>;
 };
 
 export default TypewriterText;

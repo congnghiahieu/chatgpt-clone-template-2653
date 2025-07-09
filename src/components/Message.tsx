@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import MessageAvatar from './MessageAvatar';
 import MessageActions from './MessageActions';
@@ -47,13 +48,19 @@ const Message = ({ role, content, data, isStreaming = false, isLoading = false }
               <TypewriterText
                 text={content}
                 onComplete={() => setStreamingComplete(true)}
+                speed={20}
               />
             : content}
           </div>
 
-          {/* Render data visualizations for assistant messages */}
+          {/* AI Analysis section without border */}
           {role === 'assistant' && data && (!isStreaming || streamingComplete) && (
             <div className='mt-4'>
+              <div className='mb-3'>
+                <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                  AI phân tích được:
+                </span>
+              </div>
               {data.type === 'table' && data.tableData && <DataTable {...data.tableData} />}
               {data.type === 'chart' && data.chartData && <DataChart {...data.chartData} />}
             </div>

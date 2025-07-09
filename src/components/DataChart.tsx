@@ -1,41 +1,31 @@
+
+import { useState } from 'react';
 import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
   BarChart,
   Bar,
+  PieChart,
+  Pie,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
 } from 'recharts';
-import { useState } from 'react';
+import { Download, Code, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Tooltip as TooltipUI,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  BarChart3,
-  LineChart as LineChartIcon,
-  PieChart as PieChartIcon,
-  Download,
-  Code,
-  Copy,
-  Check,
-} from 'lucide-react';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface DataChartProps {
   data: any[];
@@ -46,102 +36,66 @@ interface DataChartProps {
   sqlQuery?: string;
 }
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
 const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: DataChartProps) => {
-  const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>(type);
-  const [showSql, setShowSql] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [showSQL, setShowSQL] = useState(false);
 
-  const downloadData = (format: 'csv' | 'excel' | 'json') => {
-    console.log(`Đang tải dữ liệu biểu đồ định dạng ${format}`);
-    let content = '';
-    let mimeType = '';
-    let fileName = '';
-
-    switch (format) {
-      case 'csv':
-        const headers = Object.keys(data[0]).join(',');
-        const rows = data.map((row) => Object.values(row).join(',')).join('\n');
-        content = `${headers}\n${rows}`;
-        mimeType = 'text/csv';
-        fileName = 'chart-data.csv';
-        break;
-      case 'json':
-        content = JSON.stringify(data, null, 2);
-        mimeType = 'application/json';
-        fileName = 'chart-data.json';
-        break;
-      case 'excel':
-        content = JSON.stringify(data, null, 2);
-        mimeType = 'application/json';
-        fileName = 'chart-data.xlsx';
-        break;
-    }
-
-    const blob = new Blob([content], { type: mimeType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const downloadChart = () => {
+    console.log('Tải xuống biểu đồ');
   };
 
   const renderChart = () => {
-    switch (chartType) {
+    const commonProps = {
+      width: '100%',
+      height: 400,
+      data,
+    };
+
+    switch (type) {
       case 'line':
         return (
-          <LineChart data={data}>
-            <CartesianGrid
-              strokeDasharray='3 3'
-              stroke='#e5e7eb'
-            />
+          <LineChart {...commonProps}>
+            <CartesianGrid strokeDasharray='3 3' />
             <XAxis
               dataKey={xAxisKey}
-              stroke='#6b7280'
-              fontSize={12}
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#e0e0e0' }}
             />
             <YAxis
-              stroke='#6b7280'
-              fontSize={12}
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#e0e0e0' }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#f9fafb',
-                border: '1px solid #e5e7eb',
+                backgroundColor: '#fff',
+                border: '1px solid #e0e0e0',
                 borderRadius: '8px',
               }}
+              labelStyle={{ color: '#333' }}
             />
             <Legend />
             <Line
               type='monotone'
               dataKey={yAxisKey}
-              stroke='#3B82F6'
-              strokeWidth={3}
-              dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: '#3B82F6', strokeWidth: 2 }}
+              stroke='#2563eb'
+              strokeWidth={2}
+              dot={{ fill: '#2563eb', r: 4 }}
             />
           </LineChart>
         );
+
       case 'pie':
         return (
-          <PieChart>
+          <PieChart {...commonProps}>
             <Pie
               data={data}
               cx='50%'
               cy='50%'
-              labelLine={false}
-              label={(entry) => `${entry[xAxisKey]}: ${entry[yAxisKey]}`}
-              outerRadius={100}
-              fill='#3B82F6'
+              outerRadius={150}
+              fill='#8884d8'
               dataKey={yAxisKey}
+              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
             >
               {data.map((entry, index) => (
                 <Cell
@@ -152,40 +106,39 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
             </Pie>
             <Tooltip
               contentStyle={{
-                backgroundColor: '#f9fafb',
-                border: '1px solid #e5e7eb',
+                backgroundColor: '#fff',
+                border: '1px solid #e0e0e0',
                 borderRadius: '8px',
               }}
             />
           </PieChart>
         );
+
       default:
         return (
-          <BarChart data={data}>
-            <CartesianGrid
-              strokeDasharray='3 3'
-              stroke='#e5e7eb'
-            />
+          <BarChart {...commonProps}>
+            <CartesianGrid strokeDasharray='3 3' />
             <XAxis
               dataKey={xAxisKey}
-              stroke='#6b7280'
-              fontSize={12}
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#e0e0e0' }}
             />
             <YAxis
-              stroke='#6b7280'
-              fontSize={12}
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#e0e0e0' }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#f9fafb',
-                border: '1px solid #e5e7eb',
+                backgroundColor: '#fff',
+                border: '1px solid #e0e0e0',
                 borderRadius: '8px',
               }}
+              labelStyle={{ color: '#333' }}
             />
             <Legend />
             <Bar
               dataKey={yAxisKey}
-              fill='#3B82F6'
+              fill='#2563eb'
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
@@ -194,127 +147,67 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
   };
 
   return (
-    <div className='space-y-4'>
-      <div className='flex items-center justify-between'>
-        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>{title}</h3>
-        <div className='flex gap-2'>
+    <Card className='w-full'>
+      <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
+        <CardTitle className='text-lg font-semibold'>{title}</CardTitle>
+        <div className='flex items-center gap-2'>
           {sqlQuery && (
             <TooltipProvider>
-              <TooltipUI>
+              <UITooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='sm'
-                    onClick={() => setShowSql(!showSql)}
-                    className='h-8 w-8 p-0'
-                  >
-                    <Code className='h-4 w-4' />
-                  </Button>
+                  <Dialog open={showSQL} onOpenChange={setShowSQL}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        className='h-8 w-8 p-0'
+                      >
+                        <Code className='h-4 w-4' />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className='max-w-3xl'>
+                      <DialogHeader>
+                        <DialogTitle>Câu truy vấn SQL</DialogTitle>
+                      </DialogHeader>
+                      <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
+                        <pre className='whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200'>
+                          {sqlQuery}
+                        </pre>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{showSql ? 'Ẩn SQL' : 'Hiển thị SQL'}</p>
+                  <p>Xem câu SQL</p>
                 </TooltipContent>
-              </TooltipUI>
+              </UITooltip>
             </TooltipProvider>
           )}
-
           <TooltipProvider>
-            <TooltipUI>
+            <UITooltip>
               <TooltipTrigger asChild>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      size='sm'
-                      className='h-8 w-8 p-0'
-                    >
-                      <Download className='h-4 w-4' />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => downloadData('csv')}>CSV</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => downloadData('excel')}>Excel</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => downloadData('json')}>JSON</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={downloadChart}
+                  className='h-8 w-8 p-0'
+                >
+                  <Download className='h-4 w-4' />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Tải xuống dữ liệu</p>
+                <p>Tải xuống</p>
               </TooltipContent>
-            </TooltipUI>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <TooltipUI>
-              <TooltipTrigger asChild>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      size='sm'
-                      className='h-8 w-8 p-0'
-                    >
-                      {chartType === 'bar' && <BarChart3 className='h-4 w-4' />}
-                      {chartType === 'line' && <LineChartIcon className='h-4 w-4' />}
-                      {chartType === 'pie' && <PieChartIcon className='h-4 w-4' />}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => setChartType('bar')}>
-                      <BarChart3 className='mr-2 h-4 w-4' />
-                      Biểu đồ cột
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setChartType('line')}>
-                      <LineChartIcon className='mr-2 h-4 w-4' />
-                      Biểu đồ đường
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setChartType('pie')}>
-                      <PieChartIcon className='mr-2 h-4 w-4' />
-                      Biểu đồ tròn
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Loại biểu đồ</p>
-              </TooltipContent>
-            </TooltipUI>
+            </UITooltip>
           </TooltipProvider>
         </div>
-      </div>
-
-      {showSql && sqlQuery && (
-        <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900'>
-          <div className='mb-2 flex items-center justify-between'>
-            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-              Truy vấn SQL:
-            </span>
-            <Button
-              variant='ghost'
-              size='sm'
-              onClick={() => copyToClipboard(sqlQuery)}
-              className='h-6 w-6 p-0'
-            >
-              {copied ?
-                <Check className='h-3 w-3 text-green-500' />
-              : <Copy className='h-3 w-3' />}
-            </Button>
-          </div>
-          <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>
-            {sqlQuery}
-          </pre>
-        </div>
-      )}
-
-      <div className='h-80 w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800'>
-        <ResponsiveContainer
-          width='100%'
-          height='100%'
-        >
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width='100%' height={400}>
           {renderChart()}
         </ResponsiveContainer>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

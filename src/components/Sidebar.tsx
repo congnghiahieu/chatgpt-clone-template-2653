@@ -1,3 +1,4 @@
+
 import { Menu, LogOut, SquarePen, FileText, PanelLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
@@ -177,41 +178,64 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
           </div>
         )}
 
-        {/* Bottom section - separated settings/theme and logout */}
+        {/* Bottom section - single row layout */}
         <div className='border-t border-gray-200 py-2 dark:border-gray-700'>
-          {/* Settings and Theme group */}
           <div
             className={cn(
-              'flex border-b border-gray-200 pb-2 dark:border-gray-700',
-              isOpen ?
-                'flex-row items-center justify-start gap-2 px-2'
-              : 'flex-col items-center gap-2',
+              'flex items-center',
+              isOpen ? 'justify-between px-2' : 'flex-col gap-2 px-0',
             )}
           >
-            <UserMenu />
-            <ThemeToggle />
+            {/* Left group: Settings and Theme */}
+            <div className={cn('flex items-center', isOpen ? 'gap-2' : 'flex-col gap-2')}>
+              <UserMenu />
+              <ThemeToggle />
+            </div>
+
+            {/* Right: Logout */}
+            {isOpen && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      onClick={handleLogout}
+                      className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
+                    >
+                      <LogOut className='h-4 w-4' />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Đăng xuất</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
 
-          {/* Logout - separate at bottom */}
-          <div className={cn('flex pt-2', isOpen ? 'justify-start px-2' : 'justify-center')}>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant='ghost'
-                    size='sm'
-                    onClick={handleLogout}
-                    className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
-                  >
-                    <LogOut className='h-4 w-4' />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Đăng xuất</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+          {/* Logout for collapsed state */}
+          {!isOpen && (
+            <div className='flex justify-center pt-2'>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      onClick={handleLogout}
+                      className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
+                    >
+                      <LogOut className='h-4 w-4' />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Đăng xuất</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          )}
         </div>
       </nav>
     </div>
