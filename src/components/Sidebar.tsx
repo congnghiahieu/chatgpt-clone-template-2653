@@ -1,5 +1,4 @@
-
-import { Menu, LogOut, SquarePen, FileText } from 'lucide-react';
+import { Menu, LogOut, SquarePen, FileText, PanelLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,9 +20,10 @@ interface SidebarProps {
   onToggle: () => void;
   onChatSelect?: (chatId: string) => void;
   onNewChat?: () => void;
+  currentChatId?: string | null;
 }
 
-const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) => {
+const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: SidebarProps) => {
   const navigate = useNavigate();
   const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
 
@@ -91,7 +91,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                   onClick={onToggle}
                   className='h-10 rounded-lg px-2 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
                 >
-                  <Menu className='h-5 w-5' />
+                  <PanelLeft className='h-5 w-5' />
                 </button>
               </TooltipTrigger>
               <TooltipContent>
@@ -155,7 +155,10 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat }: SidebarProps) =>
                       <div
                         key={item.id}
                         onClick={() => handleChatClick(item.id)}
-                        className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'
+                        className={cn(
+                          'group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800',
+                          currentChatId === item.id && 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500'
+                        )}
                       >
                         <span className='text-sm text-gray-700 dark:text-gray-300'>
                           {item.title}
