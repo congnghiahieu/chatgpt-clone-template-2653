@@ -162,8 +162,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
                         onClick={() => handleChatClick(item.id)}
                         className={cn(
                           'group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800',
-                          currentChatId === item.id &&
-                            'bg-blue-50 dark:bg-blue-900/20',
+                          currentChatId === item.id && 'bg-blue-50 dark:bg-blue-900/20',
                         )}
                       >
                         <span className='text-sm text-gray-700 dark:text-gray-300'>
@@ -181,19 +180,20 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
         {/* Bottom section - separated settings/theme and logout */}
         <div className='border-t border-gray-200 py-2 dark:border-gray-700'>
           {/* Settings and Theme group */}
-          <div className={cn(
-            'flex border-b border-gray-200 pb-2 dark:border-gray-700',
-            isOpen ? 'flex-row items-center justify-start gap-2 px-2' : 'flex-col items-center gap-2',
-          )}>
+          <div
+            className={cn(
+              'flex border-b border-gray-200 pb-2 dark:border-gray-700',
+              isOpen ?
+                'flex-row items-center justify-start gap-2 px-2'
+              : 'flex-col items-center gap-2',
+            )}
+          >
             <UserMenu />
             <ThemeToggle />
           </div>
 
           {/* Logout - separate at bottom */}
-          <div className={cn(
-            'flex pt-2',
-            isOpen ? 'justify-start px-2' : 'justify-center',
-          )}>
+          <div className={cn('flex pt-2', isOpen ? 'justify-start px-2' : 'justify-center')}>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

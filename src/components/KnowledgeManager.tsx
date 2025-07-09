@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -102,7 +101,7 @@ const KnowledgeManager = () => {
 
   const handleDownload = (item: KnowledgeItem) => {
     console.log(`Đang tải xuống: ${item.name}`);
-    
+
     // Create sample content based on item type
     let content = '';
     let mimeType = '';
@@ -138,7 +137,7 @@ const KnowledgeManager = () => {
 
   const handleDelete = (item: KnowledgeItem) => {
     console.log(`Đang xóa: ${item.name}`);
-    setKnowledge(prev => prev.filter(k => k.id !== item.id));
+    setKnowledge((prev) => prev.filter((k) => k.id !== item.id));
   };
 
   return (
@@ -152,7 +151,10 @@ const KnowledgeManager = () => {
             Quản lý tất cả tài liệu và định nghĩa đã được tải lên hệ thống
           </p>
         </div>
-        <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
+        <Dialog
+          open={isUploadOpen}
+          onOpenChange={setIsUploadOpen}
+        >
           <DialogTrigger asChild>
             <Button className='bg-blue-600 text-white hover:bg-blue-700 dark:text-white'>
               Tải lên kiến thức mới

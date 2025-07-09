@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
@@ -85,7 +84,8 @@ const Index = () => {
             xAxisKey: 'month',
             yAxisKey: 'growth',
             type: 'line' as const,
-            sqlQuery: 'SELECT DATE_FORMAT(date, "%m") as month, growth_rate as growth, total_amount as amount FROM casa_growth WHERE date >= DATE_SUB(NOW(), INTERVAL 6 MONTH) ORDER BY date',
+            sqlQuery:
+              'SELECT DATE_FORMAT(date, "%m") as month, growth_rate as growth, total_amount as amount FROM casa_growth WHERE date >= DATE_SUB(NOW(), INTERVAL 6 MONTH) ORDER BY date',
           },
         },
       },
@@ -159,7 +159,8 @@ const Index = () => {
             xAxisKey: 'branch',
             yAxisKey: 'amount',
             type: 'bar' as const,
-            sqlQuery: 'SELECT branch, SUM(credit_balance/1000000000) as amount FROM credit_portfolio GROUP BY branch ORDER BY amount DESC',
+            sqlQuery:
+              'SELECT branch, SUM(credit_balance/1000000000) as amount FROM credit_portfolio GROUP BY branch ORDER BY amount DESC',
           },
         },
       },
@@ -248,7 +249,8 @@ const Index = () => {
             xAxisKey: 'month',
             yAxisKey: 'total',
             type: 'line' as const,
-            sqlQuery: 'SELECT DATE_FORMAT(created_date, "%m") as month, COUNT(*) as total, SUM(CASE WHEN type="individual" THEN 1 ELSE 0 END) as individual, SUM(CASE WHEN type="corporate" THEN 1 ELSE 0 END) as corporate FROM customers WHERE created_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH) GROUP BY month ORDER BY month',
+            sqlQuery:
+              'SELECT DATE_FORMAT(created_date, "%m") as month, COUNT(*) as total, SUM(CASE WHEN type="individual" THEN 1 ELSE 0 END) as individual, SUM(CASE WHEN type="corporate" THEN 1 ELSE 0 END) as corporate FROM customers WHERE created_date >= DATE_SUB(NOW(), INTERVAL 6 MONTH) GROUP BY month ORDER BY month',
           },
         },
       },
@@ -272,7 +274,8 @@ const Index = () => {
             xAxisKey: 'branch',
             yAxisKey: 'revenue',
             type: 'bar' as const,
-            sqlQuery: 'SELECT branch, SUM(revenue/1000000000) as revenue, SUM(profit/1000000000) as profit, AVG(roi_percentage) as roi FROM business_performance WHERE quarter = "Q4" AND year = 2024 GROUP BY branch ORDER BY revenue DESC',
+            sqlQuery:
+              'SELECT branch, SUM(revenue/1000000000) as revenue, SUM(profit/1000000000) as profit, AVG(roi_percentage) as roi FROM business_performance WHERE quarter = "Q4" AND year = 2024 GROUP BY branch ORDER BY revenue DESC',
           },
         },
       },
@@ -287,7 +290,8 @@ const Index = () => {
       { role: 'user', content: 'Báo cáo rủi ro tín dụng' },
       {
         role: 'assistant',
-        content: 'Tôi sẽ phân tích báo cáo rủi ro tín dụng toàn hành để đánh giá tình hình hiện tại.',
+        content:
+          'Tôi sẽ phân tích báo cáo rủi ro tín dụng toàn hành để đánh giá tình hình hiện tại.',
         data: {
           type: 'table',
           tableData: {
@@ -325,7 +329,8 @@ const Index = () => {
             ],
             columns: ['Nhóm nợ', 'Dư nợ (tỷ VND)', 'Tỷ lệ (%)', 'Dự phòng (%)'],
             title: 'Phân loại nợ theo nhóm rủi ro',
-            sqlQuery: 'SELECT debt_group, SUM(outstanding_balance/1000000000) as balance, (COUNT(*)*100.0/(SELECT COUNT(*) FROM credit_loans)) as percentage, provision_rate FROM credit_risk_classification GROUP BY debt_group, provision_rate ORDER BY debt_group',
+            sqlQuery:
+              'SELECT debt_group, SUM(outstanding_balance/1000000000) as balance, (COUNT(*)*100.0/(SELECT COUNT(*) FROM credit_loans)) as percentage, provision_rate FROM credit_risk_classification GROUP BY debt_group, provision_rate ORDER BY debt_group',
           },
         },
       },
@@ -334,7 +339,8 @@ const Index = () => {
       { role: 'user', content: 'Dashboard tổng quan ngân hàng' },
       {
         role: 'assistant',
-        content: 'Đây là dashboard tổng quan về hoạt động kinh doanh của ngân hàng trong tháng hiện tại:',
+        content:
+          'Đây là dashboard tổng quan về hoạt động kinh doanh của ngân hàng trong tháng hiện tại:',
         data: {
           type: 'chart',
           chartData: {
@@ -348,14 +354,16 @@ const Index = () => {
             xAxisKey: 'metric',
             yAxisKey: 'value',
             type: 'bar' as const,
-            sqlQuery: 'SELECT kpi_name as metric, current_value/1000000000000 as value, target_value/1000000000000 as target FROM bank_kpi_dashboard WHERE report_month = MONTH(NOW()) AND report_year = YEAR(NOW())',
+            sqlQuery:
+              'SELECT kpi_name as metric, current_value/1000000000000 as value, target_value/1000000000000 as target FROM bank_kpi_dashboard WHERE report_month = MONTH(NOW()) AND report_year = YEAR(NOW())',
           },
         },
       },
       { role: 'user', content: 'Chi tiết về tăng trưởng từng mảng' },
       {
         role: 'assistant',
-        content: '**Phân tích tăng trưởng theo mảng kinh doanh:**\n\n• **Huy động vốn**: Đạt 95.1% kế hoạch, tăng 12.5% so với cùng kỳ\n• **Tín dụng**: Đạt 92.4% kế hoạch, tăng trưởng ổn định 8.2%\n• **Dịch vụ ngân hàng**: Thu nhập phi lãi tăng 15.8%\n• **Quản lý rủi ro**: NPL ratio duy trì ở mức 1.2%, trong tầm kiểm soát',
+        content:
+          '**Phân tích tăng trưởng theo mảng kinh doanh:**\n\n• **Huy động vốn**: Đạt 95.1% kế hoạch, tăng 12.5% so với cùng kỳ\n• **Tín dụng**: Đạt 92.4% kế hoạch, tăng trưởng ổn định 8.2%\n• **Dịch vụ ngân hàng**: Thu nhập phi lãi tăng 15.8%\n• **Quản lý rủi ro**: NPL ratio duy trì ở mức 1.2%, trong tầm kiểm soát',
       },
     ],
     chat8: [
@@ -384,7 +392,8 @@ const Index = () => {
             xAxisKey: 'month',
             yAxisKey: 'deposits',
             type: 'line' as const,
-            sqlQuery: 'SELECT DATE_FORMAT(report_date, "%m") as month, SUM(total_deposits/1000000000000) as deposits, SUM(casa_balance/1000000000000) as casa, SUM(term_deposits/1000000000000) as term FROM deposit_trends WHERE report_date >= DATE_SUB(NOW(), INTERVAL 12 MONTH) GROUP BY month ORDER BY month',
+            sqlQuery:
+              'SELECT DATE_FORMAT(report_date, "%m") as month, SUM(total_deposits/1000000000000) as deposits, SUM(casa_balance/1000000000000) as casa, SUM(term_deposits/1000000000000) as term FROM deposit_trends WHERE report_date >= DATE_SUB(NOW(), INTERVAL 12 MONTH) GROUP BY month ORDER BY month',
           },
         },
       },
@@ -431,7 +440,8 @@ const Index = () => {
             ],
             columns: ['Chỉ tiêu', 'Giá trị hiện tại', 'Mục tiêu', 'Đánh giá'],
             title: 'Báo cáo chất lượng tài sản',
-            sqlQuery: 'SELECT indicator_name, current_value, target_value, CASE WHEN current_value >= target_value THEN "Đạt" ELSE "Chưa đạt" END as evaluation FROM asset_quality_indicators WHERE report_date = LAST_DAY(NOW())',
+            sqlQuery:
+              'SELECT indicator_name, current_value, target_value, CASE WHEN current_value >= target_value THEN "Đạt" ELSE "Chưa đạt" END as evaluation FROM asset_quality_indicators WHERE report_date = LAST_DAY(NOW())',
           },
         },
       },
@@ -456,7 +466,8 @@ const Index = () => {
             xAxisKey: 'product',
             yAxisKey: 'revenue',
             type: 'bar' as const,
-            sqlQuery: 'SELECT product_name as product, SUM(revenue/1000000000) as revenue, COUNT(DISTINCT customer_id) as customers FROM product_performance WHERE report_month = MONTH(NOW()) GROUP BY product_name ORDER BY revenue DESC',
+            sqlQuery:
+              'SELECT product_name as product, SUM(revenue/1000000000) as revenue, COUNT(DISTINCT customer_id) as customers FROM product_performance WHERE report_month = MONTH(NOW()) GROUP BY product_name ORDER BY revenue DESC',
           },
         },
       },
@@ -499,9 +510,16 @@ const Index = () => {
                 'Tỷ lệ đóng góp (%)': '13.0',
               },
             ],
-            columns: ['Phân khúc', 'Số lượng KH', 'Tổng tài sản (tỷ VND)', 'Doanh thu đóng góp (tỷ VND)', 'Tỷ lệ đóng góp (%)'],
+            columns: [
+              'Phân khúc',
+              'Số lượng KH',
+              'Tổng tài sản (tỷ VND)',
+              'Doanh thu đóng góp (tỷ VND)',
+              'Tỷ lệ đóng góp (%)',
+            ],
             title: 'Phân tích khách hàng VIP theo phân khúc',
-            sqlQuery: 'SELECT customer_segment, COUNT(*) as customer_count, SUM(total_assets/1000000000) as total_assets, SUM(revenue_contribution/1000000000) as revenue, (SUM(revenue_contribution)*100.0/(SELECT SUM(revenue_contribution) FROM vip_customers)) as contribution_rate FROM vip_customers GROUP BY customer_segment ORDER BY revenue DESC',
+            sqlQuery:
+              'SELECT customer_segment, COUNT(*) as customer_count, SUM(total_assets/1000000000) as total_assets, SUM(revenue_contribution/1000000000) as revenue, (SUM(revenue_contribution)*100.0/(SELECT SUM(revenue_contribution) FROM vip_customers)) as contribution_rate FROM vip_customers GROUP BY customer_segment ORDER BY revenue DESC',
           },
         },
       },
@@ -586,27 +604,31 @@ const Index = () => {
         onNewChat={startNewChat}
         currentChatId={currentChatId}
       />
-      
+
       {/* Main content area */}
-      <div 
+      <div
         className={`flex flex-1 flex-col transition-all duration-300 ${
           isSidebarOpen ? 'ml-64' : 'ml-16'
         }`}
       >
         {/* Fixed header */}
-        <div className='fixed top-0 right-0 z-30 transition-all duration-300' 
-             style={{ left: isSidebarOpen ? '256px' : '64px' }}>
+        <div
+          className='fixed right-0 top-0 z-30 transition-all duration-300'
+          style={{ left: isSidebarOpen ? '256px' : '64px' }}
+        >
           <ChatHeader isSidebarOpen={isSidebarOpen} />
         </div>
-        
+
         {/* Messages area - with proper spacing for fixed header and input */}
-        <div className='flex-1 overflow-hidden pt-[60px] pb-[80px]'>
+        <div className='flex-1 overflow-hidden pb-[80px] pt-[60px]'>
           <MessageList messages={messages} />
         </div>
-        
+
         {/* Fixed input at bottom */}
-        <div className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 backdrop-blur p-4 transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
-             style={{ left: isSidebarOpen ? '256px' : '64px' }}>
+        <div
+          className='fixed bottom-0 right-0 z-20 border-t border-gray-200 bg-white/95 p-4 backdrop-blur transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/95'
+          style={{ left: isSidebarOpen ? '256px' : '64px' }}
+        >
           <ChatInput
             onSend={handleSendMessage}
             isLoading={isLoading}

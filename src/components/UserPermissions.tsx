@@ -1,4 +1,3 @@
-
 import { Shield, User, Building, Database, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -64,9 +63,7 @@ const UserPermissions = ({ username }: UserPermissionsProps) => {
                 {permission.label}
               </span>
             </div>
-            <Badge className={`${permission.color} cursor-default`}>
-              {permission.value}
-            </Badge>
+            <Badge className={`${permission.color} cursor-default`}>{permission.value}</Badge>
           </div>
         ))}
       </div>
