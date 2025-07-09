@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { Download, Code, Eye } from 'lucide-react';
+import { Download, Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -47,7 +47,6 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
 
   const renderChart = () => {
     const commonProps = {
-      width: '100%',
       height: 400,
       data,
     };
@@ -74,7 +73,24 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               }}
               labelStyle={{ color: '#333' }}
             />
-            <Legend />
+            <Legend
+              wrapperStyle={{
+                paddingTop: '20px'
+              }}
+              formatter={(value) => {
+                // Translate common English terms to Vietnamese
+                const translations: { [key: string]: string } = {
+                  'amount': 'Số tiền',
+                  'count': 'Số lượng',
+                  'total': 'Tổng cộng',
+                  'value': 'Giá trị',
+                  'percentage': 'Phần trăm',
+                  'revenue': 'Doanh thu',
+                  'profit': 'Lợi nhuận'
+                };
+                return translations[value.toLowerCase()] || value;
+              }}
+            />
             <Line
               type='monotone'
               dataKey={yAxisKey}
@@ -110,6 +126,20 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 border: '1px solid #e0e0e0',
                 borderRadius: '8px',
               }}
+              formatter={(value, name) => {
+                // Translate tooltip labels
+                const translations: { [key: string]: string } = {
+                  'amount': 'Số tiền',
+                  'count': 'Số lượng',
+                  'total': 'Tổng cộng',
+                  'value': 'Giá trị',
+                  'percentage': 'Phần trăm',
+                  'revenue': 'Doanh thu',
+                  'profit': 'Lợi nhuận'
+                };
+                const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
+                return [value, translatedName];
+              }}
             />
           </PieChart>
         );
@@ -134,8 +164,39 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 borderRadius: '8px',
               }}
               labelStyle={{ color: '#333' }}
+              formatter={(value, name) => {
+                // Translate tooltip labels
+                const translations: { [key: string]: string } = {
+                  'amount': 'Số tiền',
+                  'count': 'Số lượng',
+                  'total': 'Tổng cộng',
+                  'value': 'Giá trị',
+                  'percentage': 'Phần trăm',
+                  'revenue': 'Doanh thu',
+                  'profit': 'Lợi nhuận'
+                };
+                const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
+                return [value, translatedName];
+              }}
             />
-            <Legend />
+            <Legend
+              wrapperStyle={{
+                paddingTop: '20px'
+              }}
+              formatter={(value) => {
+                // Translate common English terms to Vietnamese
+                const translations: { [key: string]: string } = {
+                  'amount': 'Số tiền',
+                  'count': 'Số lượng',
+                  'total': 'Tổng cộng',
+                  'value': 'Giá trị',
+                  'percentage': 'Phần trăm',
+                  'revenue': 'Doanh thu',
+                  'profit': 'Lợi nhuận'
+                };
+                return translations[value.toLowerCase()] || value;
+              }}
+            />
             <Bar
               dataKey={yAxisKey}
               fill='#2563eb'
