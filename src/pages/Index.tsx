@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
@@ -569,7 +569,7 @@ const Index = () => {
   };
 
   // Load chat data when component mounts or chatId changes
-  useState(() => {
+  useEffect(() => {
     if (chatId && mockChatSessions[chatId]) {
       setMessages(mockChatSessions[chatId]);
       setCurrentChatId(chatId);
