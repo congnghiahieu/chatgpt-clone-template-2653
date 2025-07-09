@@ -29,9 +29,10 @@ type MessageProps = {
   };
   isStreaming?: boolean;
   isLoading?: boolean;
+  onRegenerate?: () => void;
 };
 
-const Message = ({ role, content, data, isStreaming = false, isLoading = false }: MessageProps) => {
+const Message = ({ role, content, data, isStreaming = false, isLoading = false, onRegenerate }: MessageProps) => {
   const [streamingComplete, setStreamingComplete] = useState(false);
 
   return (
@@ -42,31 +43,28 @@ const Message = ({ role, content, data, isStreaming = false, isLoading = false }
           <div
             className={`${role === 'user' ? 'inline-block rounded-[20px] bg-blue-100 px-4 py-2 text-blue-900 dark:bg-blue-900 dark:text-blue-100' : ''}`}
           >
-            {isLoading && role === 'assistant' ?
+            {isLoading && role === 'assistant' ? (
               <LoadingIndicator />
-            : isStreaming && role === 'assistant' ?
+            ) : isStreaming && role === 'assistant' ? (
               <TypewriterText
                 text={content}
                 onComplete={() => setStreamingComplete(true)}
-                speed={20}
+                speed={10}
               />
-            : content}
+            ) : (
+              content
+            )}
           </div>
 
-          {/* AI Analysis section without border */}
+          {/* Data visualization section */}
           {role === 'assistant' && data && (!isStreaming || streamingComplete) && (
             <div className='mt-4'>
-              <div className='mb-3'>
-                <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-                  AI phân tích được:
-                </span>
-              </div>
               {data.type === 'table' && data.tableData && <DataTable {...data.tableData} />}
               {data.type === 'chart' && data.chartData && <DataChart {...data.chartData} />}
             </div>
           )}
 
-          {role === 'assistant' && <MessageActions />}
+          {role === 'assistant' && <MessageActions content={content} onRegenerate={onRegenerate} />}
         </div>
       </div>
     </div>

@@ -15,17 +15,16 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { Download, Code } from 'lucide-react';
+import { Download, Code, FileSpreadsheet, FileText, File, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface DataChartProps {
   data: any[];
@@ -40,9 +39,24 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
 const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: DataChartProps) => {
   const [showSQL, setShowSQL] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const downloadChart = () => {
-    console.log('Tải xuống biểu đồ');
+  const downloadChart = (format: 'csv' | 'excel' | 'pdf') => {
+    console.log(`Đang tải dữ liệu định dạng ${format}`);
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chart-data.${format === 'excel' ? 'xlsx' : format}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+    console.log('SQL đã được sao chép');
   };
 
   const renderChart = () => {
@@ -72,13 +86,7 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 borderRadius: '8px',
               }}
               labelStyle={{ color: '#333' }}
-            />
-            <Legend
-              wrapperStyle={{
-                paddingTop: '20px'
-              }}
-              formatter={(value) => {
-                // Translate common English terms to Vietnamese
+              formatter={(value, name) => {
                 const translations: { [key: string]: string } = {
                   'amount': 'Số tiền',
                   'count': 'Số lượng',
@@ -86,7 +94,31 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                   'value': 'Giá trị',
                   'percentage': 'Phần trăm',
                   'revenue': 'Doanh thu',
-                  'profit': 'Lợi nhuận'
+                  'profit': 'Lợi nhuận',
+                  'growth': 'Tăng trưởng',
+                  'deposits': 'Tiền gửi',
+                  'casa': 'CASA'
+                };
+                const translatedName = translations[name?.toString().toLowerCase() || ''] || name;
+                return [value, translatedName];
+              }}
+            />
+            <Legend
+              wrapperStyle={{
+                paddingTop: '20px'
+              }}
+              formatter={(value) => {
+                const translations: { [key: string]: string } = {
+                  'amount': 'Số tiền',
+                  'count': 'Số lượng',
+                  'total': 'Tổng cộng',
+                  'value': 'Giá trị',
+                  'percentage': 'Phần trăm',
+                  'revenue': 'Doanh thu',
+                  'profit': 'Lợi nhuận',
+                  'growth': 'Tăng trưởng',
+                  'deposits': 'Tiền gửi',
+                  'casa': 'CASA'
                 };
                 return translations[value.toLowerCase()] || value;
               }}
@@ -127,7 +159,6 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 borderRadius: '8px',
               }}
               formatter={(value, name) => {
-                // Translate tooltip labels
                 const translations: { [key: string]: string } = {
                   'amount': 'Số tiền',
                   'count': 'Số lượng',
@@ -165,7 +196,6 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
               }}
               labelStyle={{ color: '#333' }}
               formatter={(value, name) => {
-                // Translate tooltip labels
                 const translations: { [key: string]: string } = {
                   'amount': 'Số tiền',
                   'count': 'Số lượng',
@@ -184,7 +214,6 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 paddingTop: '20px'
               }}
               formatter={(value) => {
-                // Translate common English terms to Vietnamese
                 const translations: { [key: string]: string } = {
                   'amount': 'Số tiền',
                   'count': 'Số lượng',
@@ -208,38 +237,25 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
   };
 
   return (
-    <Card className='w-full'>
-      <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4'>
-        <CardTitle className='text-lg font-semibold'>{title}</CardTitle>
+    <div className='space-y-4'>
+      <div className='flex items-center justify-between'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>{title}</h3>
         <div className='flex items-center gap-2'>
           {sqlQuery && (
             <TooltipProvider>
               <UITooltip>
                 <TooltipTrigger asChild>
-                  <Dialog open={showSQL} onOpenChange={setShowSQL}>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        className='h-8 w-8 p-0'
-                      >
-                        <Code className='h-4 w-4' />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className='max-w-3xl'>
-                      <DialogHeader>
-                        <DialogTitle>Câu truy vấn SQL</DialogTitle>
-                      </DialogHeader>
-                      <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
-                        <pre className='whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200'>
-                          {sqlQuery}
-                        </pre>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={() => setShowSQL(!showSQL)}
+                    className='h-8 w-8 p-0'
+                  >
+                    <Code className='h-4 w-4' />
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Xem câu SQL</p>
+                  <p>{showSQL ? 'Ẩn SQL' : 'Hiển thị SQL'}</p>
                 </TooltipContent>
               </UITooltip>
             </TooltipProvider>
@@ -247,28 +263,75 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
           <TooltipProvider>
             <UITooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={downloadChart}
-                  className='h-8 w-8 p-0'
-                >
-                  <Download className='h-4 w-4' />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant='ghost'
+                      size='sm'
+                      className='h-8 w-8 p-0'
+                    >
+                      <Download className='h-4 w-4' />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => downloadChart('csv')}>
+                      <File className='mr-2 h-4 w-4' />
+                      CSV
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadChart('excel')}>
+                      <FileSpreadsheet className='mr-2 h-4 w-4' />
+                      Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadChart('pdf')}>
+                      <FileText className='mr-2 h-4 w-4' />
+                      PDF
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Tải xuống</p>
+                <p>Tải xuống dữ liệu</p>
               </TooltipContent>
             </UITooltip>
           </TooltipProvider>
         </div>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width='100%' height={400}>
-          {renderChart()}
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+      </div>
+
+      {showSQL && sqlQuery && (
+        <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900'>
+          <div className='mb-2 flex items-center justify-between'>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+              Truy vấn SQL:
+            </span>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={() => copyToClipboard(sqlQuery)}
+              className='h-6 w-6 p-0'
+            >
+              {copied ? (
+                <Check className='h-3 w-3 text-green-500' />
+              ) : (
+                <Copy className='h-3 w-3' />
+              )}
+            </Button>
+          </div>
+          <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>
+            {sqlQuery}
+          </pre>
+        </div>
+      )}
+
+      <div className='rounded-lg border border-gray-200 dark:border-gray-700'>
+        <Card>
+          <CardContent className='p-6'>
+            <ResponsiveContainer width='100%' height={400}>
+              {renderChart()}
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 };
 

@@ -1,16 +1,16 @@
 
 import { useState, useRef } from 'react';
-import { Send, Plus, Database, Brain, BarChart3, Search } from 'lucide-react';
+import { Send, Paperclip, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import SessionUpload from './SessionUpload';
 
 interface ChatInputProps {
@@ -20,8 +20,8 @@ interface ChatInputProps {
 
 const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
   const [message, setMessage] = useState('');
-  const [selectedSearchOption, setSelectedSearchOption] = useState<string | null>(null);
-  const [selectedDataOption, setSelectedDataOption] = useState<string | null>(null);
+  const [selectedSearchOption, setSelectedSearchOption] = useState<string>('');
+  const [selectedDataOption, setSelectedDataOption] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,8 +33,8 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
       };
       onSend(message.trim(), options);
       setMessage('');
-      setSelectedSearchOption(null);
-      setSelectedDataOption(null);
+      setSelectedSearchOption('');
+      setSelectedDataOption('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
       }
@@ -57,136 +57,46 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
     }
   };
 
-  const selectSearchOption = (option: string) => {
-    setSelectedSearchOption(selectedSearchOption === option ? null : option);
-  };
-
-  const selectDataOption = (option: string) => {
-    setSelectedDataOption(selectedDataOption === option ? null : option);
-  };
-
   const handleFileUpload = (files: File[]) => {
     console.log('Các tệp đã tải lên cho phiên này:', files);
   };
 
-  const searchOptions = [
-    { id: 'deep-thinking', label: 'Suy nghĩ sâu', icon: Brain },
-    { id: 'deep-search', label: 'Tìm kiếm sâu', icon: Search },
-  ];
-
-  const dataOptions = [
-    { id: 'raw-data', label: 'Dữ liệu thô', icon: Database },
-    { id: 'aggregated-data', label: 'Dữ liệu tổng hợp', icon: BarChart3 },
-  ];
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='w-full'
-    >
-      <div className='mx-auto max-w-3xl'>
-        <div className='relative rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900'>
-          {/* Selected options */}
-          {(selectedSearchOption || selectedDataOption) && (
-            <div className='flex flex-wrap gap-2 border-b border-gray-200 p-3 dark:border-gray-700'>
-              {selectedSearchOption && (
-                (() => {
-                  const option = searchOptions.find((o) => o.id === selectedSearchOption);
-                  return option ?
-                      <div className='flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200'>
-                        <option.icon className='h-3 w-3' />
-                        {option.label}
-                        <button
-                          type='button'
-                          onClick={() => setSelectedSearchOption(null)}
-                          className='rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-800'
-                        >
-                          ×
-                        </button>
-                      </div>
-                    : null;
-                })()
-              )}
-              {selectedDataOption && (
-                (() => {
-                  const option = dataOptions.find((o) => o.id === selectedDataOption);
-                  return option ?
-                      <div className='flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-sm text-green-800 dark:bg-green-900 dark:text-green-200'>
-                        <option.icon className='h-3 w-3' />
-                        {option.label}
-                        <button
-                          type='button'
-                          onClick={() => setSelectedDataOption(null)}
-                          className='rounded-full p-0.5 hover:bg-green-200 dark:hover:bg-green-800'
-                        >
-                          ×
-                        </button>
-                      </div>
-                    : null;
-                })()
-              )}
-            </div>
-          )}
+    <form onSubmit={handleSubmit} className='w-full'>
+      <div className='mx-auto max-w-4xl'>
+        <div className='flex items-end gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-900'>
+          {/* File upload - external left */}
+          <SessionUpload onFileUpload={handleFileUpload} />
 
-          <div className='flex items-end gap-3 p-4'>
-            {/* Options dropdown */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        type='button'
-                        variant='ghost'
-                        size='sm'
-                        className='h-8 w-8 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                      >
-                        <Plus className='h-4 w-4' />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start'>
-                      <div className='px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-400'>
-                        Phương thức tìm kiếm
-                      </div>
-                      {searchOptions.map((option) => (
-                        <DropdownMenuItem
-                          key={option.id}
-                          onClick={() => selectSearchOption(option.id)}
-                          className={
-                            selectedSearchOption === option.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                          }
-                        >
-                          <option.icon className='mr-2 h-4 w-4' />
-                          {option.label}
-                        </DropdownMenuItem>
-                      ))}
-                      <DropdownMenuSeparator />
-                      <div className='px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-400'>
-                        Loại dữ liệu
-                      </div>
-                      {dataOptions.map((option) => (
-                        <DropdownMenuItem
-                          key={option.id}
-                          onClick={() => selectDataOption(option.id)}
-                          className={
-                            selectedDataOption === option.id ? 'bg-green-50 dark:bg-green-900/20' : ''
-                          }
-                        >
-                          <option.icon className='mr-2 h-4 w-4' />
-                          {option.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Tùy chọn truy vấn</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          {/* Main input area */}
+          <div className='flex flex-1 items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-600 dark:bg-gray-800'>
+            {/* Search option select */}
+            <Select value={selectedSearchOption} onValueChange={setSelectedSearchOption}>
+              <SelectTrigger className='w-[140px] border-0 bg-transparent p-0 h-auto shadow-none focus:ring-0'>
+                <SelectValue placeholder="DeepSearch" />
+                <ChevronDown className='h-3 w-3 opacity-50' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="deep-thinking">Suy nghĩ sâu</SelectItem>
+                <SelectItem value="deep-search">Tìm kiếm sâu</SelectItem>
+              </SelectContent>
+            </Select>
 
-            {/* File upload */}
-            <SessionUpload onFileUpload={handleFileUpload} />
+            <div className='h-4 w-px bg-gray-300 dark:bg-gray-600' />
+
+            {/* Data option select */}
+            <Select value={selectedDataOption} onValueChange={setSelectedDataOption}>
+              <SelectTrigger className='w-[120px] border-0 bg-transparent p-0 h-auto shadow-none focus:ring-0'>
+                <SelectValue placeholder="Think" />
+                <ChevronDown className='h-3 w-3 opacity-50' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="raw-data">Dữ liệu thô</SelectItem>
+                <SelectItem value="aggregated-data">Dữ liệu tổng hợp</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <div className='h-4 w-px bg-gray-300 dark:bg-gray-600' />
 
             {/* Text input */}
             <div className='flex-1'>
@@ -195,9 +105,9 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
                 value={message}
                 onChange={handleTextareaChange}
                 onKeyDown={handleKeyDown}
-                placeholder='Hỏi VPBank Text2SQL Assistant...'
+                placeholder='What do you want to know?'
                 disabled={isLoading}
-                className='max-h-32 min-h-[40px] resize-none border-0 bg-transparent p-0 text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400'
+                className='max-h-32 min-h-[24px] resize-none border-0 bg-transparent p-0 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 focus:outline-none focus:ring-0 focus-visible:ring-offset-0 dark:text-gray-100 dark:placeholder:text-gray-400'
                 rows={1}
               />
             </div>
@@ -207,7 +117,7 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
               type='submit'
               size='sm'
               disabled={!message.trim() || isLoading}
-              className='h-8 w-8 rounded-full bg-blue-500 p-0 text-white hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600'
+              className='h-8 w-8 rounded-lg bg-blue-500 p-0 text-white hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600'
             >
               <Send className='h-4 w-4' />
             </Button>

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import {
   Table,
@@ -30,9 +31,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-sql';
-import 'prismjs/themes/prism.css';
 
 interface DataTableProps {
   data: any[];
@@ -99,8 +97,25 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
     }
   };
 
-  const formatSQL = (sql: string) => {
-    return Prism.highlight(sql, Prism.languages.sql, 'sql');
+  // Calculate page numbers to show
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      const end = Math.min(totalPages, start + maxVisiblePages - 1);
+      
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+    }
+    
+    return pages;
   };
 
   return (
@@ -199,13 +214,15 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               onClick={() => copyToClipboard(sqlQuery)}
               className='h-6 w-6 p-0'
             >
-              {copied ?
+              {copied ? (
                 <Check className='h-3 w-3 text-green-500' />
-              : <Copy className='h-3 w-3' />}
+              ) : (
+                <Copy className='h-3 w-3' />
+              )}
             </Button>
           </div>
           <pre className='whitespace-pre-wrap rounded border bg-white p-3 font-mono text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200'>
-            <code dangerouslySetInnerHTML={{ __html: formatSQL(sqlQuery) }} />
+            {sqlQuery}
           </pre>
         </div>
       )}
@@ -262,20 +279,17 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
           </Button>
 
           <div className='flex items-center gap-2'>
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + Math.max(1, currentPage - 2);
-              return (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? 'default' : 'outline'}
-                  size='sm'
-                  onClick={() => setCurrentPage(page)}
-                  className='h-8 w-8 p-0'
-                >
-                  {page}
-                </Button>
-              );
-            })}
+            {getPageNumbers().map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? 'default' : 'outline'}
+                size='sm'
+                onClick={() => setCurrentPage(page)}
+                className='h-8 w-8 p-0'
+              >
+                {page}
+              </Button>
+            ))}
           </div>
 
           <Button

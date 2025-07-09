@@ -2,23 +2,46 @@
 import { Copy, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useState } from 'react';
 
-const MessageActions = () => {
-  const handleCopy = () => {
-    // Copy functionality would be implemented here
-    console.log('Copy message');
+interface MessageActionsProps {
+  content: string;
+  onRegenerate?: () => void;
+}
+
+const MessageActions = ({ content, onRegenerate }: MessageActionsProps) => {
+  const [copied, setCopied] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      console.log('Đã sao chép nội dung tin nhắn');
+    } catch (err) {
+      console.error('Không thể sao chép:', err);
+    }
   };
 
   const handleLike = () => {
-    console.log('Like message');
+    setLiked(!liked);
+    setDisliked(false);
+    console.log(liked ? 'Bỏ thích tin nhắn' : 'Thích tin nhắn');
   };
 
   const handleDislike = () => {
-    console.log('Dislike message');
+    setDisliked(!disliked);
+    setLiked(false);
+    console.log(disliked ? 'Bỏ không thích tin nhắn' : 'Không thích tin nhắn');
   };
 
   const handleRegenerate = () => {
-    console.log('Regenerate response');
+    if (onRegenerate) {
+      onRegenerate();
+    }
+    console.log('Tạo lại phản hồi');
   };
 
   return (
@@ -32,11 +55,11 @@ const MessageActions = () => {
               onClick={handleCopy}
               className='h-7 w-7 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
             >
-              <Copy className='h-3 w-3' />
+              <Copy className={`h-3 w-3 ${copied ? 'text-green-500' : ''}`} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Sao chép</p>
+            <p>{copied ? 'Đã sao chép!' : 'Sao chép'}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -48,13 +71,17 @@ const MessageActions = () => {
               variant='ghost'
               size='sm'
               onClick={handleLike}
-              className='h-7 w-7 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              className={`h-7 w-7 p-0 ${
+                liked 
+                  ? 'text-blue-500 hover:text-blue-600' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
             >
               <ThumbsUp className='h-3 w-3' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Thích</p>
+            <p>{liked ? 'Bỏ thích' : 'Thích'}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -66,13 +93,17 @@ const MessageActions = () => {
               variant='ghost'
               size='sm'
               onClick={handleDislike}
-              className='h-7 w-7 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              className={`h-7 w-7 p-0 ${
+                disliked 
+                  ? 'text-red-500 hover:text-red-600' 
+                  : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+              }`}
             >
               <ThumbsDown className='h-3 w-3' />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Không thích</p>
+            <p>{disliked ? 'Bỏ không thích' : 'Không thích'}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
