@@ -69,14 +69,4 @@
   .action-button {
     @apply flex items-center gap-2 rounded-md border border-transparent px-3 py-2 text-sm transition-all duration-200 hover:border-border hover:bg-muted;
   }
-
-  /* Prism.js theme adjustments for dark mode */
-  .dark pre[class*='language-'] {
-    background: hsl(var(--muted)) !important;
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .dark code[class*='language-'] {
-    color: hsl(var(--foreground)) !important;
-  }
 }
