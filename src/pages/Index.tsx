@@ -1,4 +1,5 @@
 
+
 import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
@@ -335,7 +336,7 @@ const Index = () => {
       <Sidebar 
         isOpen={isSidebarOpen} 
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-        onLoadChat={loadChatSession}
+        onChatSelect={loadChatSession}
         onNewChat={startNewChat}
         currentChatId={currentChatId}
       />
@@ -344,10 +345,11 @@ const Index = () => {
         <div className="flex-1 overflow-hidden">
           <MessageList messages={messages} />
         </div>
-        <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+        <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
       </div>
     </div>
   );
 };
 
 export default Index;
+
