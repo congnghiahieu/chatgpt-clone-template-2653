@@ -1,4 +1,4 @@
-import { Menu, LogOut, SquarePen, FileText, PanelLeft } from 'lucide-react';
+import { LogOut, SquarePen, FileText, PanelLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

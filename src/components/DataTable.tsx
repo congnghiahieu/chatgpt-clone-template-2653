@@ -48,7 +48,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   const itemsPerPage = 10;
 
   // Sort data
-  let sortedData = [...data];
+  const sortedData = [...data];
   if (sortColumn) {
     sortedData.sort((a, b) => {
       const aVal = a[sortColumn];
