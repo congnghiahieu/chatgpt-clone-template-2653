@@ -1,4 +1,3 @@
-
 import {
   BarChart,
   Bar,
@@ -28,7 +27,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { BarChart3, LineChart as LineChartIcon, PieChart as PieChartIcon, Download, Code, Copy, Check } from 'lucide-react';
+import {
+  BarChart3,
+  LineChart as LineChartIcon,
+  PieChart as PieChartIcon,
+  Download,
+  Code,
+  Copy,
+  Check,
+} from 'lucide-react';
 
 interface DataChartProps {
   data: any[];
@@ -55,7 +62,7 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
     switch (format) {
       case 'csv':
         const headers = Object.keys(data[0]).join(',');
-        const rows = data.map(row => Object.values(row).join(',')).join('\n');
+        const rows = data.map((row) => Object.values(row).join(',')).join('\n');
         content = `${headers}\n${rows}`;
         mimeType = 'text/csv';
         fileName = 'chart-data.csv';
@@ -92,21 +99,24 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
       case 'line':
         return (
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray='3 3' stroke='#e5e7eb' />
-            <XAxis 
-              dataKey={xAxisKey} 
+            <CartesianGrid
+              strokeDasharray='3 3'
+              stroke='#e5e7eb'
+            />
+            <XAxis
+              dataKey={xAxisKey}
               stroke='#6b7280'
               fontSize={12}
             />
-            <YAxis 
+            <YAxis
               stroke='#6b7280'
               fontSize={12}
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{
                 backgroundColor: '#f9fafb',
                 border: '1px solid #e5e7eb',
-                borderRadius: '8px'
+                borderRadius: '8px',
               }}
             />
             <Legend />
@@ -140,11 +150,11 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                 />
               ))}
             </Pie>
-            <Tooltip 
+            <Tooltip
               contentStyle={{
                 backgroundColor: '#f9fafb',
                 border: '1px solid #e5e7eb',
-                borderRadius: '8px'
+                borderRadius: '8px',
               }}
             />
           </PieChart>
@@ -152,21 +162,24 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
       default:
         return (
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray='3 3' stroke='#e5e7eb' />
-            <XAxis 
-              dataKey={xAxisKey} 
+            <CartesianGrid
+              strokeDasharray='3 3'
+              stroke='#e5e7eb'
+            />
+            <XAxis
+              dataKey={xAxisKey}
               stroke='#6b7280'
               fontSize={12}
             />
-            <YAxis 
+            <YAxis
               stroke='#6b7280'
               fontSize={12}
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{
                 backgroundColor: '#f9fafb',
                 border: '1px solid #e5e7eb',
-                borderRadius: '8px'
+                borderRadius: '8px',
               }}
             />
             <Legend />
@@ -219,15 +232,9 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => downloadData('csv')}>
-                      CSV
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => downloadData('excel')}>
-                      Excel
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => downloadData('json')}>
-                      JSON
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadData('csv')}>CSV</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadData('excel')}>Excel</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadData('json')}>JSON</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TooltipTrigger>
@@ -279,7 +286,9 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
       {showSql && sqlQuery && (
         <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900'>
           <div className='mb-2 flex items-center justify-between'>
-            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>Truy vấn SQL:</span>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+              Truy vấn SQL:
+            </span>
             <Button
               variant='ghost'
               size='sm'
@@ -297,7 +306,7 @@ const DataChart = ({ data, title, xAxisKey, yAxisKey, type = 'bar', sqlQuery }: 
         </div>
       )}
 
-      <div className='h-80 w-full rounded-lg bg-white p-4 shadow-sm border border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
+      <div className='h-80 w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800'>
         <ResponsiveContainer
           width='100%'
           height='100%'

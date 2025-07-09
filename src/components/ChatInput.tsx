@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { Send, Plus, Database, Brain, BarChart3, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -77,19 +76,19 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
           <div className='flex flex-wrap gap-2 border-b border-gray-200 p-3 dark:border-gray-700'>
             {(() => {
               const option = options.find((o) => o.id === selectedOption);
-              return option ? (
-                <div className='flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200'>
-                  <option.icon className='h-3 w-3' />
-                  {option.label}
-                  <button
-                    type='button'
-                    onClick={() => setSelectedOption(null)}
-                    className='rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-800'
-                  >
-                    ×
-                  </button>
-                </div>
-              ) : null;
+              return option ?
+                  <div className='flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200'>
+                    <option.icon className='h-3 w-3' />
+                    {option.label}
+                    <button
+                      type='button'
+                      onClick={() => setSelectedOption(null)}
+                      className='rounded-full p-0.5 hover:bg-blue-200 dark:hover:bg-blue-800'
+                    >
+                      ×
+                    </button>
+                  </div>
+                : null;
             })()}
           </div>
         )}
@@ -116,9 +115,7 @@ const ChatInput = ({ onSend, isLoading = false }: ChatInputProps) => {
                         key={option.id}
                         onClick={() => selectOption(option.id)}
                         className={
-                          selectedOption === option.id ?
-                            'bg-blue-50 dark:bg-blue-900/20'
-                          : ''
+                          selectedOption === option.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''
                         }
                       >
                         <option.icon className='mr-2 h-4 w-4' />

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   Table,
@@ -11,7 +10,19 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Download, FileSpreadsheet, FileText, File, Code, Copy, Check, ArrowUpDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import {
+  Download,
+  FileSpreadsheet,
+  FileText,
+  File,
+  Code,
+  Copy,
+  Check,
+  ArrowUpDown,
+  ChevronLeft,
+  ChevronRight,
+  Search,
+} from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
@@ -52,10 +63,8 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
   }
 
   // Filter data
-  const filteredData = sortedData.filter(row =>
-    columns.some(column =>
-      String(row[column]).toLowerCase().includes(filterText.toLowerCase())
-    )
+  const filteredData = sortedData.filter((row) =>
+    columns.some((column) => String(row[column]).toLowerCase().includes(filterText.toLowerCase())),
   );
 
   // Paginate data
@@ -160,7 +169,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
 
       {/* Search and Filter */}
       <div className='flex items-center gap-4'>
-        <div className='relative flex-1 max-w-sm'>
+        <div className='relative max-w-sm flex-1'>
           <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500' />
           <Input
             placeholder='Tìm kiếm trong bảng...'
@@ -173,14 +182,17 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
           />
         </div>
         <div className='text-sm text-gray-500'>
-          Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredData.length)} / {filteredData.length} bản ghi
+          Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredData.length)} /{' '}
+          {filteredData.length} bản ghi
         </div>
       </div>
 
       {showSql && sqlQuery && (
         <div className='relative rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900'>
           <div className='mb-2 flex items-center justify-between'>
-            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>Truy vấn SQL:</span>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+              Truy vấn SQL:
+            </span>
             <Button
               variant='ghost'
               size='sm'
@@ -205,7 +217,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
               {columns.map((column) => (
                 <TableHead
                   key={column}
-                  className='text-gray-900 dark:text-gray-100 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800'
+                  className='cursor-pointer text-gray-900 hover:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-800'
                   onClick={() => handleSort(column)}
                 >
                   <div className='flex items-center gap-2'>
@@ -245,10 +257,10 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
           >
-            <ChevronLeft className='h-4 w-4 mr-1' />
+            <ChevronLeft className='mr-1 h-4 w-4' />
             Trước
           </Button>
-          
+
           <div className='flex items-center gap-2'>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const page = i + Math.max(1, currentPage - 2);
@@ -258,7 +270,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
                   variant={currentPage === page ? 'default' : 'outline'}
                   size='sm'
                   onClick={() => setCurrentPage(page)}
-                  className='w-8 h-8 p-0'
+                  className='h-8 w-8 p-0'
                 >
                   {page}
                 </Button>
@@ -273,7 +285,7 @@ const DataTable = ({ data, columns, title, sqlQuery }: DataTableProps) => {
             disabled={currentPage === totalPages}
           >
             Sau
-            <ChevronRight className='h-4 w-4 ml-1' />
+            <ChevronRight className='ml-1 h-4 w-4' />
           </Button>
         </div>
       )}

@@ -83,7 +83,12 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
     >
       <nav className={cn('flex h-full flex-col', isOpen ? 'px-3' : 'px-2')}>
         {/* Top section */}
-        <div className={cn('flex h-[60px] items-center', isOpen ? 'justify-between' : 'flex-col justify-center gap-2')}>
+        <div
+          className={cn(
+            'flex h-[60px] items-center',
+            isOpen ? 'justify-between' : 'flex-col justify-center gap-2',
+          )}
+        >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -129,7 +134,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
                   onOpenChange={setIsKnowledgeOpen}
                 >
                   <DialogTrigger asChild>
-                    <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 text-white bg-blue-600 hover:bg-blue-700 transition-colors border-l-4 border-blue-800 shadow-md'>
+                    <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg border-l-4 border-blue-800 bg-blue-600 px-2 text-white shadow-md transition-colors hover:bg-blue-700'>
                       <FileText className='h-4 w-4' />
                       <span className='text-sm font-medium'>Cung cấp kiến thức</span>
                     </div>
@@ -157,7 +162,8 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
                         onClick={() => handleChatClick(item.id)}
                         className={cn(
                           'group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800',
-                          currentChatId === item.id && 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500'
+                          currentChatId === item.id &&
+                            'border-l-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20',
                         )}
                       >
                         <span className='text-sm text-gray-700 dark:text-gray-300'>
@@ -173,9 +179,12 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
         )}
 
         {/* Bottom section */}
-        <div className={cn('flex border-t border-gray-200 py-2 dark:border-gray-700', 
-          isOpen ? 'flex-row items-center justify-between px-2' : 'flex-col items-center gap-2')}>
-          
+        <div
+          className={cn(
+            'flex border-t border-gray-200 py-2 dark:border-gray-700',
+            isOpen ? 'flex-row items-center justify-between px-2' : 'flex-col items-center gap-2',
+          )}
+        >
           {/* Left side - Settings and Theme */}
           <div className={cn('flex', isOpen ? 'gap-2' : 'flex-col gap-2')}>
             <UserMenu />

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import MessageAvatar from './MessageAvatar';
 import MessageActions from './MessageActions';
@@ -42,16 +41,14 @@ const Message = ({ role, content, data, isStreaming = false, isLoading = false }
           <div
             className={`${role === 'user' ? 'inline-block rounded-[20px] bg-blue-100 px-4 py-2 text-blue-900 dark:bg-blue-900 dark:text-blue-100' : ''}`}
           >
-            {isLoading && role === 'assistant' ? (
+            {isLoading && role === 'assistant' ?
               <LoadingIndicator />
-            ) : isStreaming && role === 'assistant' ? (
-              <TypewriterText 
-                text={content} 
+            : isStreaming && role === 'assistant' ?
+              <TypewriterText
+                text={content}
                 onComplete={() => setStreamingComplete(true)}
               />
-            ) : (
-              content
-            )}
+            : content}
           </div>
 
           {/* Render data visualizations for assistant messages */}
