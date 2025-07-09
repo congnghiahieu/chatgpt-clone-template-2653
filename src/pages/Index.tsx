@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import ChatHeader from '@/components/ChatHeader';
@@ -272,4 +273,81 @@ const Index = () => {
       {
         role: 'assistant',
         content:
-          '**Phân tích ROI (Return on Investment):**\n\n• **TP.HCM**: 28.3% - Dẫn đầu về hiệu quả đầu tư\n• **Hà Nội**: 27.1% - Ổn định, tiềm năng tăng trưởng
+          '**Phân tích ROI (Return on Investment):**\n\n• **TP.HCM**: 28.3% - Dẫn đầu về hiệu quả đầu tư\n• **Hà Nội**: 27.1% - Ổn định, tiềm năng tăng trưởng cao\n• **Đà Nẵng**: 26.8% - Hiệu quả tốt với thị trường quy mô vừa\n• **Cần Thơ**: 25.3% - Cần cải thiện chiến lược đầu tư\n• **Hải Phòng**: 24.4% - Cần xem xét lại mô hình kinh doanh',
+      },
+    ],
+  };
+
+  const handleSendMessage = async (message: string, options?: string[]) => {
+    if (!message.trim()) return;
+
+    const userMessage: Message = { role: 'user', content: message };
+    setMessages(prev => [...prev, userMessage]);
+
+    // Show loading state
+    setIsLoading(true);
+    const loadingMessage: Message = { 
+      role: 'assistant', 
+      content: '', 
+      isLoading: true 
+    };
+    setMessages(prev => [...prev, loadingMessage]);
+
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Remove loading message and add streaming response
+    setMessages(prev => prev.slice(0, -1));
+    
+    const assistantMessage: Message = { 
+      role: 'assistant', 
+      content: 'Tôi đang xử lý yêu cầu của bạn và sẽ trả về kết quả chi tiết ngay sau đây...', 
+      isStreaming: true 
+    };
+    setMessages(prev => [...prev, assistantMessage]);
+
+    // Simulate streaming completion
+    setTimeout(() => {
+      setMessages(prev => 
+        prev.map((msg, index) => 
+          index === prev.length - 1 
+            ? { ...msg, isStreaming: false, content: 'Đây là câu trả lời chi tiết cho câu hỏi của bạn.' }
+            : msg
+        )
+      );
+      setIsLoading(false);
+    }, 3000);
+  };
+
+  const loadChatSession = (chatId: string) => {
+    const sessionMessages = mockChatSessions[chatId] || [];
+    setMessages(sessionMessages);
+    setCurrentChatId(chatId);
+  };
+
+  const startNewChat = () => {
+    setMessages([]);
+    setCurrentChatId(null);
+  };
+
+  return (
+    <div className="flex h-screen bg-background text-foreground transition-colors duration-300">
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+        onLoadChat={loadChatSession}
+        onNewChat={startNewChat}
+        currentChatId={currentChatId}
+      />
+      <div className="flex-1 flex flex-col transition-all duration-300">
+        <ChatHeader />
+        <div className="flex-1 overflow-hidden">
+          <MessageList messages={messages} />
+        </div>
+        <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+      </div>
+    </div>
+  );
+};
+
+export default Index;
