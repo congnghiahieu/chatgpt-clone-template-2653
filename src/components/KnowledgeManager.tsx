@@ -1,8 +1,17 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Download, Eye, FileText, FileSpreadsheet, FileImage, Database } from 'lucide-react';
+import { Download, Trash2, FileText, FileSpreadsheet, FileImage, Database } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import KnowledgeUpload from './KnowledgeUpload';
 
 interface KnowledgeItem {
   id: string;
@@ -16,7 +25,7 @@ interface KnowledgeItem {
 }
 
 const KnowledgeManager = () => {
-  const [knowledge] = useState<KnowledgeItem[]>([
+  const [knowledge, setKnowledge] = useState<KnowledgeItem[]>([
     {
       id: '1',
       name: 'Định nghĩa chỉ tiêu tín dụng.xlsx',
@@ -59,6 +68,8 @@ const KnowledgeManager = () => {
     },
   ]);
 
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
+
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'excel':
@@ -91,10 +102,43 @@ const KnowledgeManager = () => {
 
   const handleDownload = (item: KnowledgeItem) => {
     console.log(`Đang tải xuống: ${item.name}`);
+    
+    // Create sample content based on item type
+    let content = '';
+    let mimeType = '';
+    let fileName = item.name;
+
+    switch (item.type) {
+      case 'excel':
+        content = 'Sample Excel content for ' + item.name;
+        mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        break;
+      case 'pdf':
+        content = 'Sample PDF content for ' + item.name;
+        mimeType = 'application/pdf';
+        break;
+      case 'csv':
+        content = 'Column1,Column2,Column3\nData1,Data2,Data3\nData4,Data5,Data6';
+        mimeType = 'text/csv';
+        break;
+      default:
+        content = item.description || item.insight;
+        mimeType = 'text/plain';
+        fileName = item.name + '.txt';
+    }
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const handleView = (item: KnowledgeItem) => {
-    console.log(`Đang xem: ${item.name}`);
+  const handleDelete = (item: KnowledgeItem) => {
+    console.log(`Đang xóa: ${item.name}`);
+    setKnowledge(prev => prev.filter(k => k.id !== item.id));
   };
 
   return (
@@ -108,7 +152,21 @@ const KnowledgeManager = () => {
             Quản lý tất cả tài liệu và định nghĩa đã được tải lên hệ thống
           </p>
         </div>
-        <Button className='bg-blue-600 hover:bg-blue-700'>Tải lên kiến thức mới</Button>
+        <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
+          <DialogTrigger asChild>
+            <Button className='bg-blue-600 text-white hover:bg-blue-700 dark:text-white'>
+              Tải lên kiến thức mới
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='max-h-[80vh] max-w-4xl overflow-y-auto border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'>
+            <DialogHeader>
+              <DialogTitle className='text-gray-900 dark:text-gray-100'>
+                Tải lên kiến thức mới
+              </DialogTitle>
+            </DialogHeader>
+            <KnowledgeUpload />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className='grid gap-4'>
@@ -150,7 +208,7 @@ const KnowledgeManager = () => {
 
                   <div className='rounded-lg border-l-4 border-blue-400 bg-blue-50 p-3 dark:bg-blue-900/20'>
                     <div className='flex items-start gap-2'>
-                      <Eye className='mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600' />
+                      <div className='mt-0.5 h-4 w-4 flex-shrink-0 rounded-full bg-blue-600'></div>
                       <div>
                         <div className='mb-1 text-sm font-medium text-blue-900 dark:text-blue-100'>
                           AI phân tích được:
@@ -189,14 +247,14 @@ const KnowledgeManager = () => {
                       <Button
                         variant='ghost'
                         size='sm'
-                        onClick={() => handleView(item)}
-                        className='h-8 w-8 p-0'
+                        onClick={() => handleDelete(item)}
+                        className='h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-900/20'
                       >
-                        <Eye className='h-4 w-4' />
+                        <Trash2 className='h-4 w-4' />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Xem chi tiết</p>
+                      <p>Xóa tài liệu</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

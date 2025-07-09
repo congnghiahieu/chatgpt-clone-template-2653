@@ -134,7 +134,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
                   onOpenChange={setIsKnowledgeOpen}
                 >
                   <DialogTrigger asChild>
-                    <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg border-l-4 border-blue-800 bg-blue-600 px-2 text-white shadow-md transition-colors hover:bg-blue-700'>
+                    <div className='group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg bg-blue-600 px-2 text-white shadow-md transition-colors hover:bg-blue-700'>
                       <FileText className='h-4 w-4' />
                       <span className='text-sm font-medium'>Cung cấp kiến thức</span>
                     </div>
@@ -163,7 +163,7 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
                         className={cn(
                           'group flex h-10 cursor-pointer items-center gap-2.5 rounded-lg px-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800',
                           currentChatId === item.id &&
-                            'border-l-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20',
+                            'bg-blue-50 dark:bg-blue-900/20',
                         )}
                       >
                         <span className='text-sm text-gray-700 dark:text-gray-300'>
@@ -178,37 +178,40 @@ const Sidebar = ({ isOpen, onToggle, onChatSelect, onNewChat, currentChatId }: S
           </div>
         )}
 
-        {/* Bottom section */}
-        <div
-          className={cn(
-            'flex border-t border-gray-200 py-2 dark:border-gray-700',
-            isOpen ? 'flex-row items-center justify-between px-2' : 'flex-col items-center gap-2',
-          )}
-        >
-          {/* Left side - Settings and Theme */}
-          <div className={cn('flex', isOpen ? 'gap-2' : 'flex-col gap-2')}>
+        {/* Bottom section - separated settings/theme and logout */}
+        <div className='border-t border-gray-200 py-2 dark:border-gray-700'>
+          {/* Settings and Theme group */}
+          <div className={cn(
+            'flex border-b border-gray-200 pb-2 dark:border-gray-700',
+            isOpen ? 'flex-row items-center justify-start gap-2 px-2' : 'flex-col items-center gap-2',
+          )}>
             <UserMenu />
             <ThemeToggle />
           </div>
 
-          {/* Right side - Logout */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='ghost'
-                  size='sm'
-                  onClick={handleLogout}
-                  className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
-                >
-                  <LogOut className='h-4 w-4' />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Đăng xuất</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {/* Logout - separate at bottom */}
+          <div className={cn(
+            'flex pt-2',
+            isOpen ? 'justify-start px-2' : 'justify-center',
+          )}>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleLogout}
+                    className='h-8 w-8 p-0 text-gray-600 hover:bg-red-50 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/20 dark:hover:text-red-400'
+                  >
+                    <LogOut className='h-4 w-4' />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Đăng xuất</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </nav>
     </div>
